@@ -11,8 +11,11 @@
 
     <h2>Welcome to My Website</h2>
     
-    <!-- This is where the Google Sign-In Button will render -->
-    <div id="googleBtn"></div>
+    <!-- Added a simple, clean structural layout container to stabilize the button's auto-width calculations -->
+    <div style="display: block; min-height: 50px; max-width: 400px;">
+        <!-- This is where the Google Sign-In Button will render -->
+        <div id="googleBtn"></div>
+    </div>
 
     <script>
         // Store your client ID as a constant so we can check it in both places cleanly
@@ -78,7 +81,11 @@
             // Render the official, fully customized button
             google.accounts.id.renderButton(
                 document.getElementById("googleBtn"),
-                { theme: "outline", size: "large", text: "signin_with" }  // Customization options
+                { 
+                    theme: "outline", 
+                    size: "large", 
+                    text: "signin_with"
+                }  // Customization options (Left 'width' out completely so it defaults smoothly)
             );
 
             // Optional: Displays the elegant "One Tap" floating prompt for returning users
