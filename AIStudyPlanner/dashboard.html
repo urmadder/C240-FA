@@ -1,154 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Dashboard</title>
-
-<link rel="stylesheet" href="css/dashboard.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="sidebar">
-
-<h2>📚 AI Planner</h2>
-
-<ul>
-
-<li class="active">🏠 Dashboard</li>
-
-<li>📅 Timetable</li>
-
-<li>➕ Add Exam</li>
-
-<li>💬 AI Chat</li>
-
-<li>📖 Resources</li>
-
-<li>📜 History</li>
-
-<li>⚙️ Settings</li>
-
-<li id="logout">🚪 Logout</li>
-
-</ul>
-
-</div>
-
-<div class="main">
-
-<header>
-
-<h1 id="welcomeMessage">Hello 👋</h1>
-
-<div id="todaySchedule">
-
-    <!-- AI timetable goes here -->
-
-</div>
-
-<p>Let's make today productive.</p>
-
-</header>
-
-<div class="cards">
-
-<div class="card">
-
-<h3>Study Progress</h3>
-
-<h2>82%</h2>
-
-<p>12 of 15 tasks completed</p>
-
-</div>
-
-<div class="card">
-
-<h3>Upcoming Exams</h3>
-
-<h2>3</h2>
-
-<p>Next exam in 5 days</p>
-
-</div>
-
-<div class="card">
-
-<h3>Study Streak</h3>
-
-<h2>🔥 14 Days</h2>
-
-<p>Keep it going!</p>
-
-</div>
-
-</div>
-
-<div class="schedule">
-
-<h2>Today's Schedule</h2>
-
-<div class="schedule-item">
-
-<span>4:00 PM</span>
-
-<p>Cloud Security Revision (2 hrs)</p>
-
-</div>
-
-<div class="schedule-item">
-
-<span>6:30 PM</span>
-
-<p>Network Security Practice (1 hr)</p>
-
-</div>
-
-<div class="schedule-item">
-
-<span>8:00 PM</span>
-
-<p>Review Flashcards (30 mins)</p>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<h2>Quick Actions</h2>
-
-<div class="buttons">
-
-<button>Add Exam</button>
-
-<button>Generate Timetable</button>
-
-<button>Upload Notes</button>
-
-<button>Generate Flashcards</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-<script src="js/dashboard.js"></script>
-
-</body>
-
-</html>
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Fetch the user object string from localStorage
+    const userString = localStorage.getItem("user");
+
+    // 2. Route Protection: If 'user' doesn't exist, boot them to login
+    if (!userString) {
+        console.warn("No user found in localStorage. Redirecting to login...");
+        window.location.href = "login.html";
+        return; // Prevent the rest of the script from executing
+    }
+
+    try {
+        // 3. Parse the user data safely
+        const user = JSON.parse(userString);
+
+        // 4. Personalize the Dashboard using Google Profile Data
+        // Google provides 'given_name' (e.g., "John") or 'name' (e.g., "John Doe")
+        const welcomeMessage = document.getElementById("welcomeMessage");
+        if (welcomeMessage && user.given_name) {
+            welcomeMessage.textContent = `Hello, ${user.given_name} 👋`;
+        } else if (welcomeMessage && user.name) {
+            welcomeMessage.textContent = `Hello, ${user.name} 👋`;
+        }
+
+    } catch (error) {
+        // If the localStorage data is corrupted/invalid JSON, clear it and force login
+        console.error("Error parsing user data:", error);
+        localStorage.removeItem("user");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // 5. Handle Logout
+    const logoutBtn = document.getElementById("logout");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", () => {
+            // Wipe the user session data
+            localStorage.removeItem("user");
+            
+            // Send them back to the login screen
+            window.location.href = "login.html";
+        });
+    }
+});
