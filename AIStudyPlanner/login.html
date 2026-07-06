@@ -3,16 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sign-In Demo</title>
+    <title>AI Study Planner - Sign In</title>
     <!-- Load the official Google Identity Services script -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        /* Modern CSS Reset & Variable Tokens */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 50%, #1e1e2f 0%, #0f0f1a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Glassmorphism Auth Card Container */
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Typography Styles */
+        .brand-logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 35px;
+        }
+
+        /* Clean Structural Layout footprint for Google Button alignment */
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Subtle terms footer inside card */
+        .footer-text {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+    </style>
 </head>
 <body>
 
-    <h2>Welcome to My Website</h2>
-    
-    <div style="display: block; min-height: 50px; max-width: 400px;">
-        <div id="googleBtn"></div>
+    <div class="login-card">
+        <h1 class="brand-logo">StudyPlanner</h1>
+        <p class="subtitle">Sign in to sync your academic dashboard</p>
+        
+        <!-- Clean layout boundary constraints to prevent GSI_LOGGER footprint errors -->
+        <div class="btn-wrapper">
+            <div id="googleBtn"></div>
+        </div>
+
+        <p class="footer-text">Secured by Google Identity Services</p>
     </div>
 
     <script>
@@ -29,9 +106,8 @@
         }
 
         function handleCredentialResponse(response) {
-            console.log("Token received. Testing directly on GitHub Pages via Google Cloud endpoint...");
+            console.log("Token received. Checking validity via Google Cloud endpoint...");
 
-            // Hit Google's official verification engine directly from the browser
             const googleVerificationUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(response.credential)}`;
 
             fetch(googleVerificationUrl)
@@ -60,9 +136,15 @@
                 callback: handleCredentialResponse
             });
 
+            // Render option properties configured explicitly to look awesome against a dark mode container
             google.accounts.id.renderButton(
                 document.getElementById("googleBtn"),
-                { theme: "outline", size: "large", text: "signin_with" }
+                { 
+                    theme: "filled_blue", 
+                    size: "large", 
+                    text: "signin_with",
+                    shape: "pill"
+                }
             );
 
             google.accounts.id.prompt(); 
