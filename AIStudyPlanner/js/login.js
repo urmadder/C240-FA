@@ -1,29 +1,71 @@
-const password = document.getElementById("password");
-const togglePassword = document.getElementById("togglePassword");
+const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
 
-togglePassword.addEventListener("click", () => {
+window.onload = () => {
 
-    if(password.type === "password"){
+    google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: "openid email profile",
+        callback: async (response) => {
 
-        password.type = "text";
-        togglePassword.textContent = "🙈";
+            if (response.error) {
+                console.error(response);
+                return;
+            }
 
-    }else{
+            // Get the user's profile
+            const res = await fetch(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                {
+                    headers: {
+                        Authorization: `Bearer ${response.access_token}`
+                    }
+                }
+            );
 
-        password.type = "password";
-        togglePassword.textContent = "👁️";
+            const user = await res.json();
 
-    }
+            console.log(user);
 
-});
+            // Save user details
+            localStorage.setItem("userName", user.name);
+            localStorage.setItem("userEmail", user.email);
+            localStorage.setItem("userPicture", user.picture);
 
-document.getElementById("loginForm").addEventListener("submit", function(e){
+            // Redirect
+            window.location.href = "dashboard.html";
 
-    e.preventDefault();
+        }
+    });
 
-    // Temporary login
-    localStorage.setItem("loggedIn", true);
+    document.getElementById("googleSignInBtn").onclick = () => {
 
-    window.location.href = "dashboard.html";
+        google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: "openid email profile",
+            callback: async (response) => {
 
-});
+                if (response.error) return;
+
+                const res = await fetch(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${response.access_token}`
+                        }
+                    }
+                );
+
+                const user = await res.json();
+
+                localStorage.setItem("userName", user.name);
+                localStorage.setItem("userEmail", user.email);
+                localStorage.setItem("userPicture", user.picture);
+
+                window.location.href = "dashboard.html";
+
+            }
+        }).requestAccessToken();
+
+    };
+
+};
