@@ -1,0 +1,29 @@
+const password = document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+
+togglePassword.addEventListener("click", () => {
+
+    if(password.type === "password"){
+
+        password.type = "text";
+        togglePassword.textContent = "🙈";
+
+    }else{
+
+        password.type = "password";
+        togglePassword.textContent = "👁️";
+
+    }
+
+});
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    // Temporary login
+    localStorage.setItem("loggedIn", true);
+
+    window.location.href = "dashboard.html";
+
+});
