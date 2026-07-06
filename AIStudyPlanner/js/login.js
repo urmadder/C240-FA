@@ -57,7 +57,7 @@ async function handleGoogleLogin(response) {
         
         // Save to local storage and redirect
         localStorage.setItem("user", JSON.stringify(user));
-        window.location.href = "dashboard.html";
+        window.location.href = "./dashboard.html";
 
     } catch (err) {
         console.error("Authentication failed:", err);
