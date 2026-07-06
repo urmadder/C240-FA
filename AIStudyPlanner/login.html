@@ -12,43 +12,45 @@
     <h2>Welcome to My Website</h2>
     
     <div style="display: block; min-height: 50px; max-width: 400px;">
-        <!-- This is where the Google Sign-In Button will render -->
         <div id="googleBtn"></div>
     </div>
 
     <script>
         const MY_CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
 
-        // Callback function executed automatically after a user signs in
-        function handleCredentialResponse(response) {
-            console.log("Token received. Forwarding to secure backend for verification...");
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
 
-            // SECURE: Send the token to YOUR backend server via POST
-            fetch('http://localhost:5000/api/auth/google', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ token: response.credential })
-            })
+            return JSON.parse(jsonPayload);
+        }
+
+        function handleCredentialResponse(response) {
+            console.log("Token received. Testing directly on GitHub Pages via Google Cloud endpoint...");
+
+            // Hit Google's official verification engine directly from the browser
+            const googleVerificationUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(response.credential)}`;
+
+            fetch(googleVerificationUrl)
             .then(res => {
-                if (!res.ok) throw new Error("Backend authentication failed.");
+                if (!res.ok) throw new Error("Google API rejected the token signature.");
                 return res.json();
             })
-            .then(data => {
-                if (data.success) {
-                    console.log("Backend Audit Passed! User session created.");
-                    alert(`Successfully Logged In Securely! Welcome, ${data.user.name}.`);
-                    
-                    // Now it's safe to redirect or load the application state
+            .then(payload => {
+                if (payload.aud === MY_CLIENT_ID) {
+                    console.log("Token verified securely by Google cloud endpoints.");
+                    alert(`Welcome, ${payload.name}! Logged in successfully on GitHub Pages.`);
                     // window.location.href = "dashboard.html";
                 } else {
-                    alert(`Authentication failed: ${data.message}`);
+                    alert("Security check failed: Client ID mismatch.");
                 }
             })
             .catch(err => {
-                console.error("Connection to backend failed:", err);
-                alert("Security Error: Unable to authenticate session with the server.");
+                console.error("Verification failed:", err);
+                alert("Error: Unable to verify login authenticity with Google.");
             });
         }
 
