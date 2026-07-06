@@ -1,44 +1,53 @@
-<script src="auth.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <h1 id="welcomeMessage">Loading...</h1>
+
+    <button id="logout">Logout</button>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 🔐 1. Protect page using Google token (correct system)
     const token = sessionStorage.getItem("google_token");
 
+    // 🔐 protect page
     if (!token) {
         window.location.href = "login.html";
         return;
     }
 
-    // 🔓 2. Decode user safely (optional display only)
+    // decode JWT safely
     function parseJwt(token) {
         try {
             return JSON.parse(atob(token.split('.')[1]));
-        } catch (e) {
+        } catch {
             return null;
         }
     }
 
     const user = parseJwt(token);
 
-    // 👋 3. Personalize UI
+    // 👋 show name
     const welcomeMessage = document.getElementById("welcomeMessage");
 
-    if (welcomeMessage && user) {
+    if (user) {
         welcomeMessage.textContent =
-            `Hello, ${user.name || user.email} 👋`;
+            `Welcome, ${user.name || user.email}`;
     }
 
-    // 🚪 4. Logout
-    const logoutBtn = document.getElementById("logout");
-
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", () => {
-            sessionStorage.removeItem("google_token");
-            window.location.href = "login.html";
-        });
-    }
+    // 🚪 logout
+    document.getElementById("logout").addEventListener("click", () => {
+        sessionStorage.removeItem("google_token");
+        window.location.href = "login.html";
+    });
 
 });
 </script>
+
+</body>
