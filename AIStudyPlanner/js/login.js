@@ -1,35 +1,73 @@
 const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
-let tokenClient;
 
-// 1. Explicitly attach it to the global window object so Google can find it!
-window.initGoogleAuth = function() {
-    console.log("Google library triggered initGoogleAuth successfully.");
-    try {
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: "openid email profile",
-            callback: handleGoogleLogin
-        });
-    } catch (err) {
-        console.error("Failed to initialize Google client:", err);
-    }
+// 1. Called automatically when the Google JS script loads
+window.initGoogleAuth = function () {
+    // Initialize the official sign-in client
+    google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleGoogleLogin // Matches the success handler below
+    });
+
+    // Render the secure official button inside your container
+    google.accounts.id.renderButton(
+        document.getElementById("googleSignInBtn"),
+        { 
+            theme: "outline", 
+            size: "large", 
+            text: "continue_with",
+            shape: "rectangular",
+            width: "100%" // Auto-stretches to match your form width
+        }
+    );
 };
 
-// Attach event listeners safely once DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-    // Google Sign-In Button
-    const googleBtn = document.getElementById("googleSignInBtn");
-    if (googleBtn) {
-        googleBtn.addEventListener("click", () => {
-            if (!tokenClient) {
-                alert("Google Auth is still loading. Please try again in a moment.");
-                return;
-            }
-            tokenClient.requestAccessToken();
-        });
+// 2. Helper function to decode the secure Google JWT Token
+function decodeJWT(token) {
+    try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split("")
+                .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                .join("")
+        );
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        console.error("Failed to parse JWT:", e);
+        return null;
+    }
+}
+
+// 3. Handles the secure authentication token response
+async function handleGoogleLogin(response) {
+    if (!response.credential) {
+        console.error("No credential returned from Google.");
+        return;
     }
 
-    // Password Toggle Feature
+    try {
+        // Decode the secure credential token into user profile data
+        const user = decodeJWT(response.credential);
+        
+        if (user) {
+            console.log("Authenticated User Object:", user);
+            
+            // Save the profile object to localStorage for dashboard use
+            localStorage.setItem("user", JSON.stringify(user));
+            
+            // Move safely to the dashboard
+            window.location.href = "./dashboard.html";
+        } else {
+            alert("Could not process Google profile data. Try again.");
+        }
+    } catch (err) {
+        console.error("Authentication process error:", err);
+    }
+}
+
+// 4. Standard UI events (Password Toggle, Form Submit, etc.)
+document.addEventListener("DOMContentLoaded", () => {
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
 
@@ -41,30 +79,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
-// Handle the login response
-async function handleGoogleLogin(response) {
-    if (response.error) {
-        console.error("Google Login Error:", response.error);
-        return;
-    }
-
-    try {
-        const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-            headers: {
-                Authorization: `Bearer ${response.access_token}`
-            }
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch user info from Google");
-
-        const user = await res.json();
-        
-        // Save to local storage and redirect
-        localStorage.setItem("user", JSON.stringify(user));
-        window.location.href = "./dashboard.html";
-
-    } catch (err) {
-        console.error("Authentication failed:", err);
-    }
-}
