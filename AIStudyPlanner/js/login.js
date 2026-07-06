@@ -2,17 +2,15 @@ const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleuser
 
 // 1. Called automatically when the Google JS script loads
 window.initGoogleAuth = function () {
-    console.log("Google JS Script loaded.");
+    console.log("Google JS Script initialized.");
     
-    // Initialize the official sign-in client configuration
     google.accounts.id.initialize({
         client_id: CLIENT_ID,
-        callback: handleGoogleLogin // Matches the success handler below
+        callback: handleGoogleLogin
     });
 
     const buttonContainer = document.getElementById("googleSignInBtn");
     
-    // Safety check: If the script fires before the DOM container is ready, retry shortly
     if (buttonContainer) {
         google.accounts.id.renderButton(
             buttonContainer,
@@ -25,7 +23,6 @@ window.initGoogleAuth = function () {
             }
         );
     } else {
-        // Retry rendering in 100 milliseconds if container isn't built yet
         setTimeout(window.initGoogleAuth, 100);
     }
 };
@@ -56,16 +53,9 @@ async function handleGoogleLogin(response) {
     }
 
     try {
-        // Decode the secure credential token into user profile data
         const user = decodeJWT(response.credential);
-        
         if (user) {
-            console.log("Authenticated User Object:", user);
-            
-            // Save the profile object to localStorage for dashboard use
             localStorage.setItem("user", JSON.stringify(user));
-            
-            // Move safely to the dashboard using relative routing
             window.location.href = "./dashboard.html";
         } else {
             alert("Could not process Google profile data. Try again.");
@@ -75,7 +65,7 @@ async function handleGoogleLogin(response) {
     }
 }
 
-// 4. Standard UI events (Password Toggle, Form Submit, etc.)
+// 4. Standard UI events (Password Toggle)
 document.addEventListener("DOMContentLoaded", () => {
     const togglePassword = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
@@ -88,3 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// 5. RACE CONDITION ANTIDOTE: 
+// If Google script arrived first, 'google' exists but initGoogleAuth was never executed.
+// We force it to fire right now.
+if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
+    window.initGoogleAuth();
+}
