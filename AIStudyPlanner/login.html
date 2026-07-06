@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,39 +12,28 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
 </head>
 
 <body class="login-body">
 
     <div class="login-container">
-
         <div class="login-card">
 
             <h1>Welcome Back 👋</h1>
-
             <p>Sign in to continue to AI Study Planner.</p>
 
             <form id="loginForm">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
 
-                <label>Email</label>
-
-                <input type="email" placeholder="Enter your email" required>
-
-                <label>Password</label>
-
+                <label for="password">Password</label>
                 <div class="password-container">
-
                     <input type="password" id="password" placeholder="Enter your password" required>
-
-                    <span id="togglePassword">👁️</span>
-
+                    <!-- Clickable eye icon for password visibility toggle -->
+                    <span id="togglePassword" style="cursor: pointer; user-select: none;">👁️</span>
                 </div>
 
-                <button type="submit">
-                    Login
-                </button>
-
+                <button type="submit">Login</button>
             </form>
 
             <div class="divider">
@@ -53,12 +41,12 @@
             </div>
 
             <button type="button" id="googleSignInBtn" class="google-btn">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google logo">
                 Continue with Google
             </button>
 
             <button type="button" class="github-btn">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub logo">
                 Continue with GitHub
             </button>
 
@@ -68,13 +56,12 @@
             </p>
 
         </div>
-
     </div>
 
-    <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Google Identity Services script with dynamic onload trigger -->
+    <script src="https://accounts.google.com/gsi/client?onload=initGoogleAuth" async defer></script>
 
-    <!-- Your login script -->
+    <!-- Your fixed login script -->
     <script src="js/login.js"></script>
 
 </body>
