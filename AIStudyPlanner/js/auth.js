@@ -1,28 +1,22 @@
-const password = document.getElementById("password");
-const toggle = document.getElementById("togglePassword");
-
-if (toggle) {
-    toggle.onclick = () => {
-        if (password.type === "password") {
-            password.type = "text";
-            toggle.innerHTML = "🙈";
-        } else {
-            password.type = "password";
-            toggle.innerHTML = "👁";
-        }
-    };
+function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
 }
 
-const form = document.getElementById("loginForm");
+function protectPage() {
+    const token = sessionStorage.getItem("google_token");
 
-if (form) {
-    form.addEventListener("submit", function (e) {
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
 
-        e.preventDefault();
+    const payload = parseJwt(token);
+    const now = Math.floor(Date.now() / 1000);
 
-        // Temporary login (for frontend demo)
-        localStorage.setItem("loggedIn", "true");
-
-        window.location.href = "dashboard.html";
-    });
+    if (payload.exp < now) {
+        sessionStorage.removeItem("google_token");
+        window.location.href = "login.html";
+    }
 }
