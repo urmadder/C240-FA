@@ -2,21 +2,19 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Register</title>
 
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/auth.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- ✅ Google Identity Services -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 </head>
 
@@ -28,88 +26,82 @@
 
 <h1>Create Account</h1>
 
-<p>
-
-Let's start planning smarter.
-
-</p>
+<p>Let's start planning smarter.</p>
 
 <form>
+    <label>Full Name</label>
+    <input type="text" required>
 
-<label>Full Name</label>
+    <label>Email</label>
+    <input type="email" required>
 
-<input
-type="text"
-required
->
+    <label>Password</label>
+    <input type="password" required>
 
-<label>Email</label>
+    <label>Confirm Password</label>
+    <input type="password" required>
 
-<input
-type="email"
-required
->
-
-<label>Password</label>
-
-<input
-type="password"
-required
->
-
-<label>Confirm Password</label>
-
-<input
-type="password"
-required
->
-
-<button class="login-button">
-
-Create Account
-
-</button>
-
+    <button class="login-button" type="button">
+        Create Account
+    </button>
 </form>
 
 <div class="divider">
-
-<span>OR</span>
-
+    <span>OR</span>
 </div>
 
-<button class="google">
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg">
-
-Continue with Google
-
+<!-- ✅ FIXED GOOGLE BUTTON -->
+<button class="google" type="button" onclick="googleLogin()">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg">
+    Continue with Google
 </button>
 
 <button class="github">
-
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
-
-Continue with GitHub
-
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
+    Continue with GitHub
 </button>
 
 <p class="bottom">
-
-Already have an account?
-
-<a href="login.html">
-
-Login
-
-</a>
-
+    Already have an account?
+    <a href="login.html">Login</a>
 </p>
 
 </div>
 
 </div>
 
-</body>
+<script>
+const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
 
+/* Handle Google login */
+function handleCredentialResponse(response) {
+    // store token (for later protected pages)
+    sessionStorage.setItem("google_token", response.credential);
+
+    console.log("Google login success");
+
+    // redirect after login
+    window.location.href = "login.html";
+}
+
+/* Init Google library */
+window.onload = function () {
+    if (!window.google) {
+        console.error("Google Identity Services not loaded");
+        return;
+    }
+
+    google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: handleCredentialResponse
+    });
+};
+
+/* Trigger Google login popup */
+function googleLogin() {
+    google.accounts.id.prompt();
+}
+</script>
+
+</body>
 </html>

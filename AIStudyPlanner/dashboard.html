@@ -1,48 +1,44 @@
 <script src="auth.js"></script>
+
 <script>
-    protectPage();
-</script>
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Fetch the user object string from localStorage
-    const userString = localStorage.getItem("user");
 
-    // 2. Route Protection: If 'user' doesn't exist, boot them to login
-    if (!userString) {
-        console.warn("No user found in localStorage. Redirecting to login...");
-        window.location.href = "login.html";
-        return; // Prevent the rest of the script from executing
-    }
+    // 🔐 1. Protect page using Google token (correct system)
+    const token = sessionStorage.getItem("google_token");
 
-    try {
-        // 3. Parse the user data safely
-        const user = JSON.parse(userString);
-
-        // 4. Personalize the Dashboard using Google Profile Data
-        // Google provides 'given_name' (e.g., "John") or 'name' (e.g., "John Doe")
-        const welcomeMessage = document.getElementById("welcomeMessage");
-        if (welcomeMessage && user.given_name) {
-            welcomeMessage.textContent = `Hello, ${user.given_name} 👋`;
-        } else if (welcomeMessage && user.name) {
-            welcomeMessage.textContent = `Hello, ${user.name} 👋`;
-        }
-
-    } catch (error) {
-        // If the localStorage data is corrupted/invalid JSON, clear it and force login
-        console.error("Error parsing user data:", error);
-        localStorage.removeItem("user");
+    if (!token) {
         window.location.href = "login.html";
         return;
     }
 
-    // 5. Handle Logout
+    // 🔓 2. Decode user safely (optional display only)
+    function parseJwt(token) {
+        try {
+            return JSON.parse(atob(token.split('.')[1]));
+        } catch (e) {
+            return null;
+        }
+    }
+
+    const user = parseJwt(token);
+
+    // 👋 3. Personalize UI
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    if (welcomeMessage && user) {
+        welcomeMessage.textContent =
+            `Hello, ${user.name || user.email} 👋`;
+    }
+
+    // 🚪 4. Logout
     const logoutBtn = document.getElementById("logout");
+
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
-            // Wipe the user session data
-            localStorage.removeItem("user");
-            
-            // Send them back to the login screen
-            window.location.href = "./login.html";
+            sessionStorage.removeItem("google_token");
+            window.location.href = "login.html";
         });
     }
+
 });
+</script>
