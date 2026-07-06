@@ -1,14 +1,12 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Login | AI Study Planner</title>
-
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -28,7 +26,6 @@
                 <label for="password">Password</label>
                 <div class="password-container">
                     <input type="password" id="password" placeholder="Enter your password" required>
-                    <!-- Clickable eye icon for password visibility toggle -->
                     <span id="togglePassword" style="cursor: pointer; user-select: none;">👁️</span>
                 </div>
 
@@ -39,29 +36,42 @@
                 <span>OR</span>
             </div>
 
-            <!-- Fixed Google Sign-In Container with fallback min-height -->
-            <div id="googleSignInBtn" style="margin-top: 15px; min-height: 44px; width: 100%; display: flex; justify-content: center;"></div>
+            <!-- BULLETPROOF DECLARATIVE GOOGLE LOGIN CONFIGURATION -->
+            <div id="g_id_onload"
+               data-client_id="529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com"
+               data-context="signin"
+               data-ux_mode="popup"
+               data-callback="handleGoogleLogin"
+               data-auto_prompt="false">
+            </div>
 
-            <!-- GitHub Button remains standard -->
+            <!-- THE ACTUAL VISUAL BUTTON THAT GOOGLE AUTOMATICALLY RENDERS -->
+            <div class="g_id_signin"
+               data-type="standard"
+               data-shape="rectangular"
+               data-theme="outline"
+               data-text="continue_with"
+               data-size="large"
+               data-width="100%"
+               style="margin-top: 15px; width: 100%; display: flex; justify-content: center; min-height: 44px;">
+            </div>
+
             <button type="button" class="github-btn" style="margin-top: 12px;">
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub logo">
                 Continue with GitHub
             </button>
 
             <p class="bottom-text">
-                Don't have an account?
-                <a href="register.html">Register</a>
+                Don't have an account? <a href="register.html">Register</a>
             </p>
 
         </div>
     </div>
 
-    <!-- Google Identity Services script with dynamic onload trigger -->
-    <script src="https://accounts.google.com/gsi/client?onload=initGoogleAuth" async defer></script>
-
-    <!-- Your fixed login script -->
-    <script src="js/login.js?v=2"></script>
+    <!-- Clear, non-async Google Library script -->
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <!-- Your login script containing ONLY UI actions and token decode -->
+    <script src="js/login.js?v=3"></script>
 
 </body>
-
 </html>
