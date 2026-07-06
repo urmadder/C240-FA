@@ -11,84 +11,58 @@
 
     <h2>Welcome to My Website</h2>
     
-    <!-- Added a simple, clean structural layout container to stabilize the button's auto-width calculations -->
     <div style="display: block; min-height: 50px; max-width: 400px;">
         <!-- This is where the Google Sign-In Button will render -->
         <div id="googleBtn"></div>
     </div>
 
     <script>
-        // Store your client ID as a constant so we can check it in both places cleanly
         const MY_CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
 
-        // 1. Helper function to decode the base64 JWT payload from Google
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-
-            return JSON.parse(jsonPayload);
-        }
-
-        // 2. Callback function executed automatically after a user signs in
+        // Callback function executed automatically after a user signs in
         function handleCredentialResponse(response) {
-            console.log("Encoded JWT ID Token received from Google: " + response.credential);
-            
-            // Extract the user profile details locally for immediate frontend display
-            const userProfile = parseJwt(response.credential);
-            console.log("Local Decoded User Profile:", userProfile);
-            
-            // --- SERVERLESS BACKEND VERIFICATION WORKAROUND ---
-            // Hit Google's official, live verification engine to perform an authenticity audit
-            const googleVerificationUrl = `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(response.credential)}`;
+            console.log("Token received. Forwarding to secure backend for verification...");
 
-            console.log("Forwarding token to Google's cloud server for security verification...");
-
-            fetch(googleVerificationUrl)
+            // SECURE: Send the token to YOUR backend server via POST
+            fetch('http://localhost:5000/api/auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: response.credential })
+            })
             .then(res => {
-                if (!res.ok) throw new Error("Google API rejected the token signature.");
+                if (!res.ok) throw new Error("Backend authentication failed.");
                 return res.json();
             })
-            .then(payload => {
-                // Crucial Forensic Validation: Check that the token was explicitly generated for YOUR app
-                if (payload.aud === MY_CLIENT_ID) {
-                    console.log("Backend Audit Passed! Token verified securely by Google endpoints.");
-                    alert(`Verified Securely via Google API! Welcome back, ${payload.name}.`);
+            .then(data => {
+                if (data.success) {
+                    console.log("Backend Audit Passed! User session created.");
+                    alert(`Successfully Logged In Securely! Welcome, ${data.user.name}.`);
                     
-                    // The authentication flow is complete and secure. 
-                    // You can safely store user session flags in localStorage or redirect them here:
+                    // Now it's safe to redirect or load the application state
                     // window.location.href = "dashboard.html";
                 } else {
-                    console.error("Security Alert: Audience field mismatch. The token was issued to a different client ID.");
-                    alert("Authentication security check failed: Client ID mismatch.");
+                    alert(`Authentication failed: ${data.message}`);
                 }
             })
             .catch(err => {
-                console.error("Verification connection failed:", err);
-                alert("Security Error: Unable to verify login authenticity with Google Cloud servers.");
+                console.error("Connection to backend failed:", err);
+                alert("Security Error: Unable to authenticate session with the server.");
             });
         }
 
-        // 3. Initialize and render the button when the window loads
         window.onload = function () {
             google.accounts.id.initialize({
                 client_id: MY_CLIENT_ID,
                 callback: handleCredentialResponse
             });
 
-            // Render the official, fully customized button
             google.accounts.id.renderButton(
                 document.getElementById("googleBtn"),
-                { 
-                    theme: "outline", 
-                    size: "large", 
-                    text: "signin_with"
-                }  // Customization options (Left 'width' out completely so it defaults smoothly)
+                { theme: "outline", size: "large", text: "signin_with" }
             );
 
-            // Optional: Displays the elegant "One Tap" floating prompt for returning users
             google.accounts.id.prompt(); 
         };
     </script>
