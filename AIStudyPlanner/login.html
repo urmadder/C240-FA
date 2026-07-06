@@ -15,74 +15,67 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<script src="js/login.js"></script>
+
 <body class="login-body">
 
-<div class="login-container">
+    <div class="login-container">
 
-    <div class="login-card">
+        <div class="login-card">
 
-        <h1>Welcome Back 👋</h1>
+            <h1>Welcome Back 👋</h1>
 
-        <p>Sign in to continue to AI Study Planner.</p>
+            <p>Sign in to continue to AI Study Planner.</p>
 
-        <form id="loginForm">
+            <form id="loginForm">
 
-            <label>Email</label>
+                <label>Email</label>
 
-            <input type="email" placeholder="Enter your email" required>
+                <input type="email" placeholder="Enter your email" required>
 
-            <label>Password</label>
+                <label>Password</label>
 
-            <div class="password-container">
+                <div class="password-container">
 
-                <input type="password" id="password" placeholder="Enter your password" required>
+                    <input type="password" id="password" placeholder="Enter your password" required>
 
-                <span id="togglePassword">👁️</span>
+                    <span id="togglePassword">👁️</span>
 
+                </div>
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
             </div>
 
-            <button type="submit">
-
-                Login
-
+            <button type="button" id="googleSignInBtn" class="google-btn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg">
+                Continue with Google
             </button>
 
-        </form>
+            <button type="button" class="github-btn">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
+                Continue with GitHub
+            </button>
 
-        <div class="divider">
-
-            <span>OR</span>
+            <p class="bottom-text">
+                Don't have an account?
+                <a href="register.html">Register</a>
+            </p>
 
         </div>
 
-        <button type="button" id="googleSignInBtn" class="google-btn">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg">
-            Continue with Google
-        </button>
-
-        <button class="github-btn">
-
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg">
-
-            Continue with GitHub
-
-        </button>
-
-        <p class="bottom-text">
-
-            Don't have an account?
-
-            <a href="register.html">Register</a>
-
-        </p>
-
     </div>
 
-</div>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
-<script src="js/login.js"></script>
+    <!-- Your login script -->
+    <script src="js/login.js"></script>
 
 </body>
 
