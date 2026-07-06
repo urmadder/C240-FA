@@ -1,14 +1,19 @@
 const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
 let tokenClient;
 
-// 1. Safe Initialization: Google script calls this automatically once loaded
-function initGoogleAuth() {
-    tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: "openid email profile",
-        callback: handleGoogleLogin
-    });
-}
+// 1. Explicitly attach it to the global window object so Google can find it!
+window.initGoogleAuth = function() {
+    console.log("Google library triggered initGoogleAuth successfully.");
+    try {
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: "openid email profile",
+            callback: handleGoogleLogin
+        });
+    } catch (err) {
+        console.error("Failed to initialize Google client:", err);
+    }
+};
 
 // Attach event listeners safely once DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
