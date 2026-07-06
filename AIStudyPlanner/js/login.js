@@ -2,23 +2,32 @@ const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleuser
 
 // 1. Called automatically when the Google JS script loads
 window.initGoogleAuth = function () {
-    // Initialize the official sign-in client
+    console.log("Google JS Script loaded.");
+    
+    // Initialize the official sign-in client configuration
     google.accounts.id.initialize({
         client_id: CLIENT_ID,
         callback: handleGoogleLogin // Matches the success handler below
     });
 
-    // Render the secure official button inside your container
-    google.accounts.id.renderButton(
-        document.getElementById("googleSignInBtn"),
-        { 
-            theme: "outline", 
-            size: "large", 
-            text: "continue_with",
-            shape: "rectangular",
-            width: "100%" // Auto-stretches to match your form width
-        }
-    );
+    const buttonContainer = document.getElementById("googleSignInBtn");
+    
+    // Safety check: If the script fires before the DOM container is ready, retry shortly
+    if (buttonContainer) {
+        google.accounts.id.renderButton(
+            buttonContainer,
+            { 
+                theme: "outline", 
+                size: "large", 
+                text: "continue_with",
+                shape: "rectangular",
+                width: buttonContainer.offsetWidth || "100%" 
+            }
+        );
+    } else {
+        // Retry rendering in 100 milliseconds if container isn't built yet
+        setTimeout(window.initGoogleAuth, 100);
+    }
 };
 
 // 2. Helper function to decode the secure Google JWT Token
@@ -56,7 +65,7 @@ async function handleGoogleLogin(response) {
             // Save the profile object to localStorage for dashboard use
             localStorage.setItem("user", JSON.stringify(user));
             
-            // Move safely to the dashboard
+            // Move safely to the dashboard using relative routing
             window.location.href = "./dashboard.html";
         } else {
             alert("Could not process Google profile data. Try again.");
