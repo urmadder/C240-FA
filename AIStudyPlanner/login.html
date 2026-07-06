@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Study Planner - Sign In</title>
 
-    <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer onload="initGoogle()"></script>
 
     <style>
@@ -17,35 +16,81 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% 50%, #1e1e2f 0%, #0f0f1a 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: radial-gradient(circle at 20% 20%, #1e1e2f, #0b0b14);
+            overflow: hidden;
+        }
+
+        /* glowing background blobs */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99,102,241,0.25), transparent 60%);
+            top: -120px;
+            left: -120px;
+            filter: blur(40px);
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168,85,247,0.2), transparent 60%);
+            bottom: -150px;
+            right: -150px;
+            filter: blur(50px);
         }
 
         .login-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 40px;
+            position: relative;
+            z-index: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 45px 35px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .login-card:hover {
+            transform: translateY(-5px);
         }
 
         .brand-logo {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(45deg,#a855f7,#3b82f6);
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(90deg,#a855f7,#3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
 
         .subtitle {
             color: #94a3b8;
+            font-size: 0.95rem;
             margin-bottom: 30px;
+        }
+
+        #googleBtn {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: #64748b;
         }
     </style>
 </head>
@@ -54,9 +99,13 @@
 
 <div class="login-card">
     <h1 class="brand-logo">StudyPlanner</h1>
-    <p class="subtitle">Sign in to continue</p>
+    <p class="subtitle">Sign in to continue your learning journey</p>
 
     <div id="googleBtn"></div>
+
+    <div class="footer">
+        Secure login powered by Google
+    </div>
 </div>
 
 <script>
@@ -66,19 +115,16 @@ const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleuser
 function handleCredentialResponse(response) {
     console.log("Google login success");
 
-    // response.credential = Google ID token (JWT)
-    // We DO NOT manually decode or verify it in frontend
-
-    // OPTIONAL: store raw token if you want to pass to backend later
+    // store token for later use (backend-ready)
     sessionStorage.setItem("google_token", response.credential);
 
     alert("Login successful!");
 
-    // redirect to dashboard (uncomment when ready)
+    // redirect when ready
     // window.location.href = "dashboard.html";
 }
 
-/* INIT GOOGLE SIGN-IN */
+/* INIT GOOGLE */
 function initGoogle() {
     if (!window.google) {
         console.error("Google Identity Services failed to load.");
