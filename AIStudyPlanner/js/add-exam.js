@@ -4,7 +4,7 @@ from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Replace with your actual n8n webhook URL later
+    // Replace with your actual n8n webhook URL
     const N8N_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/add-exam";
 
     const examForm = document.getElementById("examForm");
@@ -39,11 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const examData = {
-
                 uid: user.uid,
                 studentName: user.displayName || "",
                 studentEmail: user.email || "",
-
                 module: moduleName,
                 priority: priority,
                 examDate: examDate,
@@ -52,9 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 venue: venue,
                 topics: topics,
                 notes: notes,
-
                 createdAt: new Date().toISOString()
-
             };
 
             try {
@@ -65,27 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveButton.textContent = "Saving...";
 
                 const response = await fetch(N8N_WEBHOOK_URL, {
-
                     method: "POST",
-
                     headers: {
                         "Content-Type": "application/json"
                     },
-
                     body: JSON.stringify(examData)
-
                 });
 
                 if (!response.ok) {
                     throw new Error("Failed to save exam");
                 }
 
-                const result = await response.json();
+                // ===== CHANGED SECTION START =====
+
+                let result = {};
+
+                try {
+                    result = await response.json();
+                } catch (e) {
+                    console.log("No JSON response from n8n.");
+                }
 
                 showStatus(
                     result.message || "Exam saved successfully!",
                     "success"
                 );
+
+                // ===== CHANGED SECTION END =====
 
                 examForm.reset();
 
@@ -94,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error(error);
 
                 showStatus(
-                    "Could not save exam. Please check your n8n webhook.",
+                    "Could not save exam. Please check your n8n workflow.",
                     "error"
                 );
 
