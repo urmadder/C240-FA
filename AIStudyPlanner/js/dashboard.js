@@ -1,23 +1,36 @@
-// Check if the user is logged in
-const user = JSON.parse(localStorage.getItem("user"));
+document.addEventListener("DOMContentLoaded", () => {
 
-if (!user) {
-    window.location.href = "login.html";
-}
+    const token = sessionStorage.getItem("google_token");
 
-// Display welcome message
-document.getElementById("welcomeMessage").innerHTML =
-    `Welcome back, ${user.name} 👋`;
+    if (!token) {
+        window.location.href = "login.html";
+        return;
+    }
 
-// Logout button
-const logout = document.getElementById("logout");
+    function parseJwt(token) {
+        try {
+            return JSON.parse(atob(token.split(".")[1]));
+        } catch {
+            return null;
+        }
+    }
 
-logout.onclick = () => {
+    const user = parseJwt(token);
 
-    // Remove user session
-    localStorage.removeItem("user");
+    if (user) {
+        document.getElementById("welcomeMessage").textContent =
+            `Welcome, ${user.name || user.email} 👋`;
+    }
 
-    // Return to login page
-    window.location.href = "login.html";
+    // Open Google Calendar
+    document.getElementById("timetable").addEventListener("click", () => {
+        window.open("https://calendar.google.com/", "_blank");
+    });
 
-};
+    // Logout
+    document.getElementById("logout").addEventListener("click", () => {
+        sessionStorage.removeItem("google_token");
+        window.location.href = "login.html";
+    });
+
+});
