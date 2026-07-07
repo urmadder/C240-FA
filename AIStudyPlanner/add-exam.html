@@ -1,232 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Exam | AI Planner</title>
 
-  <link rel="stylesheet" href="add-exam.css" />
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Exam</title>
+
+<link rel="stylesheet" href="css/add-exam.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
-  <div class="app-container">
+
+<div class="container">
 
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="logo">
-        <span class="logo-icon">📚</span>
-        <span>AI Planner</span>
-      </div>
+    <div class="sidebar">
 
-      <nav class="nav-menu">
-        <a href="index.html" class="nav-item">
-          <span>🏠</span>
-          Dashboard
-        </a>
+        <h2>📚 AI Planner</h2>
 
-        <a href="timetable.html" class="nav-item">
-          <span>🗓️</span>
-          Timetable
-        </a>
+        <ul>
+            <li onclick="window.location.href='dashboard.html'">🏠 Dashboard</li>
+            <li onclick="window.location.href='timetable.html'">📅 Timetable</li>
+            <li class="active" onclick="window.location.href='add-exam.html'">➕ Add Exam</li>
+            <li onclick="window.location.href='chat.html'">💬 AI Chat</li>
+            <li onclick="window.location.href='resources.html'">📖 Resources</li>
+            <li onclick="window.location.href='history.html'">📜 History</li>
+            <li onclick="window.location.href='settings.html'">⚙️ Settings</li>
+            <li id="logout">🚪 Logout</li>
+        </ul>
 
-        <a href="add-exam.html" class="nav-item active">
-          <span>➕</span>
-          Add Exam
-        </a>
-
-        <a href="chat.html" class="nav-item">
-          <span>💬</span>
-          AI Chat
-        </a>
-
-        <a href="resources.html" class="nav-item">
-          <span>📖</span>
-          Resources
-        </a>
-
-        <a href="history.html" class="nav-item">
-          <span>📜</span>
-          History
-        </a>
-
-        <a href="settings.html" class="nav-item">
-          <span>⚙️</span>
-          Settings
-        </a>
-
-        <a href="login.html" class="nav-item logout">
-          <span>🚪</span>
-          Logout
-        </a>
-      </nav>
-    </aside>
+    </div>
 
     <!-- Main Content -->
-    <main class="main-content">
-      <header class="page-header">
-        <h1>Add Exam 📝</h1>
-        <p>Enter your exam details so your AI planner can create a better study schedule.</p>
-      </header>
+    <div class="main">
 
-      <section class="form-card">
-        <div class="card-header">
-          <h2>Exam Details</h2>
-          <p>Fill in the information below. This data will be sent to n8n and stored in Google Sheets.</p>
+        <header>
+            <h1>Add Exam 📝</h1>
+            <p>Enter your exam details so the AI planner can generate a better study timetable.</p>
+        </header>
+
+        <div class="exam-card">
+
+            <div class="exam-card-header">
+                <h2>Exam Details</h2>
+                <p>This information will be saved into Google Sheets through n8n.</p>
+            </div>
+
+            <form id="examForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="module">Module Name</label>
+                        <input 
+                            type="text" 
+                            id="module" 
+                            name="module" 
+                            placeholder="Cloud Security"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority" required>
+                            <option value="">Select priority</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="examDate">Exam Date</label>
+                        <input 
+                            type="date" 
+                            id="examDate" 
+                            name="examDate"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="examTime">Exam Time</label>
+                        <input 
+                            type="time" 
+                            id="examTime" 
+                            name="examTime"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <input 
+                            type="text" 
+                            id="duration" 
+                            name="duration" 
+                            placeholder="2 hours"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="venue">Venue</label>
+                        <input 
+                            type="text" 
+                            id="venue" 
+                            name="venue" 
+                            placeholder="E35A"
+                        >
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="topics">Topics to Revise</label>
+                        <textarea 
+                            id="topics" 
+                            name="topics" 
+                            placeholder="IAM, encryption, firewalls, network attacks..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes">Extra Notes</label>
+                        <textarea 
+                            id="notes" 
+                            name="notes" 
+                            placeholder="Example: I am weaker at encryption and need more practice questions."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="primary-btn">Save Exam</button>
+                    <button type="reset" class="secondary-btn">Clear</button>
+                </div>
+
+                <p id="statusMessage" class="status-message"></p>
+
+            </form>
+
         </div>
 
-        <form id="examForm">
-          <div class="form-grid">
+    </div>
 
-            <div class="form-group">
-              <label for="module">Module Name</label>
-              <input 
-                type="text" 
-                id="module" 
-                name="module"
-                placeholder="Cloud Security"
-                required
-              />
-            </div>
+</div>
 
-            <div class="form-group">
-              <label for="priority">Priority</label>
-              <select id="priority" name="priority" required>
-                <option value="">Select priority</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            </div>
+<script src="js/add-exam.js"></script>
 
-            <div class="form-group">
-              <label for="examDate">Exam Date</label>
-              <input 
-                type="date" 
-                id="examDate" 
-                name="examDate"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="examTime">Exam Time</label>
-              <input 
-                type="time" 
-                id="examTime" 
-                name="examTime"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="duration">Duration</label>
-              <input 
-                type="text" 
-                id="duration" 
-                name="duration"
-                placeholder="2 hours"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="venue">Venue</label>
-              <input 
-                type="text" 
-                id="venue" 
-                name="venue"
-                placeholder="E35A"
-              />
-            </div>
-
-            <div class="form-group full-width">
-              <label for="topics">Topics to Revise</label>
-              <textarea 
-                id="topics" 
-                name="topics"
-                placeholder="IAM, encryption, firewalls, network attacks..."
-              ></textarea>
-            </div>
-
-            <div class="form-group full-width">
-              <label for="notes">Extra Notes</label>
-              <textarea 
-                id="notes" 
-                name="notes"
-                placeholder="I am weaker at encryption and need more practice questions."
-              ></textarea>
-            </div>
-
-          </div>
-
-          <div class="button-row">
-            <button type="submit" class="primary-btn">Save Exam</button>
-            <button type="reset" class="secondary-btn">Clear</button>
-          </div>
-
-          <p id="statusMessage" class="status-message"></p>
-        </form>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    const N8N_WEBHOOK_URL = "https://YOUR-N8N-DOMAIN/webhook/add-exam";
-
-    let studentId = localStorage.getItem("studentId");
-
-    if (!studentId) {
-      studentId = "student_" + Date.now();
-      localStorage.setItem("studentId", studentId);
-    }
-
-    const examForm = document.getElementById("examForm");
-    const statusMessage = document.getElementById("statusMessage");
-
-    examForm.addEventListener("submit", async function(event) {
-      event.preventDefault();
-
-      const examData = {
-        studentId: studentId,
-        module: document.getElementById("module").value.trim(),
-        priority: document.getElementById("priority").value,
-        examDate: document.getElementById("examDate").value,
-        examTime: document.getElementById("examTime").value,
-        duration: document.getElementById("duration").value.trim(),
-        venue: document.getElementById("venue").value.trim(),
-        topics: document.getElementById("topics").value.trim(),
-        notes: document.getElementById("notes").value.trim(),
-        createdAt: new Date().toISOString()
-      };
-
-      try {
-        statusMessage.className = "status-message loading";
-        statusMessage.textContent = "Saving exam...";
-
-        const response = await fetch(N8N_WEBHOOK_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(examData)
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to save exam");
-        }
-
-        const result = await response.json();
-
-        statusMessage.className = "status-message success";
-        statusMessage.textContent = result.message || "Exam saved successfully.";
-
-        examForm.reset();
-
-      } catch (error) {
-        statusMessage.className = "status-message error";
-        statusMessage.textContent = "Could not save exam. Check your n8n webhook URL.";
-        console.error(error);
-      }
-    });
-  </script>
 </body>
 </html>
