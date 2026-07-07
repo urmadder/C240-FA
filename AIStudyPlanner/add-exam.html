@@ -1,1 +1,165 @@
+<<<<<<< HEAD
 <script type="module" src="firebase.js"></script>
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Add Exam</title>
+
+<link rel="stylesheet" href="css/add-exam.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+        <h2>📚 AI Planner</h2>
+
+        <ul>
+            <li onclick="window.location.href='dashboard.html'">🏠 Dashboard</li>
+            <li onclick="window.location.href='timetable.html'">📅 Timetable</li>
+            <li class="active" onclick="window.location.href='add-exam.html'">➕ Add Exam</li>
+            <li onclick="window.location.href='chat.html'">💬 AI Chat</li>
+            <li onclick="window.location.href='resources.html'">📖 Resources</li>
+            <li onclick="window.location.href='history.html'">📜 History</li>
+            <li onclick="window.location.href='settings.html'">⚙️ Settings</li>
+            <li id="logout">🚪 Logout</li>
+        </ul>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+
+        <header>
+            <h1>Add Exam 📝</h1>
+            <p>Enter your exam details so the AI planner can generate a better study timetable.</p>
+        </header>
+
+        <div class="exam-card">
+
+            <div class="exam-card-header">
+                <h2>Exam Details</h2>
+                <p>This information will be saved into Google Sheets through n8n.</p>
+            </div>
+
+            <form id="examForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="module">Module Name</label>
+                        <input 
+                            type="text" 
+                            id="module" 
+                            name="module" 
+                            placeholder="Cloud Security"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority" required>
+                            <option value="">Select priority</option>
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="examDate">Exam Date</label>
+                        <input 
+                            type="date" 
+                            id="examDate" 
+                            name="examDate"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="examTime">Exam Time</label>
+                        <input 
+                            type="time" 
+                            id="examTime" 
+                            name="examTime"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <input 
+                            type="text" 
+                            id="duration" 
+                            name="duration" 
+                            placeholder="2 hours"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="venue">Venue</label>
+                        <input 
+                            type="text" 
+                            id="venue" 
+                            name="venue" 
+                            placeholder="E35A"
+                        >
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="topics">Topics to Revise</label>
+                        <textarea 
+                            id="topics" 
+                            name="topics" 
+                            placeholder="IAM, encryption, firewalls, network attacks..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="notes">Extra Notes</label>
+                        <textarea 
+                            id="notes" 
+                            name="notes" 
+                            placeholder="Example: I am weaker at encryption and need more practice questions."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="primary-btn">Save Exam</button>
+                    <button type="reset" class="secondary-btn">Clear</button>
+                </div>
+
+                <p id="statusMessage" class="status-message"></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/add-exam.js"></script>
+
+</body>
+</html>
+>>>>>>> 101eec12757abd4517c4a9de5279cf8dbd2272b0
+<script type="module" src="firebase.js"></script>
+
