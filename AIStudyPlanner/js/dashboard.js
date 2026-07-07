@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
 console.log(timetable);
 
 timetable.addEventListener("click", () => {
-    alert("Clicked!");
     window.location.href = "https://calendar.google.com/";
 });
 
