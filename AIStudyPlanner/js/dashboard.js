@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const token = sessionStorage.getItem("google_token");
 
+    // Protect page
     if (!token) {
         window.location.href = "login.html";
         return;
     }
 
+    // Decode Google JWT
     function parseJwt(token) {
         try {
             return JSON.parse(atob(token.split(".")[1]));
@@ -17,9 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const user = parseJwt(token);
 
+    // Welcome message
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
     if (user) {
-        document.getElementById("welcomeMessage").textContent =
-            `Welcome, ${user.name || user.email} 👋`;
+        welcomeMessage.textContent = `Welcome, ${user.name || user.email} 👋`;
     }
 
     // Open Google Calendar
