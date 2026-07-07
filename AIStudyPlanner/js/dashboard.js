@@ -3,24 +3,29 @@ import { onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 
-// Check Firebase login status
 onAuthStateChanged(auth, (user) => {
+
+    console.log("Firebase user:", user);
+
+    const welcomeMessage = document.getElementById("welcomeMessage");
 
     if (user) {
 
-        const welcomeMessage = document.getElementById("welcomeMessage");
+        console.log("Logged in:", user.email);
 
         if (welcomeMessage) {
             welcomeMessage.textContent =
             `Welcome, ${user.displayName || user.email} 👋`;
         }
 
-        console.log("Logged in:", user.email);
-
     } else {
 
-        console.log("No user found. Redirecting...");
-        window.location.href = "login.html";
+        console.log("No Firebase user detected");
+
+        if (welcomeMessage) {
+            welcomeMessage.textContent =
+            "No user detected";
+        }
 
     }
 
