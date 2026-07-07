@@ -113,7 +113,51 @@
     </div>
 </div>
 
-<script type="module" src="js/login.js"></script>
+<script type="module">
+import { auth, db, provider } from "./js/firebase.js";
+
+import { signInWithPopup }
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+import { doc, setDoc }
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const googleBtn = document.getElementById("googleBtn");
+
+googleBtn.addEventListener("click", async () => {
+
+    try {
+
+        const result = await signInWithPopup(auth, provider);
+
+        const user = result.user;
+
+        console.log("Logged in:", user);
+
+        await setDoc(doc(db, "users", user.uid), {
+
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+            lastLogin: new Date().toISOString()
+
+        }, { merge: true });
+
+        alert("Welcome " + user.displayName + "!");
+
+        window.location.href = "dashboard.html";
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+    }
+
+});
+</script>
 
 </body>
 </html>
