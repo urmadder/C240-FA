@@ -1,0 +1,290 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #0f172a;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar {
+  width: 315px;
+  background: #111827;
+  padding: 42px 42px;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 27px;
+  font-weight: 800;
+  margin-bottom: 48px;
+}
+
+.logo-icon {
+  font-size: 28px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 16px;
+  transition: 0.2s ease;
+}
+
+.nav-item:hover {
+  background: #1e293b;
+}
+
+.nav-item.active {
+  background: #2563eb;
+}
+
+.logout {
+  margin-top: 20px;
+}
+
+/* Main Content */
+
+.main-content {
+  flex: 1;
+  padding: 52px 88px;
+  background: #0f172a;
+}
+
+.page-header {
+  margin-bottom: 46px;
+}
+
+.page-header h1 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.page-header p {
+  font-size: 22px;
+  color: #94a3b8;
+}
+
+/* Form Card */
+
+.form-card {
+  background: #1e293b;
+  border-radius: 24px;
+  padding: 42px;
+  max-width: 1050px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+  margin-bottom: 35px;
+}
+
+.card-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.card-header p {
+  color: #94a3b8;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+label {
+  font-size: 17px;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 10px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  background: #0f172a;
+  color: white;
+  border: 1px solid #334155;
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 17px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748b;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.button-row {
+  margin-top: 34px;
+  display: flex;
+  gap: 16px;
+}
+
+button {
+  border: none;
+  border-radius: 14px;
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.secondary-btn {
+  background: #334155;
+  color: white;
+}
+
+.secondary-btn:hover {
+  background: #475569;
+}
+
+/* Status Messages */
+
+.status-message {
+  margin-top: 24px;
+  font-size: 17px;
+  font-weight: 600;
+  display: none;
+  padding: 16px 18px;
+  border-radius: 14px;
+}
+
+.status-message.loading {
+  display: block;
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border: 1px solid #3b82f6;
+}
+
+.status-message.success {
+  display: block;
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+  border: 1px solid #22c55e;
+}
+
+.status-message.error {
+  display: block;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid #ef4444;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 28px;
+  }
+
+  .nav-menu {
+    gap: 10px;
+  }
+
+  .main-content {
+    padding: 36px 28px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header h1 {
+    font-size: 32px;
+  }
+
+  .page-header p {
+    font-size: 18px;
+  }
+
+  .form-card {
+    padding: 28px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}
