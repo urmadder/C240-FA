@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Study Planner - Sign In</title>
 
-    <!-- FIX: removed onload -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-
     <style>
         * {
             margin: 0;
@@ -25,7 +22,8 @@
             overflow: hidden;
         }
 
-        body::before, body::after {
+        body::before,
+        body::after {
             content: "";
             position: absolute;
             width: 600px;
@@ -60,16 +58,13 @@
         }
 
         .brand-logo {
-        font-size: 2.4rem;
-        font-weight: 800;
-
-        background: linear-gradient(90deg, #a855f7, #3b82f6);
-
-        color: transparent;
-        background-clip: text;
-        -webkit-background-clip: text;
-
-        margin-bottom: 10px;
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #a855f7, #3b82f6);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            margin-bottom: 10px;
         }
 
         .subtitle {
@@ -78,10 +73,21 @@
             margin-bottom: 30px;
         }
 
-        #googleBtn {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
+        .google-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 999px;
+            background: #4285F4;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .google-btn:hover {
+            background: #3367D6;
         }
 
         .footer {
@@ -98,59 +104,16 @@
     <h1 class="brand-logo">StudyPlanner</h1>
     <p class="subtitle">Sign in to continue your learning journey</p>
 
-    <div id="googleBtn"></div>
+    <button id="googleBtn" class="google-btn">
+        Continue with Google
+    </button>
 
     <div class="footer">
         Secure login powered by Google
     </div>
 </div>
 
-<script>
-const CLIENT_ID = "529281795879-6g91qb73fpo1527f4cap748r3aq4nq1n.apps.googleusercontent.com";
-
-/* Decode JWT */
-function parseJwt(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(atob(base64));
-}
-
-/* LOGIN CALLBACK */
-function handleCredentialResponse(response) {
-    sessionStorage.setItem("google_token", response.credential);
-
-    const user = parseJwt(response.credential);
-    console.log("Logged in:", user.email);
-
-    alert("Login successful!");
-
-    window.location.href = "dashboard.html";
-}
-
-/* FIX: safe init after page fully loads */
-window.addEventListener("load", () => {
-    if (!window.google) {
-        console.error("Google script not loaded");
-        return;
-    }
-
-    google.accounts.id.initialize({
-        client_id: CLIENT_ID,
-        callback: handleCredentialResponse
-    });
-
-    google.accounts.id.renderButton(
-        document.getElementById("googleBtn"),
-        {
-            theme: "filled_blue",
-            size: "large",
-            shape: "pill"
-        }
-    );
-
-    google.accounts.id.prompt();
-});
-</script>
+<script type="module" src="js/login.js"></script>
 
 </body>
 </html>
