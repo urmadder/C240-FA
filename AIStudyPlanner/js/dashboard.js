@@ -3,19 +3,23 @@ import { onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 
+// Check Firebase login status
 onAuthStateChanged(auth, (user) => {
 
     if (user) {
 
         const welcomeMessage = document.getElementById("welcomeMessage");
 
-        welcomeMessage.textContent = 
-        `Welcome, ${user.displayName || user.email} 👋`;
+        if (welcomeMessage) {
+            welcomeMessage.textContent =
+            `Welcome, ${user.displayName || user.email} 👋`;
+        }
 
         console.log("Logged in:", user.email);
 
     } else {
 
+        console.log("No user found. Redirecting...");
         window.location.href = "login.html";
 
     }
@@ -26,16 +30,26 @@ onAuthStateChanged(auth, (user) => {
 // Timetable button
 const timetable = document.getElementById("timetable");
 
-timetable.addEventListener("click", () => {
-    window.location.href = "https://calendar.google.com/";
-});
+if (timetable) {
+
+    timetable.addEventListener("click", () => {
+        window.location.href = "https://calendar.google.com/";
+    });
+
+}
 
 
-// Logout
-document.getElementById("logout").addEventListener("click", async () => {
+// Logout button
+const logout = document.getElementById("logout");
 
-    await signOut(auth);
+if (logout) {
 
-    window.location.href = "login.html";
+    logout.addEventListener("click", async () => {
 
-});
+        await signOut(auth);
+
+        window.location.href = "login.html";
+
+    });
+
+}
