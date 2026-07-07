@@ -1,28 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-    <h1 id="welcomeMessage">Loading...</h1>
+<div class="container">
 
-    <button id="logout">Logout</button>
+    <div class="sidebar">
+
+        <h2>📚 AI Planner</h2>
+
+        <ul>
+            <li class="active">🏠 Dashboard</li>
+            <li>📅 Timetable</li>
+            <li>➕ Add Exam</li>
+            <li>💬 AI Chat</li>
+            <li>📖 Resources</li>
+            <li>📜 History</li>
+            <li>⚙️ Settings</li>
+            <li id="logout">🚪 Logout</li>
+        </ul>
+
+    </div>
+
+    <div class="main">
+
+        <header>
+
+            <h1 id="welcomeMessage">Loading...</h1>
+
+            <div id="todaySchedule">
+                <!-- AI timetable goes here -->
+            </div>
+
+            <p>Let's make today productive.</p>
+
+        </header>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Study Progress</h3>
+                <h2>82%</h2>
+                <p>12 of 15 tasks completed</p>
+            </div>
+
+            <div class="card">
+                <h3>Upcoming Exams</h3>
+                <h2>3</h2>
+                <p>Next exam in 5 days</p>
+            </div>
+
+            <div class="card">
+                <h3>Study Streak</h3>
+                <h2>🔥 14 Days</h2>
+                <p>Keep it going!</p>
+            </div>
+
+        </div>
+
+        <div class="schedule">
+
+            <h2>Today's Schedule</h2>
+
+            <div class="schedule-item">
+                <span>4:00 PM</span>
+                <p>Cloud Security Revision (2 hrs)</p>
+            </div>
+
+            <div class="schedule-item">
+                <span>6:30 PM</span>
+                <p>Network Security Practice (1 hr)</p>
+            </div>
+
+            <div class="schedule-item">
+                <span>8:00 PM</span>
+                <p>Review Flashcards (30 mins)</p>
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            <h2>Quick Actions</h2>
+
+            <div class="buttons">
+                <button>Add Exam</button>
+                <button>Generate Timetable</button>
+                <button>Upload Notes</button>
+                <button>Generate Flashcards</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
     const token = sessionStorage.getItem("google_token");
 
-    // 🔐 protect page
+    // Protect page
     if (!token) {
         window.location.href = "login.html";
         return;
     }
 
-    // decode JWT safely
+    // Decode JWT safely
     function parseJwt(token) {
         try {
             return JSON.parse(atob(token.split('.')[1]));
@@ -33,15 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const user = parseJwt(token);
 
-    // 👋 show name
+    // Show user's name
     const welcomeMessage = document.getElementById("welcomeMessage");
 
     if (user) {
-        welcomeMessage.textContent =
-            `Welcome, ${user.name || user.email}`;
+        welcomeMessage.textContent = `Welcome, ${user.name || user.email} 👋`;
+    } else {
+        welcomeMessage.textContent = "Welcome 👋";
     }
 
-    // 🚪 logout
+    // Logout
     document.getElementById("logout").addEventListener("click", () => {
         sessionStorage.removeItem("google_token");
         window.location.href = "login.html";
@@ -49,6 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
+<!-- Optional if you have additional dashboard functions -->
+<!-- <script src="js/dashboard.js"></script> -->
 
 </body>
 </html>
