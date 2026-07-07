@@ -1,44 +1,41 @@
-document.addEventListener("DOMContentLoaded", () => {
+import { auth } from "./firebase.js";
+import { onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-    const token = sessionStorage.getItem("google_token");
 
-    // Protect page
-    if (!token) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    // Decode Google JWT
-    function parseJwt(token) {
-        try {
-            return JSON.parse(atob(token.split(".")[1]));
-        } catch {
-            return null;
-        }
-    }
-
-    const user = parseJwt(token);
-
-    // Welcome message
-    const welcomeMessage = document.getElementById("welcomeMessage");
+onAuthStateChanged(auth, (user) => {
 
     if (user) {
-        welcomeMessage.textContent = `Welcome, ${user.name || user.email} 👋`;
+
+        const welcomeMessage = document.getElementById("welcomeMessage");
+
+        welcomeMessage.textContent = 
+        `Welcome, ${user.displayName || user.email} 👋`;
+
+        console.log("Logged in:", user.email);
+
+    } else {
+
+        window.location.href = "login.html";
+
     }
 
-    // Open Google Calendar
-    const timetable = document.getElementById("timetable");
+});
 
-console.log(timetable);
+
+// Timetable button
+const timetable = document.getElementById("timetable");
 
 timetable.addEventListener("click", () => {
     window.location.href = "https://calendar.google.com/";
 });
 
-    // Logout
-    document.getElementById("logout").addEventListener("click", () => {
-        sessionStorage.removeItem("google_token");
-        window.location.href = "login.html";
-    });
+
+// Logout
+document.getElementById("logout").addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    window.location.href = "login.html";
 
 });
