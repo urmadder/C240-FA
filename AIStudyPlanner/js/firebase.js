@@ -3,7 +3,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/12.15.0/firebas
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyBelXBkPhha_pwCA6Qsix2BRdJDDU1q6mM",
   authDomain: "ai-study-planner-1e39d.firebaseapp.com",
   projectId: "ai-study-planner-1e39d",
   storageBucket: "ai-study-planner-1e39d.firebasestorage.app",
