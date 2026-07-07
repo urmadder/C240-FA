@@ -27,9 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Open Google Calendar
-    document.getElementById("timetable").addEventListener("click", () => {
-        window.open("https://calendar.google.com/", "_blank");
-    });
+    const timetable = document.getElementById("timetable");
+
+console.log(timetable);
+
+timetable.addEventListener("click", () => {
+    alert("Clicked!");
+    window.location.href = "https://calendar.google.com/";
+});
 
     // Logout
     document.getElementById("logout").addEventListener("click", () => {
