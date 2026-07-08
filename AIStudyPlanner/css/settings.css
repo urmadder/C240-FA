@@ -248,3 +248,47 @@ select{
     height:18px;
     accent-color:#2563eb;
 }
+
+/* ==========================
+   Light Theme
+========================== */
+
+body.light-theme{
+    background:#f8fafc;
+    color:#111827;
+}
+
+body.light-theme .sidebar{
+    background:#e2e8f0;
+}
+
+body.light-theme .main{
+    background:#f8fafc;
+}
+
+body.light-theme .settings-section{
+    background:white;
+    color:#111827;
+}
+
+body.light-theme .setting-info p{
+    color:#64748b;
+}
+
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3{
+    color:#111827;
+}
+
+body.light-theme .setting-input,
+body.light-theme select{
+    background:white;
+    color:#111827;
+    border:1px solid #cbd5e1;
+}
+
+body.light-theme .account-badge{
+    background:#2563eb;
+    color:white;
+}
