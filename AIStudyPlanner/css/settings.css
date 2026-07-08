@@ -222,3 +222,26 @@ select{
     font-weight:600;
 }
 
+/* ==========================
+   Appearance
+========================== */
+
+.theme-options{
+    display:flex;
+    gap:30px;
+}
+
+.radio-option{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:16px;
+    cursor:pointer;
+    color:white;
+}
+
+.radio-option input{
+    accent-color:#2563eb;
+    width:18px;
+    height:18px;
+}
