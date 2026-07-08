@@ -190,3 +190,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+// =========================
+// Notification Settings
+// =========================
+
+const toggles = [
+    "morningToggle",
+    "emailToggle",
+    "aiToggle"
+];
+
+toggles.forEach(id => {
+
+    const toggle = document.getElementById(id);
+
+    if (!toggle) return;
+
+    // Load saved state
+    if (localStorage.getItem(id) === "false") {
+        toggle.classList.remove("active");
+    } else {
+        toggle.classList.add("active");
+    }
+
+    toggle.addEventListener("click", () => {
+
+        toggle.classList.toggle("active");
+
+        localStorage.setItem(
+            id,
+            toggle.classList.contains("active")
+        );
+
+    });
+
+});
+
+// Reminder time
+
+const reminderTime = document.getElementById("reminderTime");
+
+if (reminderTime) {
+
+    reminderTime.value =
+        localStorage.getItem("reminderTime") || "08:00";
+
+}
+
+document.getElementById("saveNotifications").addEventListener("click", () => {
+
+    localStorage.setItem(
+        "reminderTime",
+        reminderTime.value
+    );
+
+    alert("Notification settings saved!");
+
+});
