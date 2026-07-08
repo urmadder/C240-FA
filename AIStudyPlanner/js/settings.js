@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const toggles = [
     "morningToggle",
-    "emailToggle",
+    "studyToggle",
     "aiToggle"
 ];
 
