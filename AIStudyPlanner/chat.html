@@ -9,6 +9,7 @@
 <title>AI Chat</title>
 
 <link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/theme.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -112,8 +113,6 @@
 
 </style>
 
-<link rel="stylesheet" href="css/theme.css">
-    
 </head>
 
 <body>
@@ -134,11 +133,11 @@
 
 <li class="active">💬 AI Chat</li>
 
-<li>📖 Resources</li>
+<li onclick="window.location.href='resources.html'">📖 Resources</li>
 
-<li>📜 History</li>
+<li onclick="window.location.href='history.html'">📜 History</li>
 
-<li>⚙️ Settings</li>
+<li onclick="window.location.href='settings.html'">⚙️ Settings</li>
 
 <li id="logout">🚪 Logout</li>
 
@@ -196,16 +195,24 @@ Send
 
 </div>
 
-<!-- Global script -->
+<!-- Global Theme -->
 <script src="js/main.js"></script>
 
-<script>
+<script type="module">
+
+import { auth } from "./js/firebase.js";
+
+import {
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded",()=>{
 
-const token=sessionStorage.getItem("google_token");
+onAuthStateChanged(auth,(user)=>{
 
-if(!token){
+if(!user){
 
 window.location.href="login.html";
 
@@ -213,28 +220,10 @@ return;
 
 }
 
-function parseJwt(token){
-
-try{
-
-return JSON.parse(atob(token.split(".")[1]));
-
-}catch{
-
-return null;
-
-}
-
-}
-
-const user=parseJwt(token);
-
-if(user){
-
 document.getElementById("welcomeMessage").textContent=
-`Hello ${user.name || user.email} 👋`;
+`Hello ${user.displayName || user.email} 👋`;
 
-}
+});
 
 document.getElementById("timetable").onclick=()=>{
 
@@ -242,9 +231,9 @@ window.location.href="https://calendar.google.com/";
 
 };
 
-document.getElementById("logout").onclick=()=>{
+document.getElementById("logout").onclick=async()=>{
 
-sessionStorage.removeItem("google_token");
+await signOut(auth);
 
 window.location.href="login.html";
 
