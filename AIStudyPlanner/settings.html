@@ -164,12 +164,76 @@
 
 </section>
 
-        <!-- Notifications -->
-        <section class="settings-section">
+<!-- Notifications -->
+<section class="settings-section">
 
-            <h2>🔔 Notifications</h2>
+    <h2>🔔 Notifications</h2>
 
-        </section>
+    <!-- Morning Reminder -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+            <h3>Morning Study Reminder</h3>
+            <p>Receive a reminder every morning before your study session.</p>
+        </div>
+
+        <div id="morningToggle" class="toggle active"></div>
+
+    </div>
+
+    <!-- Email -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+            <h3>Email Notifications</h3>
+            <p>Receive important reminders by email.</p>
+        </div>
+
+        <div id="emailToggle" class="toggle active"></div>
+
+    </div>
+
+    <!-- AI Reminder -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+            <h3>AI Study Suggestions</h3>
+            <p>Receive AI suggestions when you're falling behind.</p>
+        </div>
+
+        <div id="aiToggle" class="toggle active"></div>
+
+    </div>
+
+    <!-- Reminder Time -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+            <h3>Reminder Time</h3>
+            <p>Select when reminders should be sent.</p>
+        </div>
+
+        <input
+            id="reminderTime"
+            class="setting-input"
+            type="time"
+            value="08:00"
+        >
+
+    </div>
+
+    <!-- Save -->
+    <div class="setting-row">
+
+        <div></div>
+
+        <button id="saveNotifications" class="settings-btn">
+            Save Preferences
+        </button>
+
+    </div>
+
+</section>
 
         <!-- Study Preferences -->
         <section class="settings-section">
