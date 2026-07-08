@@ -1,0 +1,193 @@
+/* ==========================
+   Settings Page
+========================== */
+
+.settings-section{
+    background:#1e293b;
+    border-radius:20px;
+    padding:30px;
+    margin-top:30px;
+    transition:.3s;
+}
+
+.settings-section:hover{
+    transform:translateY(-3px);
+}
+
+.settings-section h2{
+    margin-bottom:25px;
+    font-size:24px;
+    color:white;
+}
+
+/* ==========================
+   Setting Rows
+========================== */
+
+.setting-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid #334155;
+}
+
+.setting-row:last-child{
+    border-bottom:none;
+}
+
+.setting-info h3{
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+.setting-info p{
+    color:#94a3b8;
+    font-size:15px;
+}
+
+/* ==========================
+   Inputs
+========================== */
+
+.setting-input{
+    background:#0f172a;
+    border:1px solid #334155;
+    color:white;
+    padding:12px 15px;
+    border-radius:12px;
+    font-size:15px;
+    min-width:180px;
+}
+
+.setting-input:focus{
+    outline:none;
+    border-color:#3b82f6;
+}
+
+/* ==========================
+   Select Boxes
+========================== */
+
+select{
+    background:#0f172a;
+    color:white;
+    border:1px solid #334155;
+    padding:12px 15px;
+    border-radius:12px;
+    font-size:15px;
+}
+
+select:focus{
+    outline:none;
+    border-color:#3b82f6;
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.settings-btn{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 24px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:15px;
+    transition:.3s;
+}
+
+.settings-btn:hover{
+    background:#3b82f6;
+}
+
+/* Secondary Button */
+
+.settings-btn.secondary{
+    background:#334155;
+}
+
+.settings-btn.secondary:hover{
+    background:#475569;
+}
+
+/* Danger Button */
+
+.settings-btn.danger{
+    background:#dc2626;
+}
+
+.settings-btn.danger:hover{
+    background:#ef4444;
+}
+
+/* ==========================
+   Toggle Switch Placeholder
+========================== */
+
+.toggle{
+    width:55px;
+    height:30px;
+    background:#475569;
+    border-radius:999px;
+    position:relative;
+    cursor:pointer;
+}
+
+.toggle::after{
+    content:"";
+    position:absolute;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:white;
+    top:3px;
+    left:3px;
+    transition:.3s;
+}
+
+/* Future ON state */
+
+.toggle.active{
+    background:#2563eb;
+}
+
+.toggle.active::after{
+    left:28px;
+}
+
+/* ==========================
+   Profile Picture
+========================== */
+
+.profile-picture{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #2563eb;
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media(max-width:768px){
+
+.setting-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:15px;
+}
+
+.setting-input,
+select{
+    width:100%;
+}
+
+.settings-btn{
+    width:100%;
+}
+
+}
