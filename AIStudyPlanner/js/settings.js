@@ -1,5 +1,3 @@
-console.log("settings.js loaded");
-
 import { auth } from "./firebase.js";
 
 import { onAuthStateChanged, signOut }
