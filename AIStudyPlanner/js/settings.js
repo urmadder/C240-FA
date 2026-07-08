@@ -1,43 +1,192 @@
+import { auth } from "./firebase.js";
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    // ==========================
+    // Account Information
+    // ==========================
 
     const profilePicture = document.getElementById("profilePicture");
     const displayName = document.getElementById("displayName");
     const email = document.getElementById("email");
 
+
     onAuthStateChanged(auth, (user) => {
 
         if (!user) {
+
             window.location.href = "login.html";
             return;
+
         }
 
-        profilePicture.src = user.photoURL || "https://via.placeholder.com/100";
-        displayName.value = user.displayName || "";
-        email.value = user.email || "";
+
+        if (profilePicture) {
+
+            profilePicture.src = user.photoURL || 
+            "https://via.placeholder.com/100";
+
+        }
+
+
+        if (displayName) {
+
+            displayName.value = user.displayName || "No name";
+
+        }
+
+
+        if (email) {
+
+            email.value = user.email || "No email";
+
+        }
+
 
     });
 
-    // Theme code goes HERE
-    const darkRadio = document.querySelector('input[value="dark"]');
-    const lightRadio = document.querySelector('input[value="light"]');
+
+
+    // ==========================
+    // Theme Settings
+    // ==========================
+
+    const darkRadio = document.querySelector(
+        'input[value="dark"]'
+    );
+
+    const lightRadio = document.querySelector(
+        'input[value="light"]'
+    );
+
 
     const savedTheme = localStorage.getItem("theme") || "dark";
 
+
     if (savedTheme === "light") {
+
         document.body.classList.add("light-theme");
-        lightRadio.checked = true;
+
+        if (lightRadio) {
+            lightRadio.checked = true;
+        }
+
     } else {
-        darkRadio.checked = true;
+
+        if (darkRadio) {
+            darkRadio.checked = true;
+        }
+
     }
 
-    darkRadio.addEventListener("change", () => {
-        document.body.classList.remove("light-theme");
-        localStorage.setItem("theme", "dark");
-    });
 
-    lightRadio.addEventListener("change", () => {
-        document.body.classList.add("light-theme");
-        localStorage.setItem("theme", "light");
-    });
 
-}); // <-- ONLY ONE closing });
+    if (darkRadio) {
+
+        darkRadio.addEventListener("change", () => {
+
+            document.body.classList.remove(
+                "light-theme"
+            );
+
+            localStorage.setItem(
+                "theme",
+                "dark"
+            );
+
+        });
+
+    }
+
+
+
+    if (lightRadio) {
+
+        lightRadio.addEventListener("change", () => {
+
+            document.body.classList.add(
+                "light-theme"
+            );
+
+            localStorage.setItem(
+                "theme",
+                "light"
+            );
+
+        });
+
+    }
+
+
+
+    // ==========================
+    // Sidebar Navigation
+    // ==========================
+
+
+    const timetable = document.getElementById(
+        "timetable"
+    );
+
+
+    if (timetable) {
+
+        timetable.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                "https://calendar.google.com/";
+
+            }
+        );
+
+    }
+
+
+
+    // ==========================
+    // Logout
+    // ==========================
+
+
+    const logout = document.getElementById(
+        "logout"
+    );
+
+
+    if (logout) {
+
+        logout.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await signOut(auth);
+
+                    window.location.href =
+                    "login.html";
+
+                } catch(error) {
+
+                    console.error(
+                        "Logout failed:",
+                        error
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+});
