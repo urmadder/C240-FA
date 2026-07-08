@@ -17,45 +17,38 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Display account information
-        profilePicture.src = user.photoURL || "https://via.placeholder.com/100";
+        profilePicture.src =
+            user.photoURL || "https://via.placeholder.com/100";
 
         displayName.value = user.displayName || "";
-
         email.value = user.email || "";
 
     });
 
-});
+    // ===============================
+    // Theme Switching
+    // ===============================
 
-// ===============================
-// Theme Switching
-// ===============================
+    const darkRadio = document.querySelector('input[value="dark"]');
+    const lightRadio = document.querySelector('input[value="light"]');
 
-const darkRadio = document.querySelector('input[value="dark"]');
-const lightRadio = document.querySelector('input[value="light"]');
+    const savedTheme = localStorage.getItem("theme") || "dark";
 
-// Load saved theme
-const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "light") {
+        document.body.classList.add("light-theme");
+        lightRadio.checked = true;
+    } else {
+        darkRadio.checked = true;
+    }
 
-if(savedTheme === "light"){
-    document.body.classList.add("light-theme");
-    lightRadio.checked = true;
-}else{
-    darkRadio.checked = true;
-}
+    darkRadio.addEventListener("change", () => {
+        document.body.classList.remove("light-theme");
+        localStorage.setItem("theme", "dark");
+    });
 
-// Change theme
-darkRadio.addEventListener("change", () => {
-
-    document.body.classList.remove("light-theme");
-    localStorage.setItem("theme","dark");
-
-});
-
-lightRadio.addEventListener("change", () => {
-
-    document.body.classList.add("light-theme");
-    localStorage.setItem("theme","light");
+    lightRadio.addEventListener("change", () => {
+        document.body.classList.add("light-theme");
+        localStorage.setItem("theme", "light");
+    });
 
 });
