@@ -229,11 +229,9 @@ select{
 .theme-options{
     display:flex;
     flex-direction:column;
+    align-items:flex-start;
     gap:12px;
     min-width:140px;
-
-    align-self:flex-start;
-    padding-top: 24px;
 }
 
 .radio-option{
