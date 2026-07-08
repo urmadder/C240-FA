@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Settings</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/settings.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <h2>📚 StudySync AI</h2>
+
+        <ul>
+            <li onclick="window.location.href='dashboard.html'">🏠 Dashboard</li>
+            <li id="timetable">📅 Timetable</li>
+            <li onclick="window.location.href='add-exam.html'">➕ Add Exam</li>
+            <li onclick="window.location.href='chat.html'">💬 AI Chat</li>
+            <li>📜 History</li>
+            <li class="active">⚙️ Settings</li>
+            <li id="logout">🚪 Logout</li>
+        </ul>
+
+    </div>
+
+    <div class="main">
+
+        <header>
+
+            <h1>⚙️ Settings</h1>
+
+            <p>
+                Manage your account and personalize your AI Study Planner.
+            </p>
+
+        </header>
+
+        <!-- Account -->
+<section class="settings-section">
+
+    <h2>👤 Account</h2>
+
+    <div class="account-container">
+
+        <div class="profile-section">
+
+            <img
+                id="profilePicture"
+                class="profile-picture"
+                src="https://via.placeholder.com/100"
+                alt="Profile Picture"
+            >
+
+        </div>
+
+        <div class="account-details">
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Name</h3>
+                    <p>Your Google display name</p>
+                </div>
+
+                <input
+                    id="displayName"
+                    class="setting-input"
+                    type="text"
+                    readonly
+                >
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Email</h3>
+                    <p>Your Google account email</p>
+                </div>
+
+                <input
+                    id="email"
+                    class="setting-input"
+                    type="email"
+                    readonly
+                >
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Connected Account</h3>
+                    <p>Authentication provider</p>
+                </div>
+
+                <span class="account-badge">
+                    Google ✔
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- Appearance -->
+<section class="settings-section">
+
+    <h2>🌙 Appearance</h2>
+
+    <div class="setting-row">
+
+        <div class="setting-info">
+
+            <h3>Theme</h3>
+
+            <p>
+                Choose how the AI Study Planner looks.
+            </p>
+
+        </div>
+
+        <div class="theme-options">
+
+            <label class="radio-option">
+                <input
+                    type="radio"
+                    name="theme"
+                    value="dark"
+                    checked
+                >
+                Dark
+            </label>
+
+            <label class="radio-option">
+                <input
+                    type="radio"
+                    name="theme"
+                    value="light"
+                >
+                Light
+            </label>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- Notifications -->
+        <section class="settings-section">
+
+            <h2>🔔 Notifications</h2>
+
+        </section>
+
+        <!-- Study Preferences -->
+        <section class="settings-section">
+
+            <h2>📅 Study Preferences</h2>
+
+        </section>
+
+        <!-- Calendar -->
+        <section class="settings-section">
+
+            <h2>📆 Calendar</h2>
+
+        </section>
+
+        <!-- AI Preferences -->
+        <section class="settings-section">
+
+            <h2>🤖 AI Preferences</h2>
+
+        </section>
+
+        <!-- Security -->
+        <section class="settings-section">
+
+            <h2>🔒 Security</h2>
+
+        </section>
+
+    </div>
+
+</div>
+
+<script type="module" src="js/settings.js"></script>
+
+</body>
+</html>

@@ -5,6 +5,12 @@ box-sizing:border-box;
 font-family:Inter,sans-serif;
 }
 
+html,
+body {
+    min-height: 100%;
+    overflow-y: auto;
+}
+
 body{
 
 background:#0f172a;
@@ -12,11 +18,9 @@ color:white;
 
 }
 
-.container{
-
-display:flex;
-height:100vh;
-
+.container {
+    display: flex;
+    min-height: 100vh;
 }
 
 .sidebar{
@@ -61,12 +65,11 @@ background:#2563eb;
 
 }
 
-.main{
-
-flex:1;
-padding:40px;
-overflow:hidden;
-
+.main {
+    flex: 1;
+    padding: 40px;
+    overflow-y: auto;
+    padding-bottom: 80px;
 }
 
 header p{
