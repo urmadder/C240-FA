@@ -248,3 +248,11 @@ select{
     height:18px;
     accent-color:#2563eb;
 }
+
+.theme-options input[type="radio"]{
+    width:18px;
+    height:18px;
+    margin:0;
+    padding:0;
+    accent-color:#2563eb;
+}
