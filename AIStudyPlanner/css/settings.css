@@ -191,3 +191,34 @@ select{
 }
 
 }
+
+/* ==========================
+   Account Section
+========================== */
+
+.account-container{
+    display:flex;
+    align-items:flex-start;
+    gap:35px;
+    margin-top:25px;
+}
+
+.profile-section{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.account-details{
+    flex:1;
+}
+
+.account-badge{
+    background:#2563eb;
+    color:white;
+    padding:10px 18px;
+    border-radius:999px;
+    font-size:14px;
+    font-weight:600;
+}
+
