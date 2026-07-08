@@ -248,12 +248,3 @@ select{
     height:18px;
     accent-color:#2563eb;
 }
-
-.theme-options input[type="radio"]{
-    width:18px !important;
-    height:18px !important;
-    margin:0;
-    padding:0;
-    min-width:18px;
-    accent-color:#2563eb;
-}
