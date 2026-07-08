@@ -27,3 +27,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+// ===============================
+// Theme Switching
+// ===============================
+
+const darkRadio = document.querySelector('input[value="dark"]');
+const lightRadio = document.querySelector('input[value="light"]');
+
+// Load saved theme
+const savedTheme = localStorage.getItem("theme") || "dark";
+
+if(savedTheme === "light"){
+    document.body.classList.add("light-theme");
+    lightRadio.checked = true;
+}else{
+    darkRadio.checked = true;
+}
+
+// Change theme
+darkRadio.addEventListener("change", () => {
+
+    document.body.classList.remove("light-theme");
+    localStorage.setItem("theme","dark");
+
+});
+
+lightRadio.addEventListener("change", () => {
+
+    document.body.classList.add("light-theme");
+    localStorage.setItem("theme","light");
+
+});
