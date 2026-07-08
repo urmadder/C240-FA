@@ -308,3 +308,18 @@ margin-top:50px;
 color:#94a3b8;
 
 }
+.login-text {
+    margin-top: 18px;
+    font-size: 15px;
+    color: #b0b8c5;
+}
+
+.login-text a {
+    color: #4f8cff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
