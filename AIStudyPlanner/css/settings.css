@@ -227,10 +227,11 @@ select{
 ========================== */
 
 .theme-options{
-    margin-top:20px;
     display:flex;
     flex-direction:column;
-    gap:15px;
+    align-items:flex-start;
+    gap:12px;
+    min-width:140px;
 }
 
 .radio-option{
