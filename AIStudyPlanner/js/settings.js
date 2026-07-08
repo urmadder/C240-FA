@@ -1,9 +1,3 @@
-import { auth } from "./firebase.js";
-
-import { onAuthStateChanged, signOut }
-from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
-// Wait until the page has loaded
 document.addEventListener("DOMContentLoaded", () => {
 
     const profilePicture = document.getElementById("profilePicture");
@@ -17,18 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        profilePicture.src =
-            user.photoURL || "https://via.placeholder.com/100";
-
+        profilePicture.src = user.photoURL || "https://via.placeholder.com/100";
         displayName.value = user.displayName || "";
         email.value = user.email || "";
 
     });
 
-    // ===============================
-    // Theme Switching
-    // ===============================
-
+    // Theme code goes HERE
     const darkRadio = document.querySelector('input[value="dark"]');
     const lightRadio = document.querySelector('input[value="light"]');
 
@@ -51,4 +40,4 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("theme", "light");
     });
 
-});
+}); // <-- ONLY ONE closing });
