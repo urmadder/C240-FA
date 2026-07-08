@@ -49,11 +49,75 @@
         </header>
 
         <!-- Account -->
-        <section class="settings-section">
+<section class="settings-section">
 
-            <h2>👤 Account</h2>
+    <h2>👤 Account</h2>
 
-        </section>
+    <div class="account-container">
+
+        <div class="profile-section">
+
+            <img
+                id="profilePicture"
+                class="profile-picture"
+                src="https://via.placeholder.com/100"
+                alt="Profile Picture"
+            >
+
+        </div>
+
+        <div class="account-details">
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Name</h3>
+                    <p>Your Google display name</p>
+                </div>
+
+                <input
+                    id="displayName"
+                    class="setting-input"
+                    type="text"
+                    readonly
+                >
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Email</h3>
+                    <p>Your Google account email</p>
+                </div>
+
+                <input
+                    id="email"
+                    class="setting-input"
+                    type="email"
+                    readonly
+                >
+
+            </div>
+
+            <div class="setting-row">
+
+                <div class="setting-info">
+                    <h3>Connected Account</h3>
+                    <p>Authentication provider</p>
+                </div>
+
+                <span class="account-badge">
+                    Google ✔
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
         <!-- Appearance -->
         <section class="settings-section">
