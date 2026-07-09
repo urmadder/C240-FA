@@ -266,7 +266,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         saveButton.addEventListener(
             "click",
-            () => {
+            async () => {
+
+                // Save locally
 
                 toggles.forEach(id => {
 
@@ -293,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // Store AI preference separately
+
                 localStorage.setItem(
 
                     "aiSuggestionsEnabled",
@@ -302,6 +305,84 @@ document.addEventListener("DOMContentLoaded", () => {
                         .classList.contains("active")
 
                 );
+
+
+                // ==========================
+                // Send settings to n8n
+                // ==========================
+
+                const user = auth.currentUser;
+
+                if (user) {
+
+                    try {
+
+                        await fetch(
+
+                            "https://n8ngc.codeblazar.org/webhook/notification-settings",
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type": "application/json"
+
+                                },
+
+                                body: JSON.stringify({
+
+                                    uid: user.uid,
+
+                                    email: user.email,
+
+                                    morningReminder:
+
+                                        document
+                                            .getElementById("morningToggle")
+                                            .classList.contains("active"),
+
+                                    studyReminder:
+
+                                        document
+                                            .getElementById("studyToggle")
+                                            .classList.contains("active"),
+
+                                    aiSuggestions:
+
+                                        document
+                                            .getElementById("aiToggle")
+                                            .classList.contains("active"),
+
+                                    reminderTime:
+
+                                        reminderTime.value
+
+                                })
+
+                            }
+
+                        );
+
+                        console.log(
+                            "Notification settings sent to n8n."
+                        );
+
+                    }
+                    catch (error) {
+
+                        console.error(
+
+                            "Failed to send settings to n8n:",
+
+                            error
+
+                        );
+
+                    }
+
+                }
 
 
                 alert(
