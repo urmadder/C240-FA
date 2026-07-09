@@ -1,4 +1,11 @@
-import { auth } from "./firebase.js";
+import { auth, db } from "./firebase.js";
+
+import {
+    doc,
+    getDoc,
+    setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 import {
     onAuthStateChanged,
@@ -195,56 +202,143 @@ document.addEventListener("DOMContentLoaded", () => {
 // Notification Settings
 // =========================
 
-const toggles = [
-    "morningToggle",
-    "studyToggle",
-    "aiToggle"
-];
+let currentUser = null;
 
-toggles.forEach(id => {
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) return;
+
+    currentUser = user;
+
+    const userRef = doc(db, "users", user.uid);
+
+    try {
+
+        const snap = await getDoc(userRef);
+
+        if (snap.exists()) {
+
+            const settings = snap.data().notifications || {};
+
+            setToggle("morningToggle", settings.morningReminder ?? true);
+            setToggle("studyToggle", settings.studyReminder ?? true);
+            setToggle("aiToggle", settings.aiSuggestions ?? true);
+
+            document.getElementById("reminderTime").value =
+                settings.reminderTime || "08:00";
+
+        }
+
+    } catch (err) {
+
+        console.error("Failed to load notification settings", err);
+
+    }
+
+});
+
+
+function setToggle(id, enabled) {
 
     const toggle = document.getElementById(id);
 
     if (!toggle) return;
 
-    // Load saved state
-    if (localStorage.getItem(id) === "false") {
-        toggle.classList.remove("active");
-    } else {
+    if (enabled) {
+
         toggle.classList.add("active");
+
+    } else {
+
+        toggle.classList.remove("active");
+
     }
 
-    toggle.addEventListener("click", () => {
+}
+
+
+["morningToggle","studyToggle","aiToggle"].forEach(id=>{
+
+    const toggle=document.getElementById(id);
+
+    if(!toggle) return;
+
+    toggle.addEventListener("click",()=>{
 
         toggle.classList.toggle("active");
-
-        localStorage.setItem(
-            id,
-            toggle.classList.contains("active")
-        );
 
     });
 
 });
 
-// Reminder time
 
-const reminderTime = document.getElementById("reminderTime");
+document
+.getElementById("saveNotifications")
+.addEventListener("click", async ()=>{
 
-if (reminderTime) {
+    if(!currentUser) return;
 
-    reminderTime.value =
-        localStorage.getItem("reminderTime") || "08:00";
+    const saveButton=document.getElementById("saveNotifications");
 
-}
+    saveButton.disabled=true;
+    saveButton.textContent="Saving...";
 
-document.getElementById("saveNotifications").addEventListener("click", () => {
+    try{
 
-    localStorage.setItem(
-        "reminderTime",
-        reminderTime.value
-    );
+        const notificationSettings={
 
-    alert("Notification settings saved!");
+            morningReminder:
+                document.getElementById("morningToggle")
+                .classList.contains("active"),
+
+            studyReminder:
+                document.getElementById("studyToggle")
+                .classList.contains("active"),
+
+            aiSuggestions:
+                document.getElementById("aiToggle")
+                .classList.contains("active"),
+
+            reminderTime:
+                document.getElementById("reminderTime").value
+
+        };
+
+        await setDoc(
+
+            doc(db,"users",currentUser.uid),
+
+            {
+
+                notifications: notificationSettings
+
+            },
+
+            {
+
+                merge:true
+
+            }
+
+        );
+
+        alert("Notification settings saved!");
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert("Failed to save settings.");
+
+    }
+
+    finally{
+
+        saveButton.disabled=false;
+        saveButton.textContent="Save Preferences";
+
+    }
 
 });
