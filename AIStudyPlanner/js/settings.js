@@ -6,11 +6,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-import {
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -35,25 +30,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (profilePicture) {
 
-            profilePicture.src = user.photoURL || 
-            "https://via.placeholder.com/100";
+            profilePicture.src =
+                user.photoURL ||
+                "https://via.placeholder.com/100";
 
         }
 
 
         if (displayName) {
 
-            displayName.value = user.displayName || "No name";
+            displayName.value =
+                user.displayName || "No name";
 
         }
 
 
         if (email) {
 
-            email.value = user.email || "No email";
+            email.value =
+                user.email || "No email";
 
         }
-
 
     });
 
@@ -72,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    const savedTheme = localStorage.getItem("theme") || "dark";
+    const savedTheme =
+        localStorage.getItem("theme") || "dark";
 
 
     if (savedTheme === "light") {
@@ -80,13 +78,17 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.add("light-theme");
 
         if (lightRadio) {
+
             lightRadio.checked = true;
+
         }
 
     } else {
 
         if (darkRadio) {
+
             darkRadio.checked = true;
+
         }
 
     }
@@ -135,10 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sidebar Navigation
     // ==========================
 
-
-    const timetable = document.getElementById(
-        "timetable"
-    );
+    const timetable =
+        document.getElementById("timetable");
 
 
     if (timetable) {
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 window.location.href =
-                "https://calendar.google.com/";
+                    "https://calendar.google.com/";
 
             }
         );
@@ -161,10 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Logout
     // ==========================
 
-
-    const logout = document.getElementById(
-        "logout"
-    );
+    const logout =
+        document.getElementById("logout");
 
 
     if (logout) {
@@ -178,9 +176,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     await signOut(auth);
 
                     window.location.href =
-                    "login.html";
+                        "login.html";
 
-                } catch(error) {
+                }
+                catch (error) {
 
                     console.error(
                         "Logout failed:",
@@ -195,86 +194,124 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-});
+    // ==========================
+    // Notification Settings
+    // ==========================
 
-// =========================
-// Notification Settings
-// =========================
+    const toggles = [
 
-const toggles = [
-    "morningToggle",
-    "studyToggle",
-    "aiToggle"
-];
+        "morningToggle",
+        "studyToggle",
+        "aiToggle"
 
-toggles.forEach(id => {
+    ];
 
-    const toggle = document.getElementById(id);
 
-    if (!toggle) return;
+    toggles.forEach(id => {
 
-    // Load saved state
-    const savedState = localStorage.getItem(id);
+        const toggle =
+            document.getElementById(id);
 
-    if (savedState === null || savedState === "true") {
+        if (!toggle) return;
 
-        toggle.classList.add("active");
+        const savedState =
+            localStorage.getItem(id);
 
-    } else {
+        if (
+            savedState === null ||
+            savedState === "true"
+        ) {
 
-        toggle.classList.remove("active");
+            toggle.classList.add("active");
 
-    }
+        }
+        else {
 
-    toggle.addEventListener("click", () => {
+            toggle.classList.remove("active");
 
-        toggle.classList.toggle("active");
+        }
 
-    });
+        toggle.addEventListener("click", () => {
 
-});
-
-const reminderTime =
-document.getElementById("reminderTime");
-
-if(reminderTime){
-
-    reminderTime.value =
-    localStorage.getItem("reminderTime") || "08:00";
-
-}
-
-const saveButton =
-document.getElementById("saveNotifications");
-
-if(saveButton){
-
-    saveButton.addEventListener("click",()=>{
-
-        toggles.forEach(id=>{
-
-            localStorage.setItem(
-
-                id,
-
-                document.getElementById(id)
-                .classList.contains("active")
-
-            );
+            toggle.classList.toggle("active");
 
         });
 
-        localStorage.setItem(
+    });
 
-            "reminderTime",
 
-            reminderTime.value
+
+    const reminderTime =
+        document.getElementById("reminderTime");
+
+
+    if (reminderTime) {
+
+        reminderTime.value =
+            localStorage.getItem(
+                "reminderTime"
+            ) || "08:00";
+
+    }
+
+
+
+    const saveButton =
+        document.getElementById(
+            "saveNotifications"
+        );
+
+
+    if (saveButton) {
+
+        saveButton.addEventListener(
+            "click",
+            () => {
+
+                toggles.forEach(id => {
+
+                    localStorage.setItem(
+
+                        id,
+
+                        document
+                            .getElementById(id)
+                            .classList.contains("active")
+
+                    );
+
+                });
+
+
+                localStorage.setItem(
+
+                    "reminderTime",
+
+                    reminderTime.value
+
+                );
+
+
+                // Store AI preference separately
+                localStorage.setItem(
+
+                    "aiSuggestionsEnabled",
+
+                    document
+                        .getElementById("aiToggle")
+                        .classList.contains("active")
+
+                );
+
+
+                alert(
+                    "Notification settings saved!"
+                );
+
+            }
 
         );
 
-        alert("Notification settings saved!");
+    }
 
-    });
-
-}
-
+});
