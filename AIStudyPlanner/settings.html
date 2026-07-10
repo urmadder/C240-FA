@@ -164,54 +164,138 @@
 
 </section>
 
+        
 <!-- Notifications -->
 <section class="settings-section">
 
     <h2>🔔 Notifications</h2>
 
+
+    <!-- Browser Permission Status -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+
+            <h3>Browser Notifications</h3>
+
+            <p>
+                Allow StudySync AI to send reminders directly to your device.
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <span
+                id="notificationStatus"
+                class="account-badge">
+
+                Checking...
+
+            </span>
+
+
+            <button
+                id="enableNotifications"
+                class="settings-btn secondary"
+                style="margin-left:10px;">
+
+                Enable
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
     <!-- Morning Reminder -->
     <div class="setting-row">
 
         <div class="setting-info">
-            <h3>Morning Study Reminder</h3>
-            <p>Receive a reminder every morning before your study session.</p>
+
+            <h3>☀️ Morning Study Reminder</h3>
+
+            <p>
+                Receive a reminder every morning before your study session.
+            </p>
+
         </div>
 
-        <div id="morningToggle" class="toggle active"></div>
+
+        <div 
+            id="morningToggle" 
+            class="toggle active">
+
+        </div>
 
     </div>
+
+
 
     <!-- Study Session Reminder -->
     <div class="setting-row">
 
         <div class="setting-info">
-            <h3>Study Session Reminder</h3>
-            <p>Receive reminders before your scheduled study sessions.</p>
+
+            <h3>📖 Study Session Reminder</h3>
+
+            <p>
+                Receive reminders before your scheduled study sessions.
+            </p>
+
         </div>
 
-        <div id="studyToggle" class="toggle active"></div>
+
+        <div 
+            id="studyToggle" 
+            class="toggle active">
+
+        </div>
 
     </div>
+
+
 
     <!-- AI Study Suggestions -->
     <div class="setting-row">
 
         <div class="setting-info">
-            <h3>AI Study Suggestions</h3>
-            <p>Allow the AI to suggest schedule changes when you're falling behind.</p>
+
+            <h3>🤖 AI Study Suggestions</h3>
+
+            <p>
+                Allow the AI to suggest schedule changes when you're falling behind.
+            </p>
+
         </div>
 
-        <div id="aiToggle" class="toggle active"></div>
+
+        <div 
+            id="aiToggle" 
+            class="toggle active">
+
+        </div>
 
     </div>
+
+
 
     <!-- Reminder Time -->
     <div class="setting-row">
 
         <div class="setting-info">
-            <h3>Morning Reminder Time</h3>
-            <p>Choose when your daily reminder is sent.</p>
+
+            <h3>⏰ Morning Reminder Time</h3>
+
+            <p>
+                Choose when your daily reminder is sent.
+            </p>
+
         </div>
+
 
         <input
             id="reminderTime"
@@ -222,19 +306,83 @@
 
     </div>
 
+
+
+
+    <!-- Vibration -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+
+            <h3>📳 Notification Vibration</h3>
+
+            <p>
+                Enable vibration alerts on supported mobile devices.
+            </p>
+
+        </div>
+
+
+        <div
+            id="vibrationToggle"
+            class="toggle active">
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Test Notification -->
+    <div class="setting-row">
+
+        <div class="setting-info">
+
+            <h3>🔔 Test Notification</h3>
+
+            <p>
+                Send a test notification to check your reminder setup.
+            </p>
+
+        </div>
+
+
+        <button
+            id="testNotification"
+            class="settings-btn">
+
+            Send Test
+
+        </button>
+
+
+    </div>
+
+
+
+
     <!-- Save Button -->
     <div class="setting-row">
 
         <div></div>
 
-        <button id="saveNotifications" class="settings-btn">
+        <button 
+            id="saveNotifications" 
+            class="settings-btn">
+
             Save Preferences
+
         </button>
 
     </div>
 
+
 </section>
 
+        
         <!-- Study Preferences -->
         <section class="settings-section">
 
