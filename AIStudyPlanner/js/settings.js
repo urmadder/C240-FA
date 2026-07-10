@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         if (profilePicture) {
 
             profilePicture.src =
@@ -36,14 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-
         if (displayName) {
 
             displayName.value =
                 user.displayName || "No name";
 
         }
-
 
         if (email) {
 
@@ -60,13 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Theme Settings
     // ==========================
 
-    const darkRadio = document.querySelector(
-        'input[value="dark"]'
-    );
+    const darkRadio =
+        document.querySelector('input[value="dark"]');
 
-    const lightRadio = document.querySelector(
-        'input[value="light"]'
-    );
+    const lightRadio =
+        document.querySelector('input[value="light"]');
 
 
     const savedTheme =
@@ -94,38 +89,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-
     if (darkRadio) {
 
         darkRadio.addEventListener("change", () => {
 
-            document.body.classList.remove(
-                "light-theme"
-            );
+            document.body.classList.remove("light-theme");
 
-            localStorage.setItem(
-                "theme",
-                "dark"
-            );
+            localStorage.setItem("theme", "dark");
 
         });
 
     }
 
 
-
     if (lightRadio) {
 
         lightRadio.addEventListener("change", () => {
 
-            document.body.classList.add(
-                "light-theme"
-            );
+            document.body.classList.add("light-theme");
 
-            localStorage.setItem(
-                "theme",
-                "light"
-            );
+            localStorage.setItem("theme", "light");
 
         });
 
@@ -143,15 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (timetable) {
 
-        timetable.addEventListener(
-            "click",
-            () => {
+        timetable.addEventListener("click", () => {
 
-                window.location.href =
-                    "https://calendar.google.com/";
+            window.location.href =
+                "https://calendar.google.com/";
 
-            }
-        );
+        });
 
     }
 
@@ -167,31 +147,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (logout) {
 
-        logout.addEventListener(
-            "click",
-            async () => {
+        logout.addEventListener("click", async () => {
 
-                try {
+            try {
 
-                    await signOut(auth);
+                await signOut(auth);
 
-                    window.location.href =
-                        "login.html";
-
-                }
-                catch (error) {
-
-                    console.error(
-                        "Logout failed:",
-                        error
-                    );
-
-                }
+                window.location.href =
+                    "login.html";
 
             }
-        );
+
+            catch (error) {
+
+                console.error(
+                    "Logout failed:",
+                    error
+                );
+
+            }
+
+        });
 
     }
+
 
 
     // ==========================
@@ -225,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             toggle.classList.add("active");
 
         }
+
         else {
 
             toggle.classList.remove("active");
@@ -248,150 +228,67 @@ document.addEventListener("DOMContentLoaded", () => {
     if (reminderTime) {
 
         reminderTime.value =
-            localStorage.getItem(
-                "reminderTime"
-            ) || "08:00";
+            localStorage.getItem("reminderTime")
+            || "08:00";
 
     }
 
 
 
     const saveButton =
-        document.getElementById(
-            "saveNotifications"
-        );
+        document.getElementById("saveNotifications");
 
 
     if (saveButton) {
 
-        saveButton.addEventListener(
-            "click",
-            async () => {
+        saveButton.addEventListener("click", () => {
 
-                // Save locally
+            // Save toggle states
 
-                toggles.forEach(id => {
-
-                    localStorage.setItem(
-
-                        id,
-
-                        document
-                            .getElementById(id)
-                            .classList.contains("active")
-
-                    );
-
-                });
-
+            toggles.forEach(id => {
 
                 localStorage.setItem(
 
-                    "reminderTime",
-
-                    reminderTime.value
-
-                );
-
-
-                // Store AI preference separately
-
-                localStorage.setItem(
-
-                    "aiSuggestionsEnabled",
+                    id,
 
                     document
-                        .getElementById("aiToggle")
+                        .getElementById(id)
                         .classList.contains("active")
 
                 );
 
-
-                // ==========================
-                // Send settings to n8n
-                // ==========================
-
-                const user = auth.currentUser;
-
-                if (user) {
-
-                    try {
-
-                        await fetch(
-
-                            "https://n8ngc.codeblazar.org/webhook/notification-settings",
-
-                            {
-
-                                method: "POST",
-
-                                headers: {
-
-                                    "Content-Type": "application/json"
-
-                                },
-
-                                body: JSON.stringify({
-
-                                    uid: user.uid,
-
-                                    email: user.email,
-
-                                    morningReminder:
-
-                                        document
-                                            .getElementById("morningToggle")
-                                            .classList.contains("active"),
-
-                                    studyReminder:
-
-                                        document
-                                            .getElementById("studyToggle")
-                                            .classList.contains("active"),
-
-                                    aiSuggestions:
-
-                                        document
-                                            .getElementById("aiToggle")
-                                            .classList.contains("active"),
-
-                                    reminderTime:
-
-                                        reminderTime.value
-
-                                })
-
-                            }
-
-                        );
-
-                        console.log(
-                            "Notification settings sent to n8n."
-                        );
-
-                    }
-                    catch (error) {
-
-                        console.error(
-
-                            "Failed to send settings to n8n:",
-
-                            error
-
-                        );
-
-                    }
-
-                }
+            });
 
 
-                alert(
-                    "Notification settings saved!"
-                );
+            // Save reminder time
 
-            }
+            localStorage.setItem(
 
-        );
+                "reminderTime",
+
+                reminderTime.value
+
+            );
+
+
+            // Save AI preference separately
+
+            localStorage.setItem(
+
+                "aiSuggestionsEnabled",
+
+                document
+                    .getElementById("aiToggle")
+                    .classList.contains("active")
+
+            );
+
+
+            alert(
+                "Notification settings saved!"
+            );
+
+        });
 
     }
 
