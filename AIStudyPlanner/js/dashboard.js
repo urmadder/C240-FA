@@ -49,3 +49,34 @@ if (logout) {
     });
 
 }
+
+// ==========================
+// Store Today's Schedule
+// ==========================
+
+const todaySchedule = [
+
+    {
+        subject: "Cloud Security Revision",
+        time: "16:00"
+    },
+
+    {
+        subject: "Network Security Practice",
+        time: "18:30"
+    },
+
+    {
+        subject: "Review Flashcards",
+        time: "20:00"
+    }
+
+];
+
+localStorage.setItem(
+
+    "todaySchedule",
+
+    JSON.stringify(todaySchedule)
+
+);
