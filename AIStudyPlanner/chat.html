@@ -258,9 +258,58 @@ ${text}
 
 input.value="";
 
-chatBox.innerHTML+=`
+const aiSuggestions =
+    localStorage.getItem("aiSuggestionsEnabled") !== "false";
+
+let reply =
+    "Thinking...";
+
+if (
+
+    aiSuggestions &&
+
+    text.toLowerCase().includes("tired")
+
+) {
+
+    reply =
+        "You mentioned you're tired. I suggest reducing today's workload and moving one study session to tomorrow. 😊";
+
+}
+
+else if (
+
+    aiSuggestions &&
+
+    text.toLowerCase().includes("busy")
+
+) {
+
+    reply =
+        "It sounds like you're busy. I can suggest reorganising your study timetable.";
+
+}
+
+else if (
+
+    !aiSuggestions &&
+
+    (
+        text.toLowerCase().includes("tired") ||
+
+        text.toLowerCase().includes("busy")
+    )
+
+) {
+
+    reply =
+        "I understand. Since AI Study Suggestions are disabled, I won't suggest timetable changes unless you ask me to.";
+
+}
+
+chatBox.innerHTML += `
 <div class="message bot">
-Thinking...
+${reply}
 </div>
 `;
 
