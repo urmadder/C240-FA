@@ -185,13 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     checkReminders();
 
-    // Check every minute
+    // Check every 5 seconds
 
     setInterval(
 
         checkReminders,
 
-        60000
+        5000
 
     );
 
