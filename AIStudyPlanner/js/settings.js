@@ -270,6 +270,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             );
 
+            
+            // Reset today's reminder so the new time can trigger
+            localStorage.removeItem("morningReminderSent");
+
 
             // Save AI preference separately
 
