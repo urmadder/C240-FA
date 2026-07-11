@@ -392,6 +392,9 @@ const data = await response.json();
 const loading = document.getElementById("loadingMessage");
 
 
+const loading = document.getElementById("loadingMessage");
+
+
 if(loading){
 
 loading.remove();
@@ -399,18 +402,16 @@ loading.remove();
 }
 
 
-
-
-
 chatBox.innerHTML += `
 
 <div class="message bot">
 
-${data.output}
+${data.output
+    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+    .replace(/### (.*?)/g, "<b>$1</b>")
+    .replace(/\n/g, "<br>")}
 
 </div>
-
-`;
 
 
 
