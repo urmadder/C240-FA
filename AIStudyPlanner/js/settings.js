@@ -189,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         "morningToggle",
         "studyToggle",
-        "aiToggle",
         "vibrationToggle"
 
     ];
@@ -442,19 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Tell notifications.js that settings changed
             window.dispatchEvent(new Event("settingsUpdated"));
-
-
-            // Save AI preference separately
-
-            localStorage.setItem(
-
-                "aiSuggestionsEnabled",
-
-                document
-                    .getElementById("aiToggle")
-                    .classList.contains("active")
-
-            );
 
 
             alert(
