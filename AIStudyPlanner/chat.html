@@ -396,6 +396,18 @@ if (user) {
         </div>
 
         `;
+        const user = auth.currentUser;
+
+if (user) {
+    await addDoc(
+        collection(db, "users", user.uid, "chats"),
+        {
+            role: "assistant",
+            message: data.output,
+            timestamp: new Date()
+        }
+    );
+}
 
 
         // Clear inputs
