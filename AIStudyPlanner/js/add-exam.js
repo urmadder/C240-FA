@@ -10,9 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const examForm = document.getElementById("examForm");
     const statusMessage = document.getElementById("statusMessage");
     const saveButton = document.querySelector(".primary-btn");
-    
-    const timetableOutput = document.getElementById("timetableOutput");
-    const timetableContent = document.getElementById("timetableContent");
 
     // Check if user is logged in
     onAuthStateChanged(auth, (user) => {
@@ -63,11 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
 
-                // Clear previous timetable
-                if (timetableOutput) timetableOutput.style.display = "none";
-
-                // Disable button while sending data
+                // Disable button while saving
                 saveButton.disabled = true;
+                saveButton.textContent = "Saving...";
 
                 const response = await fetch(N8N_WEBHOOK_URL, {
                     method: "POST",
@@ -89,21 +84,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("No JSON response from n8n.");
                 }
 
-                // Display timetable if n8n returns one
-                if (result.success && result.timetable && timetableOutput && timetableContent) {
+                if (result.success) {
 
                     showStatus(
                         result.message || "Exam saved successfully!",
                         "success"
                     );
 
-                    timetableContent.innerText = result.timetable;
-                    timetableOutput.style.display = "block";
+                    // Redirect to dashboard after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 1500);
 
                 } else {
 
                     showStatus(
-                        "Exam details logged, but timetable generation failed.",
+                        result.message || "Failed to save exam.",
                         "error"
                     );
 
@@ -124,12 +120,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveButton.textContent = "Save Exam";
 
             }
+
         });
+
     });
 
     function showStatus(message, type) {
         statusMessage.textContent = message;
         statusMessage.className = `status-message ${type}`;
     }
-});
 
+});
