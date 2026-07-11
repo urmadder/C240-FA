@@ -451,4 +451,312 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    // ==========================
+    // Calendar
+    // ==========================
+
+    const calendarGrid =
+        document.getElementById("calendarGrid");
+
+    const monthYear =
+        document.getElementById("monthYear");
+
+    const calendarDetails =
+        document.getElementById("calendarDetails");
+
+    const prevMonth =
+        document.getElementById("prevMonth");
+
+    const nextMonth =
+        document.getElementById("nextMonth");
+
+    let currentDate = new Date();
+
+
+    function renderCalendar() {
+
+        if (!calendarGrid) return;
+
+        calendarGrid.innerHTML = "";
+
+        const year =
+            currentDate.getFullYear();
+
+        const month =
+            currentDate.getMonth();
+
+        monthYear.textContent =
+            currentDate.toLocaleString(
+                "default",
+                {
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+        const firstDay =
+            new Date(year, month, 1).getDay();
+
+        const daysInMonth =
+            new Date(year, month + 1, 0).getDate();
+
+
+        for (
+            let i = 0;
+            i < firstDay;
+            i++
+        ) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className =
+                "calendar-day empty";
+
+            calendarGrid.appendChild(empty);
+
+        }
+
+
+        const history =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificationHistory"
+                ) || "[]"
+            );
+
+
+        for (
+            let day = 1;
+            day <= daysInMonth;
+            day++
+        ) {
+
+            const fullDate =
+                new Date(
+                    year,
+                    month,
+                    day
+                ).toDateString();
+
+
+            const dayHistory =
+                history.filter(
+                    item =>
+                        item.date === fullDate
+                );
+
+
+            const dayBox =
+                document.createElement("div");
+
+            dayBox.className =
+                "calendar-day";
+
+            let icon = "";
+
+            if (
+                dayHistory.some(
+                    e =>
+                        e.type ===
+                        "Morning Reminder"
+                )
+            ) {
+
+                icon += "☀️ ";
+
+            }
+
+            if (
+                dayHistory.some(
+                    e =>
+                        e.type ===
+                        "Study Reminder"
+                )
+            ) {
+
+                icon += "📖 ";
+
+            }
+
+
+            dayBox.innerHTML = `
+
+                <span class="calendar-number">
+
+                    ${day}
+
+                </span>
+
+                <div>
+
+                    ${icon}
+
+                </div>
+
+            `;
+
+
+            if (
+                dayHistory.length > 0
+            ) {
+
+                dayBox.classList.add(
+                    "has-event"
+                );
+
+            }
+
+
+            dayBox.addEventListener(
+                "click",
+                () => {
+
+                    showDayDetails(
+                        fullDate
+                    );
+
+                }
+            );
+
+
+            calendarGrid.appendChild(
+                dayBox
+            );
+
+        }
+
+    }
+
+
+
+    function showDayDetails(date) {
+
+        const history =
+            JSON.parse(
+                localStorage.getItem(
+                    "notificationHistory"
+                ) || "[]"
+            );
+
+        const events =
+            history.filter(
+                item =>
+                    item.date === date
+            );
+
+
+        if (
+            events.length === 0
+        ) {
+
+            calendarDetails.innerHTML = `
+
+                <h3>
+
+                    ${date}
+
+                </h3>
+
+                <p>
+
+                    No reminders recorded.
+
+                </p>
+
+            `;
+
+            return;
+
+        }
+
+
+        let html = `
+
+            <h3>
+
+                ${date}
+
+            </h3>
+
+        `;
+
+
+        events.forEach(event => {
+
+            html += `
+
+                <div class="calendar-event">
+
+                    <strong>
+
+                        ${event.type}
+
+                    </strong>
+
+                    <br>
+
+                    ${event.message}
+
+                    <br>
+
+                    🕒 ${event.time}
+
+                </div>
+
+            `;
+
+        });
+
+
+        calendarDetails.innerHTML =
+            html;
+
+    }
+
+
+
+    if (prevMonth) {
+
+        prevMonth.addEventListener(
+            "click",
+            () => {
+
+                currentDate.setMonth(
+
+                    currentDate.getMonth() - 1
+
+                );
+
+                renderCalendar();
+
+            }
+        );
+
+    }
+
+
+
+    if (nextMonth) {
+
+        nextMonth.addEventListener(
+            "click",
+            () => {
+
+                currentDate.setMonth(
+
+                    currentDate.getMonth() + 1
+
+                );
+
+                renderCalendar();
+
+            }
+        );
+
+    }
+
+
+    renderCalendar();
+    
 });
