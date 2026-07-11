@@ -217,56 +217,50 @@ Send
 
 <script src="js/notifications.js"></script>
 
-
-
 <script type="module">
-
 
 import { auth } from "./js/firebase.js";
 
-
 import {
-
-onAuthStateChanged,
-
-signOut
-
+    onAuthStateChanged,
+    signOut
 }
-
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
-
-
 
 
 document.addEventListener("DOMContentLoaded",()=>{
 
 
-
-const AI_WEBHOOK_URL =
-"https://n8ngc.codeblazar.org/webhook-test/chat";
-
-
+const AI_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/chat";
 
 
 
 onAuthStateChanged(auth,(user)=>{
 
 
-if(!user){
+    if(!user){
 
-window.location.href="login.html";
+        window.location.href="login.html";
 
-return;
+        return;
 
-}
+    }
 
 
-document.getElementById("welcomeMessage").textContent =
-`Hello ${user.displayName || user.email} 👋`;
-
+    document.getElementById("welcomeMessage").textContent =
+    `Hello ${user.displayName || user.email} 👋`;
 
 });
+
+
+
+
+
+document.getElementById("timetable").onclick = ()=>{
+
+    window.location.href="https://calendar.google.com/";
+
+};
 
 
 
@@ -275,22 +269,10 @@ document.getElementById("welcomeMessage").textContent =
 document.getElementById("logout").onclick = async()=>{
 
 
-await signOut(auth);
+    await signOut(auth);
 
 
-window.location.href="login.html";
-
-
-};
-
-
-
-
-
-document.getElementById("timetable").onclick=()=>{
-
-
-window.location.href="https://calendar.google.com/";
+    window.location.href="login.html";
 
 
 };
@@ -300,16 +282,12 @@ window.location.href="https://calendar.google.com/";
 
 
 
-const chatBox =
-document.getElementById("chatBox");
 
+const chatBox = document.getElementById("chatBox");
 
-const input =
-document.getElementById("userInput");
+const input = document.getElementById("userInput");
 
-
-const sendBtn =
-document.getElementById("sendBtn");
+const sendBtn = document.getElementById("sendBtn");
 
 
 
@@ -325,7 +303,7 @@ const text = input.value.trim();
 
 
 
-if(text==="") return;
+if(text === "") return;
 
 
 
@@ -343,7 +321,7 @@ ${text}
 
 
 
-input.value="";
+input.value = "";
 
 
 
@@ -351,7 +329,7 @@ input.value="";
 
 chatBox.innerHTML += `
 
-<div class="message bot" id="loading">
+<div class="message bot" id="loadingMessage">
 
 Thinking...
 
@@ -361,9 +339,16 @@ Thinking...
 
 
 
+chatBox.scrollTop = chatBox.scrollHeight;
+
+
+
+
+
 
 
 try{
+
 
 
 const response = await fetch(
@@ -402,23 +387,35 @@ message:text
 
 
 
-const data = await response.json();
+// CHANGED HERE
+
+const data = await response.text();
 
 
 
 
 
-document.getElementById("loading").remove();
+const loading = document.getElementById("loadingMessage");
+
+
+
+if(loading){
+
+loading.remove();
+
+}
 
 
 
 
+
+// CHANGED HERE
 
 chatBox.innerHTML += `
 
 <div class="message bot">
 
-${data.reply || data.output || "No AI response"}
+${data}
 
 </div>
 
@@ -426,35 +423,51 @@ ${data.reply || data.output || "No AI response"}
 
 
 
-}
 
+
+}
 
 catch(error){
 
 
-document.getElementById("loading").remove();
+
+const loading = document.getElementById("loadingMessage");
+
+
+
+if(loading){
+
+loading.remove();
+
+}
+
+
+
 
 
 chatBox.innerHTML += `
 
 <div class="message bot">
 
-❌ Cannot connect to AI.
+❌ Unable to connect to AI assistant.
 
 </div>
 
 `;
 
 
-console.log(error);
+
+console.error(error);
+
 
 
 }
 
 
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
+
+
+chatBox.scrollTop = chatBox.scrollHeight;
 
 
 
@@ -472,10 +485,11 @@ sendBtn.onclick = sendMessage;
 
 
 
+
 input.addEventListener("keypress",(e)=>{
 
 
-if(e.key==="Enter"){
+if(e.key === "Enter"){
 
 
 sendMessage();
@@ -488,13 +502,44 @@ sendMessage();
 
 
 
-
-
 });
 
-
-
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
