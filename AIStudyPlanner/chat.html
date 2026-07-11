@@ -50,7 +50,6 @@
     padding:15px 18px;
     border-radius:18px;
     line-height:1.6;
-    word-wrap:break-word;
 }
 
 .bot{
@@ -70,7 +69,6 @@
     padding:20px;
     gap:15px;
     background:#1e293b;
-    border-top:1px solid #374151;
 }
 
 .chat-input input{
@@ -80,12 +78,6 @@
     color:white;
     padding:15px;
     border-radius:12px;
-    font-size:16px;
-}
-
-.chat-input input:focus{
-    outline:none;
-    border-color:#3b82f6;
 }
 
 .chat-input button{
@@ -95,29 +87,18 @@
     border-radius:12px;
     padding:15px 25px;
     cursor:pointer;
-    transition:.3s;
-}
-
-.chat-input button:hover{
-    background:#3b82f6;
-}
-
-.chat-box::-webkit-scrollbar{
-    width:8px;
-}
-
-.chat-box::-webkit-scrollbar-thumb{
-    background:#374151;
-    border-radius:10px;
 }
 
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
 <div class="sidebar">
 
@@ -125,35 +106,60 @@
 
 <ul>
 
-<li onclick="window.location.href='dashboard.html'">🏠 Dashboard</li>
+<li onclick="window.location.href='dashboard.html'">
+🏠 Dashboard
+</li>
 
-<li id="timetable">📅 Timetable</li>
+<li id="timetable">
+📅 Timetable
+</li>
 
-<li onclick="window.location.href='add-exam.html'">➕ Add Exam</li>
+<li onclick="window.location.href='add-exam.html'">
+➕ Add Exam
+</li>
 
-<li class="active">💬 AI Chat</li>
+<li class="active">
+💬 AI Chat
+</li>
 
-<li onclick="window.location.href='resources.html'">📖 Resources</li>
+<li onclick="window.location.href='resources.html'">
+📖 Resources
+</li>
 
-<li onclick="window.location.href='history.html'">📜 History</li>
+<li onclick="window.location.href='history.html'">
+📜 History
+</li>
 
-<li onclick="window.location.href='settings.html'">⚙️ Settings</li>
+<li onclick="window.location.href='settings.html'">
+⚙️ Settings
+</li>
 
-<li id="logout">🚪 Logout</li>
+<li id="logout">
+🚪 Logout
+</li>
 
 </ul>
 
 </div>
 
+
+
 <div class="main">
 
-<h1 id="welcomeMessage">AI Study Assistant 👋</h1>
+
+<h1 id="welcomeMessage">
+AI Study Assistant 👋
+</h1>
+
 
 <p style="margin-bottom:25px;color:#94a3b8;">
 Ask me anything about studying, revision, exams or productivity.
 </p>
 
+
+
 <div class="chat-container">
+
 
 <div class="chat-header">
 
@@ -161,19 +167,26 @@ Ask me anything about studying, revision, exams or productivity.
 
 </div>
 
+
+
 <div class="chat-box" id="chatBox">
+
 
 <div class="message bot">
 
 👋 Hi! I'm your AI Study Assistant.
 
-Ask me anything about your studies, exam preparation or time management.
+Ask me anything about your studies.
 
 </div>
 
+
 </div>
+
+
 
 <div class="chat-input">
+
 
 <input
 id="userInput"
@@ -181,57 +194,76 @@ type="text"
 placeholder="Message AI Study Assistant..."
 >
 
+
 <button id="sendBtn">
-
 Send
-
 </button>
 
-</div>
 
 </div>
 
-</div>
 
 </div>
 
-<!-- Global Theme -->
+
+</div>
+
+
+</div>
+
+
+
 <script src="js/main.js"></script>
+
 <script src="js/notifications.js"></script>
+
+
 
 <script type="module">
 
+
 import { auth } from "./js/firebase.js";
 
+
 import {
-    onAuthStateChanged,
-    signOut
+
+onAuthStateChanged,
+
+signOut
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+
+
 
 
 document.addEventListener("DOMContentLoaded",()=>{
 
 
-// Put your n8n Webhook URL here
-const AI_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/chat";
+
+const AI_WEBHOOK_URL =
+"https://n8ngc.codeblazar.org/webhook-test/chat";
+
+
 
 
 
 onAuthStateChanged(auth,(user)=>{
 
 
-    if(!user){
+if(!user){
 
-        window.location.href="login.html";
+window.location.href="login.html";
 
-        return;
+return;
 
-    }
+}
 
 
-    document.getElementById("welcomeMessage").textContent =
-    `Hello ${user.displayName || user.email} 👋`;
+document.getElementById("welcomeMessage").textContent =
+`Hello ${user.displayName || user.email} 👋`;
 
 
 });
@@ -239,25 +271,26 @@ onAuthStateChanged(auth,(user)=>{
 
 
 
-// Open Google Calendar
+
+document.getElementById("logout").onclick = async()=>{
+
+
+await signOut(auth);
+
+
+window.location.href="login.html";
+
+
+};
+
+
+
+
 
 document.getElementById("timetable").onclick=()=>{
 
-    window.location.href="https://calendar.google.com/";
 
-};
-
-
-
-
-// Logout
-
-document.getElementById("logout").onclick=async()=>{
-
-
-    await signOut(auth);
-
-    window.location.href="login.html";
+window.location.href="https://calendar.google.com/";
 
 
 };
@@ -266,11 +299,19 @@ document.getElementById("logout").onclick=async()=>{
 
 
 
-const chatBox = document.getElementById("chatBox");
 
-const input = document.getElementById("userInput");
+const chatBox =
+document.getElementById("chatBox");
 
-const sendBtn = document.getElementById("sendBtn");
+
+const input =
+document.getElementById("userInput");
+
+
+const sendBtn =
+document.getElementById("sendBtn");
+
+
 
 
 
@@ -279,156 +320,141 @@ const sendBtn = document.getElementById("sendBtn");
 async function sendMessage(){
 
 
-    const text = input.value.trim();
 
+const text = input.value.trim();
 
-    if(text === "") return;
 
 
+if(text==="") return;
 
-    // Show user's message
 
-    chatBox.innerHTML += `
 
-    <div class="message user">
 
-    ${text}
 
-    </div>
+chatBox.innerHTML += `
 
-    `;
+<div class="message user">
 
+${text}
 
+</div>
 
-    input.value = "";
+`;
 
 
 
+input.value="";
 
-    // Show loading
 
-    chatBox.innerHTML += `
 
-    <div class="message bot" id="loadingMessage">
 
-    Thinking...
 
-    </div>
+chatBox.innerHTML += `
 
-    `;
+<div class="message bot" id="loading">
 
+Thinking...
 
+</div>
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+`;
 
 
 
 
 
-    try{
+try{
 
 
-        const response = await fetch(
-            AI_WEBHOOK_URL,
-            {
+const response = await fetch(
 
-                method:"POST",
+AI_WEBHOOK_URL,
 
-                headers:{
+{
 
-                    "Content-Type":"application/json"
 
-                },
+method:"POST",
 
 
-                body:JSON.stringify({
+headers:{
 
-                    message:text
 
-                })
+"Content-Type":"application/json"
 
 
-            }
+},
 
-        );
 
+body:JSON.stringify({
 
 
+message:text
 
-        const data = await response.json();
 
+})
 
 
+}
 
-        // Remove loading message
+);
 
-        const loading =
-        document.getElementById("loadingMessage");
 
 
-        if(loading){
 
-            loading.remove();
 
-        }
+const data = await response.json();
 
 
 
 
 
-        // Display AI response
+document.getElementById("loading").remove();
 
-        chatBox.innerHTML += `
 
-        <div class="message bot">
 
-        ${data.reply || data.output || "No response received"}
 
-        </div>
 
-        `;
+chatBox.innerHTML += `
 
+<div class="message bot">
 
+${data.reply || data.output || "No AI response"}
 
-    }
+</div>
 
-    catch(error){
+`;
 
 
 
-        const loading =
-        document.getElementById("loadingMessage");
+}
 
 
-        if(loading){
+catch(error){
 
-            loading.remove();
 
-        }
+document.getElementById("loading").remove();
 
 
+chatBox.innerHTML += `
 
-        chatBox.innerHTML += `
+<div class="message bot">
 
-        <div class="message bot">
+❌ Cannot connect to AI.
 
-        ❌ Unable to connect to AI assistant.
+</div>
 
-        </div>
+`;
 
-        `;
 
+console.log(error);
 
 
-        console.log(error);
+}
 
 
 
-    }
-
-
-
-    chatBox.scrollTop = chatBox.scrollHeight;
+chatBox.scrollTop =
+chatBox.scrollHeight;
 
 
 
@@ -438,7 +464,7 @@ async function sendMessage(){
 
 
 
-// Send button
+
 
 sendBtn.onclick = sendMessage;
 
@@ -446,26 +472,32 @@ sendBtn.onclick = sendMessage;
 
 
 
-// Press Enter to send
-
 input.addEventListener("keypress",(e)=>{
 
 
-    if(e.key === "Enter"){
+if(e.key==="Enter"){
 
-        sendMessage();
 
-    }
+sendMessage();
+
+
+}
+
+
+});
+
+
+
 
 
 });
 
 
 
-});
+</script>
 
-</script>
-</script>
+
 
 </body>
+
 </html>
