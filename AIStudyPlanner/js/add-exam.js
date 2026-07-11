@@ -11,12 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusMessage = document.getElementById("statusMessage");
     const saveButton = document.querySelector(".primary-btn");
     
-   
     const timetableOutput = document.getElementById("timetableOutput");
     const timetableContent = document.getElementById("timetableContent");
-  
 
- 
+    // Check if user is logged in
     onAuthStateChanged(auth, (user) => {
 
         if (!user) {
@@ -38,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const topics = document.getElementById("topics").value.trim();
             const notes = document.getElementById("notes").value.trim();
 
-           
+            // Validate required fields
             if (!moduleName || !priority || !confidence || !examDate || !examTime || !duration) {
                 showStatus(
                     "Please fill in all required fields.",
@@ -64,9 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-               
+                // Clear previous view container states
                 if (timetableOutput) timetableOutput.style.display = "none";
-                
 
                 showStatus(
                     "Generating your study blueprint...",
@@ -96,19 +93,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("No JSON response from n8n.");
                 }
 
-                showStatus(
-                    result.message || "Exam saved successfully!",
-                    "success"
-                );
-
-              
+                // If n8n says things worked out successfully, handle formatting
                 if (result.success && result.timetable && timetableOutput && timetableContent) {
+                    showStatus(
+                        result.message || "Exam saved successfully!",
+                        "success"
+                    );
+                    
                     timetableContent.innerText = result.timetable;
                     timetableOutput.style.display = "block";
+                    
+                    // Keep the form data visible so they can review what options they selected!
+                    // If you really want to clear the form anyway, uncomment the line below:
+                    // examForm.reset();
+                } else {
+                    // Fail gracefully if database saved but AI generation hit an internal error
+                    showStatus("Exam details logged, but timetable generation failed.", "error");
                 }
-              
-
-                examForm.reset();
 
             } catch (error) {
                 console.error(error);
