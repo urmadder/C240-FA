@@ -244,8 +244,22 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("enableNotifications");
     
     function updateNotificationStatus() {
-    
+
         if (!notificationStatus) return;
+    
+        if (!("Notification" in window)) {
+    
+            notificationStatus.textContent = "❌ Not Supported";
+    
+            if (enableNotifications) {
+    
+                enableNotifications.style.display = "none";
+    
+            }
+    
+            return;
+    
+        }
     
         switch (Notification.permission) {
     
@@ -327,6 +341,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (testButton) {
             
         testButton.addEventListener("click", () => {
+
+            if (!("Notification" in window)) {
+
+                alert("Your browser doesn't support notifications.");
+            
+                return;
+            
+            }
             
             if (Notification.permission !== "granted") {
             
