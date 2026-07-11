@@ -152,11 +152,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!enabled) return;
 
-        const schedule = JSON.parse(
+       let schedule = [];
 
-            localStorage.getItem("todaySchedule") || "[]"
-
-        );
+        try {
+        
+            schedule =
+                JSON.parse(localStorage.getItem("todaySchedule")) || [];
+        
+        }
+        
+        catch {
+        
+            schedule = [];
+        
+        }
 
         const now = new Date();
 
