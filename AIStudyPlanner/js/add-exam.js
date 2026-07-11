@@ -5,7 +5,7 @@ from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 document.addEventListener("DOMContentLoaded", () => {
 
     // Replace with your actual n8n webhook URL
-    const N8N_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook/add-exam";
+    const N8N_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/add-exam";
 
     const examForm = document.getElementById("examForm");
     const statusMessage = document.getElementById("statusMessage");
