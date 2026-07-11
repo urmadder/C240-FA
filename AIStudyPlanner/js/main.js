@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const theme = localStorage.getItem("theme") || "dark";
 
-    const savedTheme = localStorage.getItem("theme") || "dark";
-
-    if (savedTheme === "light") {
+    if (theme === "light") {
         document.body.classList.add("light-theme");
-    } else {
-        document.body.classList.remove("light-theme");
     }
-
 });

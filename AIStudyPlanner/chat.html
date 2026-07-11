@@ -9,6 +9,7 @@
 <title>AI Chat</title>
 
 <link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/theme.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -132,11 +133,11 @@
 
 <li class="active">💬 AI Chat</li>
 
-<li>📖 Resources</li>
+<li onclick="window.location.href='resources.html'">📖 Resources</li>
 
-<li>📜 History</li>
+<li onclick="window.location.href='history.html'">📜 History</li>
 
-<li>⚙️ Settings</li>
+<li onclick="window.location.href='settings.html'">⚙️ Settings</li>
 
 <li id="logout">🚪 Logout</li>
 
@@ -194,13 +195,25 @@ Send
 
 </div>
 
-<script>
+<!-- Global Theme -->
+<script src="js/main.js"></script>
+<script src="js/notifications.js"></script>
+
+<script type="module">
+
+import { auth } from "./js/firebase.js";
+
+import {
+    onAuthStateChanged,
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
 document.addEventListener("DOMContentLoaded",()=>{
 
-const token=sessionStorage.getItem("google_token");
+onAuthStateChanged(auth,(user)=>{
 
-if(!token){
+if(!user){
 
 window.location.href="login.html";
 
@@ -208,28 +221,10 @@ return;
 
 }
 
-function parseJwt(token){
-
-try{
-
-return JSON.parse(atob(token.split(".")[1]));
-
-}catch{
-
-return null;
-
-}
-
-}
-
-const user=parseJwt(token);
-
-if(user){
-
 document.getElementById("welcomeMessage").textContent=
-`Hello ${user.name || user.email} 👋`;
+`Hello ${user.displayName || user.email} 👋`;
 
-}
+});
 
 document.getElementById("timetable").onclick=()=>{
 
@@ -237,9 +232,9 @@ window.location.href="https://calendar.google.com/";
 
 };
 
-document.getElementById("logout").onclick=()=>{
+document.getElementById("logout").onclick=async()=>{
 
-sessionStorage.removeItem("google_token");
+await signOut(auth);
 
 window.location.href="login.html";
 
@@ -263,9 +258,58 @@ ${text}
 
 input.value="";
 
-chatBox.innerHTML+=`
+const aiSuggestions =
+    localStorage.getItem("aiSuggestionsEnabled") !== "false";
+
+let reply =
+    "Thinking...";
+
+if (
+
+    aiSuggestions &&
+
+    text.toLowerCase().includes("tired")
+
+) {
+
+    reply =
+        "You mentioned you're tired. I suggest reducing today's workload and moving one study session to tomorrow. 😊";
+
+}
+
+else if (
+
+    aiSuggestions &&
+
+    text.toLowerCase().includes("busy")
+
+) {
+
+    reply =
+        "It sounds like you're busy. I can suggest reorganising your study timetable.";
+
+}
+
+else if (
+
+    !aiSuggestions &&
+
+    (
+        text.toLowerCase().includes("tired") ||
+
+        text.toLowerCase().includes("busy")
+    )
+
+) {
+
+    reply =
+        "I understand. Since AI Study Suggestions are disabled, I won't suggest timetable changes unless you ask me to.";
+
+}
+
+chatBox.innerHTML += `
 <div class="message bot">
-Thinking...
+${reply}
 </div>
 `;
 
