@@ -298,6 +298,9 @@ const pdfFile = document.getElementById("pdfFile");
 // Send message function
 async function sendMessage(){
 
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Thinking...";
+
     const text = input.value.trim();
 
     // Don't send if both message and file are empty
