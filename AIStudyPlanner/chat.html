@@ -197,7 +197,7 @@ placeholder="Message AI Study Assistant..."
 <input
 type="file"
 id="pdfFile"
-accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+accept=".pdf"
 >
 
 <button id="sendBtn">
@@ -359,8 +359,16 @@ if (user) {
 
         // Send uploaded file
         if(pdfFile && pdfFile.files.length > 0){
-            formData.append("file", pdfFile.files[0]);
-        }
+
+    const file = pdfFile.files[0];
+
+    if(file.type !== "application/pdf"){
+        alert("Only PDF files are allowed.");
+        return;
+    }
+
+    formData.append("file", file);
+}
 
 
         const response = await fetch(
