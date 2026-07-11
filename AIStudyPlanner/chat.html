@@ -223,7 +223,7 @@ Send
 
 <script type="module">
 
-import { auth } from "./js/firebase.js";
+import { auth, db } from "./js/firebase.js";
 
 import {
     onAuthStateChanged,
@@ -231,11 +231,20 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
+import {
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded",()=>{
 
 
 const AI_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook/chat";
+
 
 
 // Firebase authentication
@@ -296,6 +305,18 @@ async function sendMessage(){
 
     if (pdfFile && pdfFile.files.length > 0) {
     userMessage += `<br>📎 ${pdfFile.files[0].name}`;
+}
+const user = auth.currentUser;
+
+if (user) {
+    await addDoc(
+        collection(db, "users", user.uid, "chats"),
+        {
+            role: "user",
+            message: userMessage,
+            timestamp: new Date()
+        }
+    );
 }
 
     chatBox.innerHTML += `
