@@ -62,16 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                // Clear previous view container states
+
+                // Clear previous timetable
                 if (timetableOutput) timetableOutput.style.display = "none";
 
-                showStatus(
-                    "Generating your study blueprint...",
-                    "loading"
-                );
-
+                // Disable button while sending data
                 saveButton.disabled = true;
-                saveButton.textContent = "Generating...";
 
                 const response = await fetch(N8N_WEBHOOK_URL, {
                     method: "POST",
@@ -93,33 +89,40 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("No JSON response from n8n.");
                 }
 
-                // If n8n says things worked out successfully, handle formatting
+                // Display timetable if n8n returns one
                 if (result.success && result.timetable && timetableOutput && timetableContent) {
+
                     showStatus(
                         result.message || "Exam saved successfully!",
                         "success"
                     );
-                    
+
                     timetableContent.innerText = result.timetable;
                     timetableOutput.style.display = "block";
-                    
-                    // Keep the form data visible so they can review what options they selected!
-                    // If you really want to clear the form anyway, uncomment the line below:
-                    // examForm.reset();
+
                 } else {
-                    // Fail gracefully if database saved but AI generation hit an internal error
-                    showStatus("Exam details logged, but timetable generation failed.", "error");
+
+                    showStatus(
+                        "Exam details logged, but timetable generation failed.",
+                        "error"
+                    );
+
                 }
 
             } catch (error) {
+
                 console.error(error);
+
                 showStatus(
                     "Could not save exam. Please check your n8n workflow.",
                     "error"
                 );
+
             } finally {
+
                 saveButton.disabled = false;
                 saveButton.textContent = "Save Exam";
+
             }
         });
     });
@@ -129,3 +132,4 @@ document.addEventListener("DOMContentLoaded", () => {
         statusMessage.className = `status-message ${type}`;
     }
 });
+
