@@ -43,8 +43,7 @@
             <h1 id="welcomeMessage">Loading...</h1>
 
             <div id="todaySchedule">
-                <!-- AI timetable goes here -->
-            </div>
+                </div>
 
             <p>Let's make today productive.</p>
 
@@ -99,11 +98,18 @@
 
             <div class="buttons">
                 <button onclick="window.location.href='add-exam.html'">Add Exam</button>
-                <button>Generate Timetable</button>
+                
+                <button id="dashboardGenerateTimetableBtn">Generate Timetable</button>
+                
                 <button>Upload Notes</button>
                 <button>Generate Flashcards</button>
             </div>
 
+        </div>
+
+        <div id="dashboardTimetableOutput" style="display: none; margin-top: 25px; padding: 20px; border: 1px solid #2ecc71; background: #1a233a; border-radius: 8px; text-align: left;">
+            <h3 style="margin-top: 0; color: #fff; border-bottom: 1px solid #2d3d5a; padding-bottom: 10px; font-size: 1.2rem;">🗓️ Your AI Study Timetable</h3>
+            <div id="dashboardTimetableContent" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; line-height: 1.6; color: #cbd5e1; margin-top: 15px; font-size: 0.95rem;"></div>
         </div>
 
     </div>
