@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save Notification History
     // ===========================================
     
-    function saveNotificationHistory(type, message, time) {
-    
+   function saveNotificationHistory(type, message, time) {
+
         const history = JSON.parse(
             localStorage.getItem("notificationHistory") || "[]"
         );
@@ -60,6 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
         history.push({
     
             date: new Date().toDateString(),
+    
+            timestamp: Date.now(),
     
             type,
     
