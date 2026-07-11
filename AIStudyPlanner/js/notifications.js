@@ -26,14 +26,38 @@ document.addEventListener("DOMContentLoaded", () => {
     function showNotification(title, body) {
 
         if (!("Notification" in window)) return;
-
+    
         if (Notification.permission !== "granted") return;
-
-        new Notification(title, {
+    
+        const vibrationEnabled =
+            localStorage.getItem("vibrationToggle") !== "false";
+    
+        const notification = new Notification(title, {
+    
             body: body,
-            icon: "favicon.ico" // optional
+    
+            icon: "images/ai-chatbot-logo.PNG",
+    
+            badge: "images/ai-chatbot-logo.PNG",
+    
+            requireInteraction: true,
+    
+            vibrate: vibrationEnabled
+                ? [200, 100, 200]
+                : undefined
+    
         });
-
+    
+        notification.onclick = () => {
+    
+            notification.close();
+    
+            window.focus();
+    
+            window.location.href = "dashboard.html";
+    
+        };
+    
     }
 
     // ===========================================
@@ -78,13 +102,34 @@ document.addEventListener("DOMContentLoaded", () => {
             alreadySent !== today
         ) {
 
-            showNotification(
-
-                "📚 Morning Study Reminder",
-
-                "Good morning! Time to start today's study session."
-
-            );
+                const name =
+            localStorage.getItem("displayName") || "Student";
+        
+        const todaySchedule =
+            JSON.parse(localStorage.getItem("todaySchedule") || "[]");
+        
+        let subjects = "";
+        
+        if (todaySchedule.length > 0) {
+        
+            subjects =
+                todaySchedule
+                    .map(item => item.subject)
+                    .join(", ");
+        
+        } else {
+        
+            subjects = "No study sessions planned.";
+        
+        }
+        
+        showNotification(
+        
+            "📚 StudySync AI",
+        
+            `Good morning, ${name}! Today's subjects: ${subjects}`
+        
+        );
 
             localStorage.setItem(
 
@@ -149,10 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 showNotification(
 
-                    "📖 Study Reminder",
-
-                    `${session.subject} starts in 5 minutes.`
-
+                    "📚 StudySync AI",
+                
+                    `${session.subject} begins in 5 minutes.\nGet your materials ready!`
+                
                 );
 
                 localStorage.setItem(
@@ -169,11 +214,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
+    // ===========================================
+    // Midnight Reset
+    // ===========================================
+    
+    function resetDailyNotifications() {
+    
+        const today =
+            new Date().toDateString();
+    
+        const lastReset =
+            localStorage.getItem("lastNotificationReset");
+    
+        if (lastReset !== today) {
+    
+            localStorage.removeItem("morningReminderSent");
+    
+            localStorage.setItem(
+    
+                "lastNotificationReset",
+    
+                today
+    
+            );
+    
+        }
+    
+    }
+    
+    
     // ===========================================
     // Check Reminders
     // ===========================================
 
     function checkReminders() {
+
+        resetDailyNotifications();
 
         checkMorningReminder();
 
