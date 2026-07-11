@@ -27,7 +27,7 @@ onAuthStateChanged(auth, async(user)=>{
 
     const q = query(
         collection(db, "users", user.uid, "chats"),
-        orderBy("timestamp")
+        orderBy("timestamp", "asc")
     );
 
 
@@ -39,16 +39,65 @@ onAuthStateChanged(auth, async(user)=>{
         const chat = doc.data();
 
 
+        const isUser = chat.role === "user";
+
+
+        let fileDisplay = "";
+
+        if(chat.fileName){
+            fileDisplay = `
+            <div class="history-file">
+                📎 ${chat.fileName}
+            </div>
+            `;
+        }
+
+
+        let time = "";
+
+        if(chat.timestamp){
+            time = chat.timestamp.toDate()
+            .toLocaleString();
+        }
+
+
         historyBox.innerHTML += `
 
-        <div>
-            <b>${chat.role}</b>
-            <p>${chat.message}</p>
+
+        <div class="history-message ${
+            isUser 
+            ? "history-user" 
+            : "history-ai"
+        }">
+
+
+            <strong>
+                ${
+                isUser
+                ? "👤 You"
+                : "🤖 SmartStudent AI"
+                }
+            </strong>
+
+
+            <p>
+                ${chat.message}
+            </p>
+
+
+            ${fileDisplay}
+
+
+            <div class="history-time">
+                ${time}
+            </div>
+
+
         </div>
 
-        <hr>
 
         `;
+
 
     });
 
