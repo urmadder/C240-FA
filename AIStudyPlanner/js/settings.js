@@ -423,13 +423,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Save reminder time
 
-            localStorage.setItem(
+           if (reminderTime) {
 
-                "reminderTime",
-
-                reminderTime.value
-
-            );
+                localStorage.setItem(
+            
+                    "reminderTime",
+            
+                    reminderTime.value
+            
+                );
+            
+            }
 
                 
             // Reset today's reminder so the new time can trigger
