@@ -48,6 +48,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===========================================
+    // Save Notification History
+    // ===========================================
+    
+   function saveNotificationHistory(type, message, time) {
+
+        const history = JSON.parse(
+            localStorage.getItem("notificationHistory") || "[]"
+        );
+    
+        history.push({
+    
+            date: new Date().toDateString(),
+    
+            timestamp: Date.now(),
+    
+            type,
+    
+            message,
+    
+            time
+    
+        });
+    
+        localStorage.setItem(
+    
+            "notificationHistory",
+    
+            JSON.stringify(history)
+    
+        );
+    
+    }
+    
+    // ===========================================
     // Current Time
     // ===========================================
 
@@ -129,6 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
         
         );
 
+        saveNotificationHistory(
+
+            "Morning Reminder",
+        
+            "Receive a reminder every morning before your study session.",
+        
+            reminderTime
+        
+        );
+
             localStorage.setItem(
 
                 "morningReminderSent",
@@ -206,6 +250,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     "📚 StudySync AI",
                 
                     `${session.subject} begins in 5 minutes.\nGet your materials ready!`
+                
+                );
+
+                saveNotificationHistory(
+
+                    "Study Reminder",
+                
+                    "Receive reminders before your scheduled study sessions.",
+                
+                    session.time
                 
                 );
 
