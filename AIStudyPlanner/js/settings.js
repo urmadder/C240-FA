@@ -383,6 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             
             notification.onclick = () => {
+                notification.close();
             
                 window.focus();
             
