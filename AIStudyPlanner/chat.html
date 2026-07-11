@@ -72,13 +72,17 @@
     background:#1e293b;
 }
 
-.chat-input input{
+.chat-input textarea{
     flex:1;
     background:#0f172a;
-    border:1px solid #374151;
+    border:1px solid#374151;
     color:white;
     padding:15px;
     border-radius:12px;
+    resize:none;
+    font-family:Inter, sans-serif;
+    min-height:50px;
+    max-height:150px;
 }
 
 .chat-input button{
@@ -461,12 +465,15 @@ sendBtn.onclick = sendMessage;
 
 
 // Press Enter to send
-input.addEventListener("keypress",(e)=>{
+input.addEventListener("keydown",(e)=>{
 
-    if(e.key === "Enter"){
+    // Enter = send message
+    if(e.key === "Enter" && !e.shiftKey){
+        e.preventDefault();
         sendMessage();
     }
 
+    // Shift + Enter = new line
 });
 
 
