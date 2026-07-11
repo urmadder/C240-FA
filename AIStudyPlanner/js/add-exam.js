@@ -10,9 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const examForm = document.getElementById("examForm");
     const statusMessage = document.getElementById("statusMessage");
     const saveButton = document.querySelector(".primary-btn");
+    
+   
+    const timetableOutput = document.getElementById("timetableOutput");
+    const timetableContent = document.getElementById("timetableContent");
+  
 
-
-    // Check if user is logged in
+ 
     onAuthStateChanged(auth, (user) => {
 
         if (!user) {
@@ -20,11 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         examForm.addEventListener("submit", async (event) => {
 
             event.preventDefault();
-
 
             const moduleName = document.getElementById("module").value.trim();
             const priority = document.getElementById("priority").value;
@@ -36,151 +38,93 @@ document.addEventListener("DOMContentLoaded", () => {
             const topics = document.getElementById("topics").value.trim();
             const notes = document.getElementById("notes").value.trim();
 
-
-            // Validate required fields
+           
             if (!moduleName || !priority || !confidence || !examDate || !examTime || !duration) {
-
                 showStatus(
                     "Please fill in all required fields.",
                     "error"
                 );
-
                 return;
             }
 
-
             const examData = {
-
                 uid: user.uid,
-
                 studentName: user.displayName || "",
-
                 studentEmail: user.email || "",
-
                 module: moduleName,
-
                 priority: priority,
-
                 confidence: confidence,
-
                 examDate: examDate,
-
                 examTime: examTime,
-
                 duration: duration,
-
                 venue: venue,
-
                 topics: topics,
-
                 notes: notes,
-
                 createdAt: new Date().toISOString()
-
             };
 
-
             try {
+               
+                if (timetableOutput) timetableOutput.style.display = "none";
+                
 
                 showStatus(
-                    "Saving exam...",
+                    "Generating your study blueprint...",
                     "loading"
                 );
 
-
                 saveButton.disabled = true;
-
-                saveButton.textContent = "Saving...";
-
+                saveButton.textContent = "Generating...";
 
                 const response = await fetch(N8N_WEBHOOK_URL, {
-
                     method: "POST",
-
                     headers: {
-
                         "Content-Type": "application/json"
-
                     },
-
                     body: JSON.stringify(examData)
-
                 });
 
-
                 if (!response.ok) {
-
                     throw new Error("Failed to save exam");
-
                 }
-
 
                 let result = {};
 
-
                 try {
-
                     result = await response.json();
-
                 } catch (e) {
-
                     console.log("No JSON response from n8n.");
-
                 }
 
-
                 showStatus(
-
                     result.message || "Exam saved successfully!",
-
                     "success"
-
                 );
 
+              
+                if (result.success && result.timetable && timetableOutput && timetableContent) {
+                    timetableContent.innerText = result.timetable;
+                    timetableOutput.style.display = "block";
+                }
+              
 
                 examForm.reset();
 
-
             } catch (error) {
-
-
                 console.error(error);
-
-
                 showStatus(
-
                     "Could not save exam. Please check your n8n workflow.",
-
                     "error"
-
                 );
-
-
             } finally {
-
-
                 saveButton.disabled = false;
-
                 saveButton.textContent = "Save Exam";
-
-
             }
-
-
         });
-
-
     });
 
-
-
     function showStatus(message, type) {
-
         statusMessage.textContent = message;
-
         statusMessage.className = `status-message ${type}`;
-
     }
-
-
 });
