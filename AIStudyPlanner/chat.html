@@ -298,14 +298,13 @@ const pdfFile = document.getElementById("pdfFile");
 // Send message function
 async function sendMessage(){
 
-    sendBtn.disabled = true;
-    sendBtn.textContent = "Thinking...";
-
     const text = input.value.trim();
 
     // Don't send if both message and file are empty
     if(text === "" && (!pdfFile || pdfFile.files.length === 0)) return;
 
+    sendBtn.disabled = true;
+    sendBtn.textContent = "Thinking...";
 
     // Display user message
    let userMessage = text;
@@ -371,6 +370,8 @@ if (user) {
 
     if(file.type !== "application/pdf"){
         alert("Only PDF files are allowed.");
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
         return;
     }
 
@@ -437,6 +438,8 @@ if (user) {
     }
 
     catch(error){
+        sendBtn.disabled = false;
+        sendBtn.textContent = "Send";
 
         const loading = document.getElementById("loadingMessage");
 
