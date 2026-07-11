@@ -39,6 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             displayName.value =
                 user.displayName || "No name";
+            
+            localStorage.setItem(
+            
+                "displayName",
+            
+                user.displayName || "Student"
+            
+            );
 
         }
 
@@ -181,7 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         "morningToggle",
         "studyToggle",
-        "aiToggle"
+        "aiToggle",
+        "vibrationToggle"
 
     ];
 
@@ -224,24 +233,99 @@ document.addEventListener("DOMContentLoaded", () => {
     const reminderTime =
         document.getElementById("reminderTime");
 
-
-    if (reminderTime) {
-
-        reminderTime.value =
-            localStorage.getItem("reminderTime")
-            || "08:00";
-
+    // ==========================
+    // Browser Notification Permission
+    // ==========================
+    
+    const notificationStatus =
+        document.getElementById("notificationStatus");
+    
+    const enableNotifications =
+        document.getElementById("enableNotifications");
+    
+    function updateNotificationStatus() {
+    
+        if (!notificationStatus) return;
+    
+        switch (Notification.permission) {
+    
+            case "granted":
+    
+                notificationStatus.textContent = "🟢 Enabled";
+    
+                if (enableNotifications) {
+    
+                    enableNotifications.style.display = "none";
+    
+                }
+    
+                break;
+    
+            case "denied":
+    
+                notificationStatus.textContent = "🔴 Blocked";
+    
+                if (enableNotifications) {
+    
+                    enableNotifications.style.display = "none";
+    
+                }
+    
+                break;
+    
+            default:
+    
+                notificationStatus.textContent = "🟡 Not Requested";
+    
+                if (enableNotifications) {
+    
+                    enableNotifications.style.display = "inline-block";
+    
+                }
+    
+        }
+    
     }
-
-
-
-    const saveButton =
-        document.getElementById("saveNotifications");
-
-
-    if (saveButton) {
-
-        saveButton.addEventListener("click", () => {
+    
+    updateNotificationStatus();
+    
+    if (enableNotifications) {
+    
+        enableNotifications.addEventListener("click", async () => {
+    
+            const permission =
+                await Notification.requestPermission();
+    
+            updateNotificationStatus();
+    
+            if (permission === "granted") {
+    
+                alert("Notifications enabled!");
+    
+            }
+    
+        });
+    
+    }
+    
+    
+        if (reminderTime) {
+    
+            reminderTime.value =
+                localStorage.getItem("reminderTime")
+                || "08:00";
+    
+        }
+    
+    
+    
+        const saveButton =
+            document.getElementById("saveNotifications");
+    
+    
+        if (saveButton) {
+    
+            saveButton.addEventListener("click", () => {
 
             // Save toggle states
 
@@ -270,7 +354,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
             );
 
+                
+            // ==========================
+            // Test Notification
+            // ==========================
             
+            const testButton =
+                document.getElementById("testNotification");
+            
+            if (testButton) {
+            
+                testButton.addEventListener("click", () => {
+            
+                    if (Notification.permission !== "granted") {
+            
+                        alert("Please enable browser notifications first.");
+            
+                        return;
+            
+                    }
+            
+                    const vibrationEnabled =
+                        localStorage.getItem("vibrationToggle") !== "false";
+            
+                    const notification =
+                        new Notification("StudySync AI", {
+            
+                            body:
+                                "This is a test notification. Your reminders are working correctly!",
+            
+                            icon:
+                                "images/ai-chatbot-logo.PNG",
+            
+                            badge:
+                                "images/ai-chatbot-logo.PNG",
+            
+                            requireInteraction: true,
+            
+                            vibrate:
+                                vibrationEnabled
+                                    ? [200, 100, 200]
+                                    : undefined
+            
+                        });
+            
+                    notification.onclick = () => {
+            
+                        window.focus();
+            
+                        window.location.href =
+                            "settings.html";
+            
+                    };
+            
+                });
+            
+            }
+
+                
             // Reset today's reminder so the new time can trigger
             localStorage.removeItem("morningReminderSent");
 
