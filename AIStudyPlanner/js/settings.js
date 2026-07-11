@@ -317,7 +317,61 @@ document.addEventListener("DOMContentLoaded", () => {
     
         }
     
-    
+    // ==========================
+    // Test Notification
+    // ==========================
+            
+    const testButton =
+        document.getElementById("testNotification");
+            
+    if (testButton) {
+            
+        testButton.addEventListener("click", () => {
+            
+            if (Notification.permission !== "granted") {
+            
+                alert("Please enable browser notifications first.");
+            
+                return;
+            
+            }
+            
+            const vibrationEnabled =
+                localStorage.getItem("vibrationToggle") !== "false";
+            
+            const notification =
+                new Notification("StudySync AI", {
+            
+                    body:
+                        "This is a test notification. Your reminders are working correctly!",
+            
+                    icon:
+                        "images/ai-chatbot-logo.PNG",
+            
+                    badge:
+                        "images/ai-chatbot-logo.PNG",
+            
+                    requireInteraction: true,
+            
+                    vibrate:
+                        vibrationEnabled
+                            ? [200, 100, 200]
+                            : undefined
+            
+                });
+            
+            notification.onclick = () => {
+            
+                window.focus();
+            
+                window.location.href =
+                    "settings.html";
+            
+            };
+            
+        });
+            
+    }    
     
         const saveButton =
             document.getElementById("saveNotifications");
@@ -353,63 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 reminderTime.value
 
             );
-
-                
-            // ==========================
-            // Test Notification
-            // ==========================
-            
-            const testButton =
-                document.getElementById("testNotification");
-            
-            if (testButton) {
-            
-                testButton.addEventListener("click", () => {
-            
-                    if (Notification.permission !== "granted") {
-            
-                        alert("Please enable browser notifications first.");
-            
-                        return;
-            
-                    }
-            
-                    const vibrationEnabled =
-                        localStorage.getItem("vibrationToggle") !== "false";
-            
-                    const notification =
-                        new Notification("StudySync AI", {
-            
-                            body:
-                                "This is a test notification. Your reminders are working correctly!",
-            
-                            icon:
-                                "images/ai-chatbot-logo.PNG",
-            
-                            badge:
-                                "images/ai-chatbot-logo.PNG",
-            
-                            requireInteraction: true,
-            
-                            vibrate:
-                                vibrationEnabled
-                                    ? [200, 100, 200]
-                                    : undefined
-            
-                        });
-            
-                    notification.onclick = () => {
-            
-                        window.focus();
-            
-                        window.location.href =
-                            "settings.html";
-            
-                    };
-            
-                });
-            
-            }
 
                 
             // Reset today's reminder so the new time can trigger
