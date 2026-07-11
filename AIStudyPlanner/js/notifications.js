@@ -5,19 +5,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ===========================================
-    // Request Notification Permission
-    // ===========================================
-
-    if ("Notification" in window) {
-
-        if (Notification.permission === "default") {
-
-            Notification.requestPermission();
-
-        }
-
-    }
 
     // ===========================================
     // Show Notification Helper
@@ -105,8 +92,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 const name =
             localStorage.getItem("displayName") || "Student";
         
-        const todaySchedule =
-            JSON.parse(localStorage.getItem("todaySchedule") || "[]");
+        let todaySchedule = [];
+        
+        try {
+        
+            todaySchedule =
+                JSON.parse(localStorage.getItem("todaySchedule")) || [];
+        
+        }
+        catch {
+        
+            todaySchedule = [];
+        
+        }
         
         let subjects = "";
         
@@ -154,18 +152,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!enabled) return;
 
-        const schedule = JSON.parse(
+       let schedule = [];
 
-            localStorage.getItem("todaySchedule") || "[]"
-
-        );
+        try {
+        
+            schedule =
+                JSON.parse(localStorage.getItem("todaySchedule")) || [];
+        
+        }
+        
+        catch {
+        
+            schedule = [];
+        
+        }
 
         const now = new Date();
 
         schedule.forEach(session => {
 
             const sessionTime = new Date();
-
+            
+            if (!session.time) return;
+            
             const [hour, minute] =
                 session.time.split(":");
 
