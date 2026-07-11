@@ -237,7 +237,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 const AI_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/chat";
 
 
-
+// Firebase authentication
 onAuthStateChanged(auth,(user)=>{
 
 
@@ -257,8 +257,7 @@ onAuthStateChanged(auth,(user)=>{
 
 
 
-
-
+// Google Calendar link
 document.getElementById("timetable").onclick = ()=>{
 
     window.location.href="https://calendar.google.com/";
@@ -267,8 +266,7 @@ document.getElementById("timetable").onclick = ()=>{
 
 
 
-
-
+// Logout
 document.getElementById("logout").onclick = async()=>{
 
 
@@ -282,10 +280,7 @@ document.getElementById("logout").onclick = async()=>{
 
 
 
-
-
-
-
+// Chat elements
 const chatBox = document.getElementById("chatBox");
 
 const input = document.getElementById("userInput");
@@ -295,161 +290,152 @@ const sendBtn = document.getElementById("sendBtn");
 
 
 
-
-
-
+// Send message function
 async function sendMessage(){
 
 
+    const text = input.value.trim();
 
-const text = input.value.trim();
 
+    if(text === "") return;
 
 
-if(text === "") return;
 
+    // Display user message
+    chatBox.innerHTML += `
 
+    <div class="message user">
 
+    ${text}
 
+    </div>
 
-chatBox.innerHTML += `
+    `;
 
-<div class="message user">
 
-${text}
 
-</div>
+    input.value = "";
 
-`;
 
 
+    // Loading message
+    chatBox.innerHTML += `
 
-input.value = "";
+    <div class="message bot" id="loadingMessage">
 
+    Thinking...
 
+    </div>
 
+    `;
 
 
-chatBox.innerHTML += `
 
-<div class="message bot" id="loadingMessage">
+    chatBox.scrollTop = chatBox.scrollHeight;
 
-Thinking...
 
-</div>
 
-`;
 
+    try{
 
 
-chatBox.scrollTop = chatBox.scrollHeight;
+        const response = await fetch(
 
+            AI_WEBHOOK_URL,
 
+            {
 
+                method:"POST",
 
+                headers:{
 
+                    "Content-Type":"application/json"
 
-try{
+                },
 
+                body:JSON.stringify({
 
+                    message:text
 
-const response = await fetch(
+                })
 
-AI_WEBHOOK_URL,
+            }
 
-{
+        );
 
-method:"POST",
 
-headers:{
 
-"Content-Type":"application/json"
+        // Receive JSON from n8n
+        const data = await response.json();
 
-},
 
-body:JSON.stringify({
 
-message:text
+        const loading = document.getElementById("loadingMessage");
 
-})
 
-}
+        if(loading){
 
-);
+            loading.remove();
 
+        }
 
 
 
 
-// Receive JSON from n8n
+        // Display AI response
+        chatBox.innerHTML += `
 
-const data = await response.json();
+        <div class="message bot">
 
+        ${data.output
+            .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+            .replace(/### (.*?)/g, "<b>$1</b>")
+            .replace(/\n/g, "<br>")}
 
+        </div>
 
+        `;
 
 
-const loading = document.getElementById("loadingMessage");
 
+    }
 
-const loading = document.getElementById("loadingMessage");
+    catch(error){
 
 
-if(loading){
 
-loading.remove();
+        const loading = document.getElementById("loadingMessage");
 
-}
 
+        if(loading){
 
-chatBox.innerHTML += `
+            loading.remove();
 
-<div class="message bot">
+        }
 
-${data.output
-    .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
-    .replace(/### (.*?)/g, "<b>$1</b>")
-    .replace(/\n/g, "<br>")}
 
-</div>
 
 
+        chatBox.innerHTML += `
 
+        <div class="message bot">
 
+        ❌ Unable to connect to AI assistant.
 
-}
+        </div>
 
-catch(error){
+        `;
 
 
 
-const loading = document.getElementById("loadingMessage");
+        console.error(error);
 
 
-if(loading){
+    }
 
-loading.remove();
 
-}
 
-
-
-
-
-chatBox.innerHTML += `
-
-<div class="message bot">
-
-❌ Unable to connect to AI assistant.
-
-</div>
-
-`;
-
-
-
-console.error(error);
-
+    chatBox.scrollTop = chatBox.scrollHeight;
 
 
 }
@@ -457,37 +443,23 @@ console.error(error);
 
 
 
-
-chatBox.scrollTop = chatBox.scrollHeight;
-
-
-
-}
-
-
-
-
-
-
-
+// Send button
 sendBtn.onclick = sendMessage;
 
 
 
 
-
-
-
+// Press Enter to send
 input.addEventListener("keypress",(e)=>{
 
 
-if(e.key === "Enter"){
+    if(e.key === "Enter"){
 
 
-sendMessage();
+        sendMessage();
 
 
-}
+    }
 
 
 });
@@ -497,7 +469,6 @@ sendMessage();
 });
 
 </script>
-
 
 
 
