@@ -324,7 +324,10 @@ async function sendMessage(){
         // Create FormData
         const formData = new FormData();
 
-        formData.append("message", text);
+        formData.append(
+    "message",
+    text || "Read the uploaded study material and help me study it."
+);
 
         // Send Firebase user information
         if(auth.currentUser){
