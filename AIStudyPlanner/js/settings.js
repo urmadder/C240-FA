@@ -442,6 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // Tell notifications.js that settings changed
             window.dispatchEvent(new Event("settingsUpdated"));
 
+            // Refresh the calendar
+            renderCalendar();
 
             alert(
                 "Notification settings saved!"
