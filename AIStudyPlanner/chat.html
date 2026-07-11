@@ -188,18 +188,21 @@ Ask me anything about your studies.
 
 <div class="chat-input">
 
-
 <input
 id="userInput"
 type="text"
 placeholder="Message AI Study Assistant..."
 >
 
+<input
+type="file"
+id="pdfFile"
+accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+>
 
 <button id="sendBtn">
 Send
 </button>
-
 
 </div>
 
@@ -217,8 +220,6 @@ Send
 <script src="js/main.js"></script>
 
 <script src="js/notifications.js"></script>
-
-
 
 <script type="module">
 
@@ -240,15 +241,12 @@ const AI_WEBHOOK_URL = "https://n8ngc.codeblazar.org/webhook-test/chat";
 // Firebase authentication
 onAuthStateChanged(auth,(user)=>{
 
-
     if(!user){
 
         window.location.href="login.html";
-
         return;
 
     }
-
 
     document.getElementById("welcomeMessage").textContent =
     `Hello ${user.displayName || user.email} 👋`;
@@ -269,12 +267,8 @@ document.getElementById("timetable").onclick = ()=>{
 // Logout
 document.getElementById("logout").onclick = async()=>{
 
-
     await signOut(auth);
-
-
     window.location.href="login.html";
-
 
 };
 
@@ -282,40 +276,33 @@ document.getElementById("logout").onclick = async()=>{
 
 // Chat elements
 const chatBox = document.getElementById("chatBox");
-
 const input = document.getElementById("userInput");
-
 const sendBtn = document.getElementById("sendBtn");
-
+const pdfFile = document.getElementById("pdfFile");
 
 
 
 // Send message function
 async function sendMessage(){
 
-
     const text = input.value.trim();
 
-
-    if(text === "") return;
-
+    // Don't send if both message and file are empty
+    if(text === "" && (!pdfFile || pdfFile.files.length === 0)) return;
 
 
     // Display user message
+   let userMessage = text;
+
+    if (pdfFile && pdfFile.files.length > 0) {
+    userMessage += `<br>📎 ${pdfFile.files[0].name}`;
+}
+
     chatBox.innerHTML += `
-
     <div class="message user">
-
-    ${text}
-
+    ${userMessage || "📎 Uploaded a file"}
     </div>
-
-    `;
-
-
-
-    input.value = "";
-
+`;
 
 
     // Loading message
@@ -329,57 +316,47 @@ async function sendMessage(){
 
     `;
 
-
-
     chatBox.scrollTop = chatBox.scrollHeight;
-
-
 
 
     try{
 
+        // Create FormData
+        const formData = new FormData();
+
+        formData.append("message", text);
+
+        // Send Firebase user information
+        if(auth.currentUser){
+            formData.append("uid", auth.currentUser.uid);
+            formData.append("name", auth.currentUser.displayName || "");
+            formData.append("email", auth.currentUser.email || "");
+        }
+
+        // Send uploaded file
+        if(pdfFile && pdfFile.files.length > 0){
+            formData.append("file", pdfFile.files[0]);
+        }
+
 
         const response = await fetch(
-
             AI_WEBHOOK_URL,
-
             {
-
                 method:"POST",
-
-                headers:{
-
-                    "Content-Type":"application/json"
-
-                },
-
-                body:JSON.stringify({
-
-                    message:text
-
-                })
-
+                body:formData
             }
-
         );
-
 
 
         // Receive JSON from n8n
         const data = await response.json();
 
 
-
         const loading = document.getElementById("loadingMessage");
 
-
         if(loading){
-
             loading.remove();
-
         }
-
-
 
 
         // Display AI response
@@ -388,33 +365,31 @@ async function sendMessage(){
         <div class="message bot">
 
         ${data.output
-            .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
-            .replace(/### (.*?)/g, "<b>$1</b>")
-            .replace(/\n/g, "<br>")}
+            .replace(/\*\*(.*?)\*\*/g,"<b>$1</b>")
+            .replace(/### (.*?)/g,"<b>$1</b>")
+            .replace(/\n/g,"<br>")}
 
         </div>
 
         `;
 
 
+        // Clear inputs
+        input.value = "";
+
+        if(pdfFile){
+            pdfFile.value = "";
+        }
 
     }
 
     catch(error){
 
-
-
         const loading = document.getElementById("loadingMessage");
 
-
         if(loading){
-
             loading.remove();
-
         }
-
-
-
 
         chatBox.innerHTML += `
 
@@ -426,20 +401,13 @@ async function sendMessage(){
 
         `;
 
-
-
         console.error(error);
-
 
     }
 
-
-
     chatBox.scrollTop = chatBox.scrollHeight;
 
-
 }
-
 
 
 
@@ -448,65 +416,19 @@ sendBtn.onclick = sendMessage;
 
 
 
-
 // Press Enter to send
 input.addEventListener("keypress",(e)=>{
 
-
     if(e.key === "Enter"){
-
-
         sendMessage();
-
-
     }
 
-
 });
-
 
 
 });
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </body>
 
