@@ -218,6 +218,8 @@ Send
 
 <script src="js/notifications.js"></script>
 
+
+
 <script type="module">
 
 import { auth } from "./js/firebase.js";
@@ -347,7 +349,6 @@ chatBox.scrollTop = chatBox.scrollHeight;
 
 
 
-
 try{
 
 
@@ -358,27 +359,19 @@ AI_WEBHOOK_URL,
 
 {
 
-
 method:"POST",
-
 
 headers:{
 
-
 "Content-Type":"application/json"
-
 
 },
 
-
 body:JSON.stringify({
-
 
 message:text
 
-
 })
-
 
 }
 
@@ -388,16 +381,15 @@ message:text
 
 
 
-// CHANGED HERE
+// Receive JSON from n8n
 
-const data = await response.text();
+const data = await response.json();
 
 
 
 
 
 const loading = document.getElementById("loadingMessage");
-
 
 
 if(loading){
@@ -410,13 +402,11 @@ loading.remove();
 
 
 
-// CHANGED HERE
-
 chatBox.innerHTML += `
 
 <div class="message bot">
 
-${data}
+${data.output}
 
 </div>
 
@@ -433,7 +423,6 @@ catch(error){
 
 
 const loading = document.getElementById("loadingMessage");
-
 
 
 if(loading){
@@ -487,6 +476,7 @@ sendBtn.onclick = sendMessage;
 
 
 
+
 input.addEventListener("keypress",(e)=>{
 
 
@@ -506,6 +496,8 @@ sendMessage();
 });
 
 </script>
+
+
 
 
 
