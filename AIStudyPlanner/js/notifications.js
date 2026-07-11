@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save Notification History
     // ===========================================
     
-   function saveNotificationHistory(type, message, time) {
-
+    function saveNotificationHistory(type, message, time) {
+    
         const history = JSON.parse(
             localStorage.getItem("notificationHistory") || "[]"
         );
@@ -70,6 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
             time
     
         });
+    
+        // Keep only the latest 100 notifications
+        if (history.length > 100) {
+    
+            history.shift();
+    
+        }
     
         localStorage.setItem(
     
