@@ -1,16 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Chat History</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chat History</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/history.css">
+<link rel="stylesheet" href="css/theme.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-<h1>Chat History</h1>
+<div class="container">
 
-<div id="historyBox"></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
 
-<script type="module" src="./js/history.js"></script>
+        <h2>📚 StudySync AI</h2>
+
+        <ul>
+
+            <li onclick="window.location.href='dashboard.html'">
+                🏠 Dashboard
+            </li>
+
+            <li id="timetable">
+                📅 Timetable
+            </li>
+
+            <li onclick="window.location.href='chat.html'">
+                💬 AI Chat
+            </li>
+
+            <li class="active">
+                📜 History
+            </li>
+
+            <li onclick="window.location.href='settings.html'">
+                ⚙️ Settings
+            </li>
+
+            <li id="logout">
+                🚪 Logout
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <header>
+
+            <h1 class="history-title">
+                📜 Chat History
+            </h1>
+
+            <p class="history-subtitle">
+                View all of your previous conversations with StudySync AI.
+            </p>
+
+        </header>
+
+        <div id="historyBox">
+
+            <div class="history-empty">
+                Loading chat history...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/notifications.js"></script>
+<script type="module" src="js/history.js"></script>
 
 </body>
+
 </html>

@@ -33,6 +33,19 @@ onAuthStateChanged(auth, async(user)=>{
 
     const snapshot = await getDocs(q);
 
+    historyBox.innerHTML = "";
+
+    if (snapshot.empty) {
+    
+        historyBox.innerHTML = `
+            <div class="history-empty">
+                No chat history yet.<br><br>
+                Start a conversation with StudySync AI to see it here.
+            </div>
+        `;
+    
+        return;
+    }
 
     snapshot.forEach((doc)=>{
 
@@ -81,7 +94,12 @@ onAuthStateChanged(auth, async(user)=>{
 
 
             <p>
-                ${chat.message}
+                ${
+                    chat.message
+                        .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+                        .replace(/### (.*?)/g, "<b>$1</b>")
+                        .replace(/\n/g, "<br>")
+                }
             </p>
 
 
