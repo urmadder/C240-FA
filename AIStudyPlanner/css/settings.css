@@ -456,3 +456,29 @@ body.light-theme .account-badge{
     margin:18px 0;
 
 }
+
+.calendar-event{
+
+    padding:14px 0;
+
+    line-height:1.8;
+
+}
+
+.calendar-event strong{
+
+    font-size:17px;
+
+    color:#60a5fa;
+
+}
+
+.calendar-divider{
+
+    border:none;
+
+    border-top:1px solid #475569;
+
+    margin:16px 0;
+
+}
