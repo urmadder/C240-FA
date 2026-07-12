@@ -475,9 +475,11 @@ body.light-theme .account-badge{
 
 .calendar-event strong{
 
+    display:block;
+
     font-size:17px;
 
-    color:#60a5fa;
+    margin-bottom:8px;
 
 }
 
