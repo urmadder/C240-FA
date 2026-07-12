@@ -70,20 +70,28 @@ onAuthStateChanged(auth, async (user) => {
 
     examList.innerHTML = "";
 
-    dashboardData.examList.forEach(exam => {
+    if (dashboardData.examList && dashboardData.examList.length > 0) {
 
-        examList.innerHTML += `
-            <div class="exam-item">
-                <strong>${exam.module}</strong>
-                <br>
-                📅 ${exam.date}
-                <br>
-                Priority: ${exam.priority}
-            </div>
-            <br>
-        `;
+        dashboardData.examList.forEach(exam => {
 
-    });
+            examList.innerHTML += `
+                <div class="exam-item">
+                    <strong>${exam.module}</strong>
+                    <br>
+                    📅 ${exam.date}
+                    <br>
+                    Priority: ${exam.priority}
+                </div>
+                <br>
+            `;
+
+        });
+
+    } else {
+
+        examList.innerHTML = "<p>No upcoming exams.</p>";
+
+    }
 
 }
 
