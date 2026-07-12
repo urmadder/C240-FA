@@ -328,8 +328,12 @@ body.light-theme .account-badge{
 .calendar-header h3{
 
     color:white;
+
     font-size:24px;
-    font-weight:600;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
 
 }
 
