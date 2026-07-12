@@ -2,18 +2,30 @@ import { auth } from "./firebase.js";
 import { onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
+// ================================
 // n8n Webhooks
+// ================================
 const N8N_DASHBOARD_URL = "https://n8ngc.codeblazar.org/webhook-test/dashboard";
 const N8N_SCHEDULE_URL = "https://n8ngc.codeblazar.org/webhook-test/schedule";
 
-// UI
+console.log("✅ dashboard.js loaded");
+
+// ================================
+// UI Elements
+// ================================
 const timetableBtn = document.getElementById("timetable");
 const logoutBtn = document.getElementById("logout");
 
-// Login check
+const upcomingExamCount = document.getElementById("upcomingExamCount");
+const nextExamText = document.getElementById("nextExamText");
+const todaySchedule = document.getElementById("todaySchedule");
+
+// ================================
+// Login Check
+// ================================
 onAuthStateChanged(auth, async (user) => {
 
-    const welcomeMessage = document.getElementById("welcomeMessage");
+    console.log("🔐 Auth state:", user);
 
     if (!user) {
         window.location.href = "login.html";
@@ -21,6 +33,8 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     // Welcome message
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
     if (welcomeMessage) {
         welcomeMessage.textContent =
             `Welcome, ${user.displayName || user.email} 👋`;
@@ -28,9 +42,11 @@ onAuthStateChanged(auth, async (user) => {
 
     try {
 
-        // -------------------------
+        console.log("📤 Fetching dashboard for UID:", user.uid);
+
+        // ================================
         // Upcoming Exams
-        // -------------------------
+        // ================================
 
         const dashboardResponse = await fetch(
             `${N8N_DASHBOARD_URL}?uid=${user.uid}`
@@ -38,19 +54,23 @@ onAuthStateChanged(auth, async (user) => {
 
         const dashboardData = await dashboardResponse.json();
 
-        console.log("Dashboard:", dashboardData);
+        console.log("📥 Dashboard Response:", dashboardData);
 
-        // Example:
-        // <span id="upcomingExamCount"></span>
-        const examCount = document.getElementById("upcomingExamCount");
-
-        if (examCount && dashboardData.upcomingExams !== undefined) {
-            examCount.textContent = dashboardData.upcomingExams;
+        if (upcomingExamCount) {
+            upcomingExamCount.textContent =
+                dashboardData.upcomingExams ?? 0;
         }
 
-        // -------------------------
+        if (nextExamText) {
+            nextExamText.textContent =
+                dashboardData.nextExamText ?? "No upcoming exams";
+        }
+
+        // ================================
         // Today's Schedule
-        // -------------------------
+        // ================================
+
+        console.log("📤 Fetching schedule...");
 
         const scheduleResponse = await fetch(
             `${N8N_SCHEDULE_URL}?uid=${user.uid}`
@@ -58,46 +78,55 @@ onAuthStateChanged(auth, async (user) => {
 
         const scheduleData = await scheduleResponse.json();
 
-        console.log("Schedule:", scheduleData);
+        console.log("📥 Schedule Response:", scheduleData);
 
-        // Example:
-        // <div id="todaySchedule"></div>
-        const scheduleBox = document.getElementById("todaySchedule");
+        if (todaySchedule) {
 
-        if (scheduleBox && scheduleData.schedule) {
+            todaySchedule.innerHTML = "";
 
-            scheduleBox.innerHTML = "";
+            if (
+                scheduleData.schedule &&
+                scheduleData.schedule.length > 0
+            ) {
 
-            scheduleData.schedule.forEach(item => {
+                scheduleData.schedule.forEach(item => {
 
-                scheduleBox.innerHTML += `
-                    <div class="schedule-item">
-                        <strong>${item.time}</strong><br>
-                        ${item.module}<br>
-                        <small>${item.venue}</small>
-                    </div>
-                `;
+                    todaySchedule.innerHTML += `
+                        <div class="schedule-item">
+                            <span>${item.time}</span>
+                            <p>${item.module}</p>
+                            <small>${item.venue}</small>
+                        </div>
+                    `;
 
-            });
+                });
 
+            } else {
+
+                todaySchedule.innerHTML =
+                    "<p>No study sessions for today.</p>";
+
+            }
         }
 
-    } catch (err) {
+    } catch (error) {
 
-        console.error(err);
+        console.error("❌ Dashboard Error:", error);
 
     }
 
 });
 
-// Google Calendar
+// ================================
+// Buttons
+// ================================
+
 if (timetableBtn) {
     timetableBtn.onclick = () => {
         window.location.href = "https://calendar.google.com/";
     };
 }
 
-// Logout
 if (logoutBtn) {
     logoutBtn.onclick = async () => {
         await signOut(auth);
