@@ -655,9 +655,15 @@ document.addEventListener("DOMContentLoaded", () => {
             calendarDetails.innerHTML = `
 
                 <h3>
-
-                    ${date}
-
+                    ${new Date(date).toLocaleDateString(
+                        "en-SG",
+                        {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                        }
+                    )}
                 </h3>
 
                 <p>
