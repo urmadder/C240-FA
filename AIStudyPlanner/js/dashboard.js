@@ -75,6 +75,10 @@ onAuthStateChanged(auth, async (user) => {
                     <br>
                     📅 ${exam.date}
                     <br>
+                    ⏰ ${exam.time}
+                    <br>
+                    ⌛ ${exam.duration}
+                    <br>
                     Priority: ${exam.priority}
                 </div>
                 <br>
