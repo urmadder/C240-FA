@@ -712,6 +712,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 </div>
 
+                <br>
+
             `;
 
         });
