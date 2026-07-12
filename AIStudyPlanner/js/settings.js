@@ -804,13 +804,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         let html = `
-
+        
             <h3>
-
-                ${date}
-
+        
+                ${new Date(date).toLocaleDateString(
+                    "en-SG",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                )}
+        
             </h3>
-
+        
         `;
 
 
