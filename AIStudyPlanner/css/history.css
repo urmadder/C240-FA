@@ -1,0 +1,133 @@
+/* ==========================================
+   HISTORY PAGE
+========================================== */
+
+.history-container{
+    max-width:1000px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.history-title{
+    color:white;
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.history-subtitle{
+    color:#94a3b8;
+    margin-bottom:30px;
+    font-size:15px;
+}
+
+/* ==========================================
+   CHAT HISTORY BOX
+========================================== */
+
+#historyBox{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* ==========================================
+   MESSAGE CARD
+========================================== */
+
+.history-message{
+    background:#1e293b;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:20px;
+    transition:.25s ease;
+    word-wrap:break-word;
+}
+
+.history-message:hover{
+    transform:translateY(-2px);
+    border-color:#2563eb;
+}
+
+.history-message strong{
+    display:block;
+    margin-bottom:12px;
+    font-size:16px;
+}
+
+.history-message p{
+    color:#e5e7eb;
+    line-height:1.7;
+    white-space:pre-wrap;
+    margin-bottom:12px;
+}
+
+/* ==========================================
+   USER / AI COLOURS
+========================================== */
+
+.history-user{
+    border-left:5px solid #2563eb;
+}
+
+.history-ai{
+    border-left:5px solid #10b981;
+}
+
+/* ==========================================
+   ATTACHMENTS
+========================================== */
+
+.history-file{
+    display:inline-block;
+    background:#0f172a;
+    border:1px solid #334155;
+    padding:10px 14px;
+    border-radius:12px;
+    color:#cbd5e1;
+    margin-bottom:12px;
+    font-size:14px;
+}
+
+/* ==========================================
+   TIMESTAMP
+========================================== */
+
+.history-time{
+    margin-top:12px;
+    color:#94a3b8;
+    font-size:13px;
+    text-align:right;
+}
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.history-empty{
+    background:#1e293b;
+    border:1px dashed #334155;
+    border-radius:18px;
+    padding:40px;
+    text-align:center;
+    color:#94a3b8;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width:768px){
+
+    .history-container{
+        padding:15px;
+    }
+
+    .history-title{
+        font-size:28px;
+    }
+
+    .history-message{
+        padding:18px;
+    }
+
+}
