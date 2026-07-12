@@ -325,3 +325,18 @@ body.light-theme .history-empty{
     border:1px dashed #cbd5e1;
     color:#64748b;
 }
+
+/* ==========================
+   Dashboard Notes (Light Theme)
+========================== */
+
+.light-theme .notes-card textarea{
+    background:#ffffff;
+    color:#111827;
+    border:1px solid #d1d5db;
+}
+
+.light-theme .notes-card textarea::placeholder{
+    color:#6b7280;
+}
+
