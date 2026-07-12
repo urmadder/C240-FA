@@ -76,44 +76,40 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         if (lastLogin) {
-        
+
             lastLogin.textContent =
                 new Date(
                     user.metadata.lastSignInTime
-                )new Date(
-            user.metadata.lastSignInTime
-        ).toLocaleString(
-            "en-SG",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                hour: "numeric",
-                minute: "2-digit"
-            }
-        );
+                ).toLocaleString(
+                    "en-SG",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit"
+                    }
+                );
         
         }
         
         if (accountCreated) {
-        
+
             accountCreated.textContent =
                 new Date(
                     user.metadata.creationTime
-                )new Date(
-            user.metadata.creationTime
-        ).toLocaleDateString(
-            "en-SG",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
+                ).toLocaleDateString(
+                    "en-SG",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
         
         }
 
-        const provider =
+       const provider =
             document.getElementById("loginProvider");
         
         if (provider) {
@@ -124,23 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 user.providerData.length > 0
                     ? user.providerData[0].providerId
                     : "";
-            
+        
             switch (providerId) {
-            
-                case "google.com":
-                    providerName = "Google";
-                    break;
-            
-                case "password":
-                    providerName = "Email & Password";
-                    break;
-            
-                case "github.com":
-                    providerName = "GitHub";
-                    break;
-            
-            }
-                    
+        
                 case "google.com":
                     providerName = "Google";
                     break;
