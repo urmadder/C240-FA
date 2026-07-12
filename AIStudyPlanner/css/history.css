@@ -131,3 +131,16 @@
     }
 
 }
+
+.message{
+    white-space: pre-wrap;
+}
+
+.message.bot{
+    white-space: pre-wrap;
+}
+
+.message{
+    white-space: pre-wrap;
+    word-break: break-word;
+}
