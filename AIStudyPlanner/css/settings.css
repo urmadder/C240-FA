@@ -448,3 +448,11 @@ body.light-theme .account-badge{
     min-height:120px;
 
 }
+
+.calendar-divider{
+
+    border:none;
+    border-top:1px solid rgba(255,255,255,.15);
+    margin:18px 0;
+
+}
