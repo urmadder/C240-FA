@@ -555,6 +555,18 @@ document.addEventListener("DOMContentLoaded", () => {
             dayBox.className =
                 "calendar-day";
 
+            const today = new Date();
+
+            if (
+                day === today.getDate() &&
+                month === today.getMonth() &&
+                year === today.getFullYear()
+            ) {
+            
+                dayBox.classList.add("today");
+            
+            }
+
             let icon = "";
 
             if (
