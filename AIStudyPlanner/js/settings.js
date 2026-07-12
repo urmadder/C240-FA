@@ -539,6 +539,10 @@ document.addEventListener("DOMContentLoaded", () => {
             // Refresh the calendar
             renderCalendar();
 
+            showDayDetails(
+                new Date().toDateString()
+            );
+
             alert(
                 "Notification settings saved!"
             );
