@@ -57,6 +57,100 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+        const verificationStatus =
+            document.getElementById("verificationStatus");
+        
+        const lastLogin =
+            document.getElementById("lastLogin");
+        
+        const accountCreated =
+            document.getElementById("accountCreated");
+        
+        if (verificationStatus) {
+        
+            verificationStatus.textContent =
+                user.emailVerified
+                    ? "🟢 Verified"
+                    : "🔴 Not Verified";
+        
+        }
+        
+        if (lastLogin) {
+
+            lastLogin.textContent =
+                new Date(
+                    user.metadata.lastSignInTime
+                ).toLocaleString(
+                    "en-SG",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit"
+                    }
+                );
+        
+        }
+        
+        if (accountCreated) {
+
+            accountCreated.textContent =
+                new Date(
+                    user.metadata.creationTime
+                ).toLocaleDateString(
+                    "en-SG",
+                    {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                );
+        
+        }
+
+       const provider =
+            document.getElementById("loginProvider");
+        
+        if (provider) {
+        
+            let providerName = "Unknown";
+        
+            const providerId =
+                user.providerData.length > 0
+                    ? user.providerData[0].providerId
+                    : "";
+        
+            switch (providerId) {
+        
+                case "google.com":
+                    providerName = "Google";
+                    break;
+        
+                case "password":
+                    providerName = "Email & Password";
+                    break;
+        
+                case "github.com":
+                    providerName = "GitHub";
+                    break;
+        
+            }
+        
+            provider.textContent = providerName;
+        
+        }
+
+        const userId =
+            document.getElementById("userId");
+        
+        if (userId) {
+        
+            userId.textContent =
+                user.uid.slice(0, 12) + "...";
+        
+        }
+
     });
 
 
@@ -444,6 +538,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Refresh the calendar
             renderCalendar();
+            
+            const todayBox =
+                Array.from(
+                    document.querySelectorAll(".calendar-day")
+                ).find(day =>
+                    day.classList.contains("today")
+                );
+            
+            if (todayBox) {
+            
+                todayBox.classList.add("selected");
+            
+            }
+            
+            showDayDetails(
+                new Date().toDateString()
+            );
 
             alert(
                 "Notification settings saved!"
@@ -706,21 +817,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         let html = `
-
+        
             <h3>
-
-                ${date}
-
+        
+                ${new Date(date).toLocaleDateString(
+                    "en-SG",
+                    {
+                        weekday: "long",
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric"
+                    }
+                )}
+        
             </h3>
-
+        
         `;
 
 
-    events.forEach(event => {
+    events.forEach((event, index) => {
     
         html += `
     
-            <div class="calendar-event ${event.type.replace(/\s+/g, '-').toLowerCase()}">
+            <div class="calendar-event ${event.type.replace(/\s+/g, "-").toLowerCase()}">
     
                 <strong>${event.type}</strong>
     
@@ -734,7 +853,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
             </div>
     
-            <hr class="calendar-divider">
+            ${index < events.length - 1
+                ? '<hr class="calendar-divider">'
+                : ""}
     
         `;
     

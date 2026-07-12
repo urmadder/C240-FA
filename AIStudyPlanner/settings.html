@@ -422,11 +422,80 @@
 
 
         <!-- Security -->
-        <section class="settings-section">
+    <section class="settings-section">
+    
+        <h2>🔒 Security</h2>
+    
+        <div class="setting-row">
+    
+            <div class="setting-info">
+                <h3>Email Verification</h3>
+                <p>Your account verification status.</p>
+            </div>
+    
+            <span
+                id="verificationStatus"
+                class="account-badge">
+                Checking...
+            </span>
+    
+        </div>
+    
+        <div class="setting-row">
+    
+            <div class="setting-info">
+                <h3>Last Login</h3>
+                <p>Most recent successful sign in.</p>
+            </div>
+    
+            <span id="lastLogin">
+                -
+            </span>
+    
+        </div>
+    
+        <div class="setting-row">
+    
+            <div class="setting-info">
+                <h3>Account Created</h3>
+                <p>Date this account was first created.</p>
+            </div>
+    
+            <span id="accountCreated">
+                -
+            </span>
+    
+        </div>
 
-            <h2>🔒 Security</h2>
+        <div class="setting-row">
 
-        </section>
+            <div>
+        
+                <h3>Login Provider</h3>
+        
+                <p>Authentication method used to sign in.</p>
+        
+            </div>
+        
+            <span id="loginProvider"></span>
+        
+        </div>
+        
+        <div class="setting-row">
+        
+            <div>
+        
+                <h3>User ID</h3>
+        
+                <p>Your Firebase Authentication ID.</p>
+        
+            </div>
+        
+            <span id="userId"></span>
+        
+        </div>
+    
+    </section>
 
     </div>
 
