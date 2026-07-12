@@ -595,19 +595,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             dayBox.innerHTML = `
-
+            
                 <span class="calendar-number">
-
+            
                     ${day}
-
+            
                 </span>
-
+            
                 <div>
-
+            
                     ${icon}
-
+            
                 </div>
-
+            
+                ${
+                    dayHistory.length > 0
+                        ? '<div class="calendar-dot"></div>'
+                        : ""
+                }
+            
             `;
 
 
@@ -625,11 +631,19 @@ document.addEventListener("DOMContentLoaded", () => {
             dayBox.addEventListener(
                 "click",
                 () => {
-
-                    showDayDetails(
-                        fullDate
-                    );
-
+            
+                    document
+                        .querySelectorAll(".calendar-day")
+                        .forEach(day => {
+            
+                            day.classList.remove("selected");
+            
+                        });
+            
+                    dayBox.classList.add("selected");
+            
+                    showDayDetails(fullDate);
+            
                 }
             );
 
