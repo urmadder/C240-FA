@@ -88,17 +88,16 @@ border-radius:10px;
 }
 
 .hero{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:100px;
+}
 
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-padding:100px 100px;
-
-gap:80px;
-
+.hero-left{
+    max-width:700px;
+    width:100%;
+    text-align:center;
 }
 
 .hero-left{
