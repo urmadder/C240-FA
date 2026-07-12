@@ -283,3 +283,45 @@ body.light-theme ::-webkit-scrollbar-thumb{
 body.light-theme ::-webkit-scrollbar-thumb:hover{
     background:#94a3b8;
 }
+
+/* ==========================================
+   History
+========================================== */
+
+body.light-theme .history-title{
+    color:#111827;
+}
+
+body.light-theme .history-subtitle{
+    color:#64748b;
+}
+
+body.light-theme .history-message{
+    background:white;
+    color:#111827;
+    border:1px solid #e2e8f0;
+}
+
+body.light-theme .history-message p{
+    color:#111827;
+}
+
+body.light-theme .history-message strong{
+    color:#111827;
+}
+
+body.light-theme .history-file{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    color:#334155;
+}
+
+body.light-theme .history-time{
+    color:#64748b;
+}
+
+body.light-theme .history-empty{
+    background:white;
+    border:1px dashed #cbd5e1;
+    color:#64748b;
+}
