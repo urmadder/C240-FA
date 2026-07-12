@@ -28,7 +28,7 @@
             <li class="active">🏠 Dashboard</li>
             <li id="timetable">📅 Timetable</li>
             <li onclick="window.location.href='chat.html'">💬 AI Chat</li>
-            <li>📜 History</li>
+            <li onclick="window.location.href='history.html'">📜 History</li>
             <li onclick="window.location.href='settings.html'">⚙️ Settings</li>
             <li id="logout">🚪 Logout</li>
         </ul>
@@ -40,9 +40,6 @@
         <header>
 
             <h1 id="welcomeMessage">Loading...</h1>
-
-            <div id="todaySchedule">
-                </div>
 
             <p>Let's make today productive.</p>
 
@@ -58,8 +55,8 @@
 
             <div class="card">
                 <h3>Upcoming Exams</h3>
-                <h2>3</h2>
-                <p>Next exam in 5 days</p>
+                <h2 id="upcomingExamCount">0</h2>
+                <p id="nextExamText">No upcoming exams</p>
             </div>
 
             <div class="card">
@@ -74,19 +71,10 @@
 
             <h2>Today's Schedule</h2>
 
-            <div class="schedule-item">
-                <span>4:00 PM</span>
-                <p>Cloud Security Revision (2 hrs)</p>
-            </div>
+            <div id="todaySchedule">
 
-            <div class="schedule-item">
-                <span>6:30 PM</span>
-                <p>Network Security Practice (1 hr)</p>
-            </div>
+                <p>No study sessions for today.</p>
 
-            <div class="schedule-item">
-                <span>8:00 PM</span>
-                <p>Review Flashcards (30 mins)</p>
             </div>
 
         </div>
@@ -96,19 +84,25 @@
             <h2>Quick Actions</h2>
 
             <div class="buttons">
-                <button onclick="window.location.href='add-exam.html'">Add Exam</button>
-                
-                <button id="dashboardGenerateTimetableBtn">Generate Timetable</button>
-                
-                <button>Upload Notes</button>
-                <button>Generate Flashcards</button>
+
+                <button onclick="window.location.href='add-exam.html'">
+                    Add Exam
+                </button>
+
+                <button onclick="window.location.href='chat.html'">
+                    AI Assistant
+                </button>
+
+                <button>
+                    Upload Notes
+                </button>
+
+                <button>
+                    Generate Flashcards
+                </button>
+
             </div>
 
-        </div>
-
-        <div id="dashboardTimetableOutput" style="display: none; margin-top: 25px; padding: 20px; border: 1px solid #2ecc71; background: #1a233a; border-radius: 8px; text-align: left;">
-            <h3 style="margin-top: 0; color: #fff; border-bottom: 1px solid #2d3d5a; padding-bottom: 10px; font-size: 1.2rem;">🗓️ Your AI Study Timetable</h3>
-            <div id="dashboardTimetableContent" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; line-height: 1.6; color: #cbd5e1; margin-top: 15px; font-size: 0.95rem;"></div>
         </div>
 
     </div>

@@ -1,79 +1,106 @@
 import { auth } from "./firebase.js";
-import { onAuthStateChanged, signOut } 
+import { onAuthStateChanged, signOut }
 from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 
-// --- Configuration ---
-const N8N_GENERATE_URL = "https://n8ngc.codeblazar.org/webhook-test/generate-timetable";
+// n8n Webhooks
+const N8N_DASHBOARD_URL = "https://n8ngc.codeblazar.org/webhook-test/dashboard";
+const N8N_SCHEDULE_URL = "https://n8ngc.codeblazar.org/webhook-test/schedule";
 
-onAuthStateChanged(auth, (user) => {
-    const welcomeMessage = document.getElementById("welcomeMessage");
-
-    if (user) {
-        if (welcomeMessage) {
-            welcomeMessage.textContent = `Welcome, ${user.displayName || user.email} 👋`;
-        }
-    } else {
-        window.location.href = "login.html";
-    }
-});
-
-// --- UI Elements ---
+// UI
 const timetableBtn = document.getElementById("timetable");
 const logoutBtn = document.getElementById("logout");
-const generateBtn = document.getElementById("dashboardGenerateTimetableBtn");
-const timetableOutput = document.getElementById("dashboardTimetableOutput");
-const timetableContent = document.getElementById("dashboardTimetableContent");
 
-// --- Navigation & Auth ---
-if (timetableBtn) {
-    timetableBtn.addEventListener("click", () => {
-        window.location.href = "https://calendar.google.com/";
-    });
-}
+// Login check
+onAuthStateChanged(auth, async (user) => {
 
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-        await signOut(auth);
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    if (!user) {
         window.location.href = "login.html";
-    });
-}
+        return;
+    }
 
-// --- NEW: Generate Timetable Logic ---
-if (generateBtn) {
-    generateBtn.addEventListener("click", async () => {
-        const user = auth.currentUser;
-        if (!user) return;
+    // Welcome message
+    if (welcomeMessage) {
+        welcomeMessage.textContent =
+            `Welcome, ${user.displayName || user.email} 👋`;
+    }
 
-        try {
-            // UI Feedback
-            generateBtn.disabled = true;
-            generateBtn.textContent = "AI is generating...";
-            if (timetableOutput) timetableOutput.style.display = "none";
+    try {
 
-            // Call n8n to fetch from sheet & generate
-            const response = await fetch(N8N_GENERATE_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    uid: user.uid,
-                    email: user.email
-                })
+        // -------------------------
+        // Upcoming Exams
+        // -------------------------
+
+        const dashboardResponse = await fetch(
+            `${N8N_DASHBOARD_URL}?uid=${user.uid}`
+        );
+
+        const dashboardData = await dashboardResponse.json();
+
+        console.log("Dashboard:", dashboardData);
+
+        // Example:
+        // <span id="upcomingExamCount"></span>
+        const examCount = document.getElementById("upcomingExamCount");
+
+        if (examCount && dashboardData.upcomingExams !== undefined) {
+            examCount.textContent = dashboardData.upcomingExams;
+        }
+
+        // -------------------------
+        // Today's Schedule
+        // -------------------------
+
+        const scheduleResponse = await fetch(
+            `${N8N_SCHEDULE_URL}?uid=${user.uid}`
+        );
+
+        const scheduleData = await scheduleResponse.json();
+
+        console.log("Schedule:", scheduleData);
+
+        // Example:
+        // <div id="todaySchedule"></div>
+        const scheduleBox = document.getElementById("todaySchedule");
+
+        if (scheduleBox && scheduleData.schedule) {
+
+            scheduleBox.innerHTML = "";
+
+            scheduleData.schedule.forEach(item => {
+
+                scheduleBox.innerHTML += `
+                    <div class="schedule-item">
+                        <strong>${item.time}</strong><br>
+                        ${item.module}<br>
+                        <small>${item.venue}</small>
+                    </div>
+                `;
+
             });
 
-            const result = await response.json();
-
-            if (result.success && result.timetable) {
-                timetableContent.innerText = result.timetable;
-                timetableOutput.style.display = "block";
-            } else {
-                alert("Could not generate timetable. Ensure you have added exams first!");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Failed to connect to the AI engine.");
-        } finally {
-            generateBtn.disabled = false;
-            generateBtn.textContent = "Generate Timetable";
         }
-    });
+
+    } catch (err) {
+
+        console.error(err);
+
+    }
+
+});
+
+// Google Calendar
+if (timetableBtn) {
+    timetableBtn.onclick = () => {
+        window.location.href = "https://calendar.google.com/";
+    };
+}
+
+// Logout
+if (logoutBtn) {
+    logoutBtn.onclick = async () => {
+        await signOut(auth);
+        window.location.href = "login.html";
+    };
 }
