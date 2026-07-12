@@ -121,10 +121,14 @@ onAuthStateChanged(auth, async (user) => {
 
                     todaySchedule.innerHTML += `
                         <div class="schedule-item">
-                            <span>${item.time}</span>
-                            <p>${item.module}</p>
-                            <small>${item.venue}</small>
-                        </div>
+            <span>⏰ ${item.time}</span>
+            <p>${item.module}</p>
+            <small>
+                📍 ${item.venue}
+                <br>
+                ⌛ ${item.duration}
+            </small>
+        </div>
                     `;
 
                 });
