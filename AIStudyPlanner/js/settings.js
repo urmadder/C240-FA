@@ -57,6 +57,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
+        const verificationStatus =
+            document.getElementById("verificationStatus");
+        
+        const lastLogin =
+            document.getElementById("lastLogin");
+        
+        const accountCreated =
+            document.getElementById("accountCreated");
+        
+        if (verificationStatus) {
+        
+            verificationStatus.textContent =
+                user.emailVerified
+                    ? "🟢 Verified"
+                    : "🔴 Not Verified";
+        
+        }
+        
+        if (lastLogin) {
+        
+            lastLogin.textContent =
+                new Date(
+                    user.metadata.lastSignInTime
+                ).toLocaleString();
+        
+        }
+        
+        if (accountCreated) {
+        
+            accountCreated.textContent =
+                new Date(
+                    user.metadata.creationTime
+                ).toLocaleDateString();
+        
+        }
+
     });
 
 
