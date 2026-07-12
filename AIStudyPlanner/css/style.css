@@ -419,3 +419,7 @@ color:#94a3b8;
 .hero-logo{
     filter:drop-shadow(0 0 35px rgba(122,162,247,.4));
 }
+
+.hero-logo{
+    width:900px;
+}
