@@ -322,3 +322,32 @@ color:#94a3b8;
 .login-text a:hover {
     text-decoration: underline;
 }
+
+
+
+
+.hero{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    min-height:85vh;
+    padding:70px 10%;
+    gap:60px;
+}
+
+.hero-left{
+    flex:1;
+}
+
+.hero-right{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hero-right img{
+    width:100%;
+    max-width:520px;
+    height:auto;
+}
