@@ -17,7 +17,6 @@ const timetableBtn = document.getElementById("timetable");
 const logoutBtn = document.getElementById("logout");
 
 const upcomingExamCount = document.getElementById("upcomingExamCount");
-const nextExamText = document.getElementById("nextExamText");
 const examList = document.getElementById("examList");
 const todaySchedule = document.getElementById("todaySchedule");
 
@@ -62,10 +61,6 @@ onAuthStateChanged(auth, async (user) => {
                 dashboardData.upcomingExams ?? 0;
         }
 
-        if (nextExamText) {
-            nextExamText.textContent =
-                dashboardData.nextExamText ?? "No upcoming exams";
-        }
         if (examList) {
 
     examList.innerHTML = "";
