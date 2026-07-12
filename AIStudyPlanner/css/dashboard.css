@@ -167,3 +167,57 @@ background:#3b82f6;
 transform:translateY(-3px);
 
 }
+
+/* ==========================
+   Dashboard Notes
+========================== */
+
+.notes-card{
+    margin-top:30px;
+}
+
+.notes-card textarea{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+
+    margin-top:15px;
+
+    background:#0f172a;
+    color:#fff;
+
+    border:1px solid #334155;
+    border-radius:12px;
+
+    padding:15px;
+
+    font-family:Inter,sans-serif;
+    font-size:15px;
+
+    outline:none;
+}
+
+.notes-card textarea:focus{
+    border-color:#2563eb;
+}
+
+.notes-card button{
+    margin-top:15px;
+
+    background:#2563eb;
+    color:#fff;
+
+    border:none;
+    border-radius:10px;
+
+    padding:12px 20px;
+
+    cursor:pointer;
+
+    font-weight:600;
+    transition:.2s;
+}
+
+.notes-card button:hover{
+    background:#1d4ed8;
+}
