@@ -515,13 +515,17 @@ body.light-theme .account-badge{
 
 .calendar-day.has-event{
 
-    background:#24354d;
+    border:2px solid #3b82f6;
+
+    box-shadow:0 0 12px rgba(59,130,246,.25);
 
 }
 
 .calendar-day:hover{
 
-    transform:translateY(-3px) scale(1.03);
+    transform:translateY(-6px) scale(1.08);
+
+    box-shadow:0 10px 25px rgba(59,130,246,.3);
 
 }
 
@@ -542,7 +546,6 @@ body.light-theme .account-badge{
 
     border-radius:50%;
 
-    margin-top:auto;
+    margin:auto auto 4px;
 
 }
-
