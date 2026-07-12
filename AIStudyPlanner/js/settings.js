@@ -694,7 +694,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
         html += `
     
-            <div class="calendar-event">
+            <div class="calendar-event ${event.type.replace(/\s+/g, '-').toLowerCase()}">
     
                 <strong>${event.type}</strong>
     
