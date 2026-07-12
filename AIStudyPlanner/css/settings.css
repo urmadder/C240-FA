@@ -482,3 +482,16 @@ body.light-theme .account-badge{
     margin:16px 0;
 
 }
+
+.calendar-event.morning-reminder{
+   
+    border-left-color:#facc15;   /* Yellow */
+   
+}
+
+.calendar-event.study-reminder{
+   
+    border-left-color:#22c55e;   /* Green */
+   
+}
+
