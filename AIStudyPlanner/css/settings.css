@@ -572,3 +572,90 @@ body.light-theme .account-badge{
     margin-bottom:25px;
 
 }
+
+/* ==========================
+   Calendar - Light Theme
+========================== */
+
+body.light-theme .calendar-header{
+
+    background:#ffffff;
+
+    border:1px solid #cbd5e1;
+
+}
+
+body.light-theme .calendar-header h3{
+
+    color:#111827;
+
+}
+
+body.light-theme .calendar-weekdays{
+
+    color:#475569;
+
+}
+
+body.light-theme .calendar-day{
+
+    background:#f8fafc;
+
+    color:#111827;
+
+}
+
+body.light-theme .calendar-day.empty{
+
+    background:transparent;
+
+}
+
+body.light-theme .calendar-day.has-event{
+
+    background:#dbeafe;
+
+}
+
+body.light-theme .calendar-day.today{
+
+    border:2px solid #2563eb;
+
+    box-shadow:0 0 12px rgba(37,99,235,.25);
+
+}
+
+body.light-theme .calendar-day.selected{
+
+    background:#bfdbfe;
+
+}
+
+body.light-theme .calendar-details{
+
+    background:#ffffff;
+
+    color:#111827;
+
+    border:1px solid #cbd5e1;
+
+}
+
+body.light-theme .calendar-event{
+
+    background:#f8fafc;
+
+}
+
+body.light-theme .calendar-event p{
+
+    color:#475569;
+
+}
+
+body.light-theme .calendar-divider{
+
+    border-top:1px solid #cbd5e1;
+
+}
+
