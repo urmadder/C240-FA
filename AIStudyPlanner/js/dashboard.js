@@ -178,15 +178,16 @@ if (notesBox) {
     notesBox.value = localStorage.getItem("dashboardNotes") || "";
 }
 
-// Save notes
-if (saveNotesBtn) {
-    saveNotesBtn.addEventListener("click", () => {
+// Auto-save notes
+if (notesBox) {
+
+    notesBox.addEventListener("input", () => {
 
         localStorage.setItem(
             "dashboardNotes",
             notesBox.value
         );
 
-        alert("Notes saved successfully!");
     });
+
 }
