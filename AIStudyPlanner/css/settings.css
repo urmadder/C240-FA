@@ -505,3 +505,44 @@ body.light-theme .account-badge{
    
 }
 
+.calendar-day.today{
+
+    border:2px solid #3b82f6;
+
+    box-shadow:0 0 15px rgba(59,130,246,.35);
+
+}
+
+.calendar-day.has-event{
+
+    background:#24354d;
+
+}
+
+.calendar-day:hover{
+
+    transform:translateY(-3px) scale(1.03);
+
+}
+
+.calendar-day.selected{
+
+    border:2px solid #60a5fa;
+
+    background:#334155;
+
+}
+
+.calendar-dot{
+
+    width:8px;
+    height:8px;
+
+    background:#3b82f6;
+
+    border-radius:50%;
+
+    margin-top:auto;
+
+}
+
