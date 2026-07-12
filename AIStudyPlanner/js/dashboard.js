@@ -165,3 +165,28 @@ if (logoutBtn) {
         window.location.href = "login.html";
     };
 }
+
+// ================================
+// Notes
+// ================================
+
+const notesBox = document.getElementById("notesBox");
+const saveNotesBtn = document.getElementById("saveNotes");
+
+// Load saved notes
+if (notesBox) {
+    notesBox.value = localStorage.getItem("dashboardNotes") || "";
+}
+
+// Save notes
+if (saveNotesBtn) {
+    saveNotesBtn.addEventListener("click", () => {
+
+        localStorage.setItem(
+            "dashboardNotes",
+            notesBox.value
+        );
+
+        alert("Notes saved successfully!");
+    });
+}
