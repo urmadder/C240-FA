@@ -94,7 +94,12 @@ onAuthStateChanged(auth, async(user)=>{
 
 
             <p>
-                ${chat.message}
+                ${
+                    chat.message
+                        .replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")
+                        .replace(/### (.*?)/g, "<b>$1</b>")
+                        .replace(/\n/g, "<br>")
+                }
             </p>
 
 
