@@ -5,8 +5,8 @@ from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 // ================================
 // n8n Webhooks
 // ================================
-const N8N_DASHBOARD_URL = "https://n8ngc.codeblazar.org/webhook/dashboard";
-const N8N_SCHEDULE_URL = "https://n8ngc.codeblazar.org/webhook/schedule";
+const N8N_DASHBOARD_URL = "https://n8ngc.codeblazar.org/webhook-test/dashboard";
+const N8N_SCHEDULE_URL = "https://n8ngc.codeblazar.org/webhook-test/schedule";
 
 console.log("✅ dashboard.js loaded");
 
