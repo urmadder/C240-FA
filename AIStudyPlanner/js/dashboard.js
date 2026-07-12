@@ -18,6 +18,7 @@ const logoutBtn = document.getElementById("logout");
 
 const upcomingExamCount = document.getElementById("upcomingExamCount");
 const nextExamText = document.getElementById("nextExamText");
+const examList = document.getElementById("examList");
 const todaySchedule = document.getElementById("todaySchedule");
 
 // ================================
@@ -65,6 +66,26 @@ onAuthStateChanged(auth, async (user) => {
             nextExamText.textContent =
                 dashboardData.nextExamText ?? "No upcoming exams";
         }
+        if (examList) {
+
+    examList.innerHTML = "";
+
+    dashboardData.examList.forEach(exam => {
+
+        examList.innerHTML += `
+            <div class="exam-item">
+                <strong>${exam.module}</strong>
+                <br>
+                📅 ${exam.date}
+                <br>
+                Priority: ${exam.priority}
+            </div>
+            <br>
+        `;
+
+    });
+
+}
 
         // ================================
         // Today's Schedule
