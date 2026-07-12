@@ -80,7 +80,18 @@ document.addEventListener("DOMContentLoaded", () => {
             lastLogin.textContent =
                 new Date(
                     user.metadata.lastSignInTime
-                ).toLocaleString();
+                )new Date(
+            user.metadata.lastSignInTime
+        ).toLocaleString(
+            "en-SG",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
         
         }
         
@@ -89,7 +100,72 @@ document.addEventListener("DOMContentLoaded", () => {
             accountCreated.textContent =
                 new Date(
                     user.metadata.creationTime
-                ).toLocaleDateString();
+                )new Date(
+            user.metadata.creationTime
+        ).toLocaleDateString(
+            "en-SG",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+        
+        }
+
+        const provider =
+            document.getElementById("loginProvider");
+        
+        if (provider) {
+        
+            let providerName = "Unknown";
+        
+            const providerId =
+                user.providerData.length > 0
+                    ? user.providerData[0].providerId
+                    : "";
+            
+            switch (providerId) {
+            
+                case "google.com":
+                    providerName = "Google";
+                    break;
+            
+                case "password":
+                    providerName = "Email & Password";
+                    break;
+            
+                case "github.com":
+                    providerName = "GitHub";
+                    break;
+            
+            }
+                    
+                case "google.com":
+                    providerName = "Google";
+                    break;
+        
+                case "password":
+                    providerName = "Email & Password";
+                    break;
+        
+                case "github.com":
+                    providerName = "GitHub";
+                    break;
+        
+            }
+        
+            provider.textContent = providerName;
+        
+        }
+
+        const userId =
+            document.getElementById("userId");
+        
+        if (userId) {
+        
+            userId.textContent =
+                user.uid.slice(0, 12) + "...";
         
         }
 
