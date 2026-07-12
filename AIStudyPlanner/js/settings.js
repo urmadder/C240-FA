@@ -538,7 +538,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Refresh the calendar
             renderCalendar();
-
+            
+            const todayBox =
+                Array.from(
+                    document.querySelectorAll(".calendar-day")
+                ).find(day =>
+                    day.classList.contains("today")
+                );
+            
+            if (todayBox) {
+            
+                todayBox.classList.add("selected");
+            
+            }
+            
             showDayDetails(
                 new Date().toDateString()
             );
@@ -822,11 +835,11 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
 
-    events.forEach(event => {
+    events.forEach((event, index) => {
     
         html += `
     
-            <div class="calendar-event ${event.type.replace(/\s+/g, '-').toLowerCase()}">
+            <div class="calendar-event ${event.type.replace(/\s+/g, "-").toLowerCase()}">
     
                 <strong>${event.type}</strong>
     
@@ -840,7 +853,9 @@ document.addEventListener("DOMContentLoaded", () => {
     
             </div>
     
-            <hr class="calendar-divider">
+            ${index < events.length - 1
+                ? '<hr class="calendar-divider">'
+                : ""}
     
         `;
     
