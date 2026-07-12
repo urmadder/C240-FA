@@ -690,33 +690,29 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
 
-        events.forEach(event => {
-
-            html += `
-
-                <div class="calendar-event">
-
-                    <strong>
-
-                        ${event.type}
-
-                    </strong>
-
-                    <br>
-
-                    ${event.message}
-
-                    <br>
-
-                    🕒 ${event.time}
-
-                </div>
-
+    events.forEach(event => {
+    
+        html += `
+    
+            <div class="calendar-event">
+    
+                <strong>${event.type}</strong>
+    
                 <br>
-
-            `;
-
-        });
+    
+                ${event.message}
+    
+                <br>
+    
+                🕒 ${event.time}
+    
+            </div>
+    
+            <hr class="calendar-divider">
+    
+        `;
+    
+    });
 
 
         calendarDetails.innerHTML =
